@@ -7,7 +7,7 @@
     <ProjectGuid>{03AB4993-C486-43D5-ABBE-0D6D75F4A1C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VainZero.Procon.CSharp.Tests</RootNamespace>
+    <RootNamespace>VainZero.Procon.CSharp</RootNamespace>
     <AssemblyName>VainZero.Procon.CSharp.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -52,7 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProgramTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestScriptParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VainZero.Procon.CSharp\VainZero.Procon.CSharp.csproj">
