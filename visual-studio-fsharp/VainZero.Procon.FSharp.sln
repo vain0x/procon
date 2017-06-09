@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "100-Libraries", "100-Libraries", "{DE52ED95-8BD1-4A72-AE00-D6C0652B2443}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "200-Main", "200-Main", "{460617AD-CC71-4676-9213-70F1F1F6B03B}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "VainZero.Procon.FSharp", "VainZero.Procon.FSharp\VainZero.Procon.FSharp.fsproj", "{3F006C50-B448-46A8-869E-EA47DB39588E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "VainZero.Procon.FSharp.UnitTest", "VainZero.Procon.FSharp.UnitTest\VainZero.Procon.FSharp.UnitTest.fsproj", "{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F006C50-B448-46A8-869E-EA47DB39588E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F006C50-B448-46A8-869E-EA47DB39588E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F006C50-B448-46A8-869E-EA47DB39588E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F006C50-B448-46A8-869E-EA47DB39588E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F006C50-B448-46A8-869E-EA47DB39588E} = {460617AD-CC71-4676-9213-70F1F1F6B03B}
+		{1B51B610-3493-4E2E-A1A4-1EB9A7D3100F} = {460617AD-CC71-4676-9213-70F1F1F6B03B}
+	EndGlobalSection
+EndGlobal
