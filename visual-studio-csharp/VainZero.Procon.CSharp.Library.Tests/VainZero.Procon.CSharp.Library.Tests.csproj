@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Heaps\BinaryHeapTest.cs" />
+    <Compile Include="Collections\UnionFindForestTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
