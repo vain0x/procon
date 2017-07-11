@@ -55,6 +55,7 @@
     <Compile Include="Collections\Heaps\BinaryHeapTest.cs" />
     <Compile Include="Collections\Lists\PermutationAlgorithmTest.cs" />
     <Compile Include="Collections\UnionFindForestTest.cs" />
+    <Compile Include="Mathematics\BinarySearchTest.cs" />
     <Compile Include="Mathematics\FiniteFields\CombinationFunctionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
