@@ -16,7 +16,7 @@ namespace VainZero.Mathematics.FiniteFields
             var mod = 7;
 
             var expected =
-                new int[][]
+                new[]
                 {
                     new[] { 1, 0, 0, 0, 0, 0, 0, },
                     new[] { 1, 1, 0, 0, 0, 0, 0, },

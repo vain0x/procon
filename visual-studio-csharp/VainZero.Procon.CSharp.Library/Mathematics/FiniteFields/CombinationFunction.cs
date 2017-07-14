@@ -8,62 +8,8 @@ namespace VainZero.Mathematics.FiniteFields
 {
     public sealed class CombinationFunction
     {
-        struct PowerFunction
-        {
-            readonly int mod;
-
-            public long Power(long x, int n)
-            {
-                var y = 1L;
-                while (n > 0)
-                {
-                    if (n % 2 == 0)
-                    {
-                        x = (x * x) % mod;
-                        n /= 2;
-                    }
-                    else
-                    {
-                        y = (y * x) % mod;
-                        n--;
-                    }
-                }
-                return y;
-            }
-
-            public long Inverse(long x)
-            {
-                return Power(x, mod - 2);
-            }
-
-            public PowerFunction(int mod)
-            {
-                this.mod = mod;
-            }
-        }
-
-        struct FactorialFunction
-        {
-            readonly long[] dp;
-
-            public long Factorial(int n)
-            {
-                return dp[n];
-            }
-
-            public FactorialFunction(int m, int mod)
-            {
-                dp = new long[m + 1];
-
-                for (var i = 0; i <= m; i++)
-                {
-                    dp[i] = (i == 0 ? 1 : (dp[i - 1] * i) % mod);
-                }
-            }
-        }
-
         readonly int mod;
-        readonly FactorialFunction factorial;
+        readonly long[] factorial;
         readonly long[] factorialInverse;
 
         public long Combination(int n, int k)
@@ -71,7 +17,7 @@ namespace VainZero.Mathematics.FiniteFields
             if (k == 0 || n == k) return 1;
             if (k < 0 || k > n) return 0;
 
-            var c = factorial.Factorial(n);
+            var c = factorial[n];
             c = (c * factorialInverse[n - k]) % mod;
             c = (c * factorialInverse[k]) % mod;
             return c;
@@ -80,13 +26,23 @@ namespace VainZero.Mathematics.FiniteFields
         public CombinationFunction(int n, int mod)
         {
             this.mod = mod;
-            factorial = new FactorialFunction(n, mod);
 
-            var power = new PowerFunction(mod);
+            factorial = new long[n + 1];
+            factorial[0] = 1;
+            factorial[1] = 1;
+
             factorialInverse = new long[n + 1];
-            for (var i = 0; i < factorialInverse.Length; i++)
+            factorialInverse[0] = 1;
+            factorialInverse[1] = 1;
+
+            var inverse = new long[n + 1];
+            inverse[1] = 1;
+
+            for (var i = 2; i <= n; i++)
             {
-                factorialInverse[i] = power.Inverse(factorial.Factorial(i));
+                factorial[i] = (factorial[i - 1] * i) % mod;
+                inverse[i] = ((-inverse[mod % i] * (mod / i)) % mod + mod) % mod;
+                factorialInverse[i] = (factorialInverse[i - 1] * inverse[i]) % mod;
             }
         }
     }
