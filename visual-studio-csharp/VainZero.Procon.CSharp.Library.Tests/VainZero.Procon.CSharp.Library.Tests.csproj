@@ -58,6 +58,7 @@
     <Compile Include="Collections\UnionFindForestTest.cs" />
     <Compile Include="Mathematics\BinarySearchTest.cs" />
     <Compile Include="Mathematics\FiniteFields\CombinationFunctionTest.cs" />
+    <Compile Include="Mathematics\FiniteFields\PowerFunctionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
