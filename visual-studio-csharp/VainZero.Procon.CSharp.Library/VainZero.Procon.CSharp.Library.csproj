@@ -43,6 +43,7 @@
     <Compile Include="Collections\Heaps\BinaryHeap.cs" />
     <Compile Include="Collections\Lists\PermutationAlgorithm.cs" />
     <Compile Include="Collections\Lists\RepeatedPermutationAlgorithm.cs" />
+    <Compile Include="Collections\SegmentTrees\SegmentTree.cs" />
     <Compile Include="Collections\UnionFindForest.cs" />
     <Compile Include="Mathematics\BinarySearch.cs" />
     <Compile Include="Mathematics\FiniteFields\CombinationFunction.cs" />
