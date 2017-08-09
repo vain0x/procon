@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{721109EA-7910-4CF8-BCE4-1475D61FC98C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>VainZero.Procon.CSharp</RootNamespace>
+    <RootNamespace>VainZero</RootNamespace>
     <AssemblyName>VainZero.Procon.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO\TextWriters\DebugTextWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

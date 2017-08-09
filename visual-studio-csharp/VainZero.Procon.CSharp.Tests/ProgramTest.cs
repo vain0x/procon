@@ -26,7 +26,7 @@ namespace VainZero.Procon.CSharp
         {
             var inputReader = new StringReader(pair.Input);
             var outputWriter = new StringWriter();
-            new Program(inputReader, outputWriter).Run();
+            new Program(inputReader, outputWriter).EntryPoint();
             Assert.Equal(pair.Output, outputWriter.ToString());
         }
     }
