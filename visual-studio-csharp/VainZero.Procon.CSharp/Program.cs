@@ -89,32 +89,34 @@ public sealed class Scanner
 
         while (true)
         {
-            var c = reader.Read();
+            var r = reader.Read();
 
-            if (c == '\r')
+            if (r == '\r')
             {
                 if (reader.Peek() == '\n') reader.Read();
                 break;
             }
-            else if (c == -1 || c == ' ' || c == '\n')
+            else if (r == -1 || r == ' ' || r == '\n')
             {
                 break;
             }
             else
             {
+                var c = (char)r;
+
                 switch (count)
                 {
                     case 0:
-                        firstChar = (char)c;
+                        firstChar = c;
                         count = 1;
                         break;
                     case 1:
                         sb = new StringBuilder();
-                        sb.Append(firstChar).Append((char)c);
+                        sb.Append(firstChar).Append(c);
                         count = 2;
                         break;
                     default:
-                        sb.Append((char)c);
+                        sb.Append(c);
                         break;
                 }
             }
@@ -182,7 +184,7 @@ public sealed class Scanner
     /// <summary>
     /// Reads next line and splits it by spaces.
     /// </summary>
-    public IEnumerable<X> Words<X>(Func<string, X> func)
+    public X[] Words<X>(Func<string, X> func)
     {
         return reader.ReadLine().Split(' ').Select(func).ToArray();
     }
