@@ -136,49 +136,40 @@ public sealed class Scanner
     /// <summary>
     /// Reads next word as <see cref="int"/>.
     /// </summary>
-    public int N
+    public int N()
     {
-        get
-        {
-            return int.Parse(Word());
-        }
+        return int.Parse(Word());
     }
 
     /// <summary>
     /// Reads next word as <see cref="long"/>.
     /// </summary>
-    public long L
+    public long L()
     {
-        get
-        {
-            return long.Parse(Word());
-        }
+        return long.Parse(Word());
     }
 
     /// <summary>
     /// Reads next word as <see cref="double"/>.
     /// </summary>
-    public double F
+    public double F()
     {
-        get
-        {
-            return double.Parse(Word());
-        }
+        return double.Parse(Word());
     }
 
     public int[] Ns(int count)
     {
-        return count.MakeArray(_ => N);
+        return count.MakeArray(_ => N());
     }
 
     public long[] Ls(int count)
     {
-        return count.MakeArray(_ => L);
+        return count.MakeArray(_ => L());
     }
 
     public double[] Fs(int count)
     {
-        return count.MakeArray(_ => F);
+        return count.MakeArray(_ => F());
     }
 
     /// <summary>
