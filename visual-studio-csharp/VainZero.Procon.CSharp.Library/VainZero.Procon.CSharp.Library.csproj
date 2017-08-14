@@ -48,6 +48,7 @@
     <Compile Include="Mathematics\BinarySearch.cs" />
     <Compile Include="Mathematics\FiniteFields\CombinationFunction.cs" />
     <Compile Include="Mathematics\FiniteFields\PowerFunction.cs" />
+    <Compile Include="Mathematics\NumberTheory\GcdExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
