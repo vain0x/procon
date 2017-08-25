@@ -77,15 +77,14 @@ public static class TemplateExtension
 public sealed class Scanner
 {
     readonly TextReader reader;
+    readonly StringBuilder sb = new StringBuilder();
 
     /// <summary>
     /// Reads next word separated by spaces.
     /// </summary>
     public string Word()
     {
-        var sb = default(StringBuilder);
-        var firstChar = default(char);
-        var count = 0;
+        sb.Clear();
 
         while (true)
         {
@@ -102,35 +101,11 @@ public sealed class Scanner
             }
             else
             {
-                var c = (char)r;
-
-                switch (count)
-                {
-                    case 0:
-                        firstChar = c;
-                        count = 1;
-                        break;
-                    case 1:
-                        sb = new StringBuilder();
-                        sb.Append(firstChar).Append(c);
-                        count = 2;
-                        break;
-                    default:
-                        sb.Append(c);
-                        break;
-                }
+                sb.Append((char)r);
             }
         }
 
-        switch (count)
-        {
-            case 0:
-                return "";
-            case 1:
-                return firstChar.ToString();
-            default:
-                return sb.ToString();
-        }
+        return sb.ToString();
     }
 
     /// <summary>
