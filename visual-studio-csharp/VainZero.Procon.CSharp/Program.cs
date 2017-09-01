@@ -30,25 +30,25 @@ public static class TemplateExtension
         return string.Join(separator, @this);
     }
 
-    public static void ForEach<X>(this IEnumerable<X> @this, Action<X, int> action)
+    public sealed class ValueIndexPair<T>
+        : Tuple<T, int>
     {
-        var list = @this as IReadOnlyList<X>;
-        if (list != null)
+        public T Value { get { return Item1; } }
+        public int Index { get { return Item2; } }
+
+        public ValueIndexPair(T value, int index)
+            : base(value, index)
         {
-            var count = list.Count;
-            for (var i = 0; i < count; i++)
-            {
-                action(list[i], i);
-            }
         }
-        else
+    }
+
+    public static IEnumerable<ValueIndexPair<X>> Indexed<X>(this IEnumerable<X> @this)
+    {
+        var i = 0;
+        foreach (var x in @this)
         {
-            var i = 0;
-            foreach (var x in @this)
-            {
-                action(x, i);
-                i++;
-            }
+            yield return new ValueIndexPair<X>(x, i);
+            i++;
         }
     }
 }
