@@ -8,26 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public sealed partial class Program
-{
-    int Solve()
-    {
-        return 0;
-    }
-
-    void Read()
-    {
-        var a = scanner;
-
-    }
-
-    public void EntryPoint()
-    {
-        Read();
-        WriteLine(Solve());
-    }
-}
-
 public static class TemplateExtension
 {
     public static X[] MakeArray<X>(this int count, Func<int, X> func)
@@ -208,5 +188,25 @@ public partial class Program
         {
             new Program(Console.In, writer).EntryPoint();
         }
+    }
+}
+
+public sealed partial class Program
+{
+    int Solve()
+    {
+        return 0;
+    }
+
+    void Read()
+    {
+        var a = scanner;
+
+    }
+
+    public void EntryPoint()
+    {
+        Read();
+        WriteLine(Solve());
     }
 }
