@@ -28,7 +28,6 @@ public sealed partial class Program
     }
 }
 
-#region Custom Library
 public static class TemplateExtension
 {
     public static X[] MakeArray<X>(this int count, Func<int, X> func)
@@ -211,4 +210,3 @@ public partial class Program
         }
     }
 }
-#endregion
