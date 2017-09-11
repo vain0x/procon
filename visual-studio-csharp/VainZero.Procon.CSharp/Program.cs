@@ -191,8 +191,81 @@ public partial class Program
     }
 }
 
+public sealed class Tsil<T>
+{
+    public Tsil<T> Head { get; }
+    public T Value { get; }
+    public int Length { get; }
+
+    public T[] ToArray()
+    {
+        var array = new T[Length];
+        var v = this;
+
+        while (v.Length != 0)
+        {
+            array[v.Length - 1] = v.Value;
+            v = v.Head;
+        }
+
+        return array;
+    }
+
+    public Tsil<T> Add(T value)
+    {
+        return new Tsil<T>(this, value);
+    }
+
+    Tsil()
+    {
+        Head = this;
+        Value = default(T);
+        Length = 0;
+    }
+
+    public Tsil(Tsil<T> head, T value)
+    {
+        Head = head;
+        Value = value;
+        Length = head.Length + 1;
+    }
+
+    public static readonly Tsil<T> Empty = new Tsil<T>();
+}
+
 public sealed partial class Program
 {
+    /// <summary>
+    /// 最長一致部分列をDPで検出する。
+    /// - source の中に最初に現れる部分列が選ばれる。
+    /// - 時間計算量 O(|S| |T|)
+    /// </summary>
+    public string Lcs(string source, string target)
+    {
+        var sn = source.Length;
+        var tn = target.Length;
+        var dp = (sn + 1).MakeArray(i => (tn + 1).MakeArray(j => Tsil<char>.Empty));
+
+        for (var si = 1; si < sn + 1; si++)
+        {
+            for (var ti = 1; ti < tn + 1; ti++)
+            {
+                if (source[si - 1] == target[ti - 1])
+                {
+                    dp[si][ti] = dp[si - 1][ti - 1].Add(source[si - 1]);
+                }
+                else
+                {
+                    var l = dp[si - 1][ti];
+                    var r = dp[si][ti - 1];
+                    dp[si][ti] = l.Length >= r.Length ? l : r;
+                }
+            }
+        }
+
+        return new string(dp[sn][tn].ToArray());
+    }
+
     int Solve()
     {
         return 0;
@@ -206,7 +279,11 @@ public sealed partial class Program
 
     public void EntryPoint()
     {
-        Read();
-        WriteLine(Solve());
+        while (true)
+        {
+            var s = input.ReadLine();
+            var t = input.ReadLine();
+            WriteLine(Lcs(s, t));
+        }
     }
 }
