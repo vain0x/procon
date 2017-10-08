@@ -193,7 +193,7 @@ public partial class Program
 
 public sealed partial class Program
 {
-    int Solve()
+    long Solve()
     {
         return 0;
     }
