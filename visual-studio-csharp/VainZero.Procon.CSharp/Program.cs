@@ -180,14 +180,7 @@ public partial class Program
 
     public static void Main(string[] args)
     {
-#if DEBUG
-        using (var writer = new VainZero.IO.DebugTextWriter(Console.Out))
-#else
-        var writer = Console.Out;
-#endif
-        {
-            new Program(Console.In, writer).EntryPoint();
-        }
+        new Program(Console.In, Console.Out).EntryPoint();
     }
 }
 
