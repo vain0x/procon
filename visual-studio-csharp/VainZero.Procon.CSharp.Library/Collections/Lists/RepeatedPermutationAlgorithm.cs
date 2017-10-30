@@ -8,7 +8,7 @@ namespace VainZero.Collections.Lists
 {
     public static class RepeatedPermutationAlgorithm
     {
-        static IEnumerable<IReadOnlyList<X>> RepeatedPermutationsIterator<X>(int i, X[] source, X[] buffer)
+        private static IEnumerable<IReadOnlyList<X>> RepeatedPermutationsIterator<X>(int i, X[] source, X[] buffer)
         {
             if (i == buffer.Length)
             {

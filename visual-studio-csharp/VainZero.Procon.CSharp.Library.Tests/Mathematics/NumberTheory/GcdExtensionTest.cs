@@ -29,7 +29,7 @@ namespace VainZero.Mathematics
             }
         }
 
-        static void TestGcdExtended(long x, long y, long g, long s, long t)
+        private static void TestGcdExtended(long x, long y, long g, long s, long t)
         {
             long actualS, actualT;
             var actualG = x.GcdExtended(y, out actualS, out actualT);

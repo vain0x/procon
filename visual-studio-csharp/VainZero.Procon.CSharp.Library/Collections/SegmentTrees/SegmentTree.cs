@@ -14,39 +14,39 @@ namespace VainZero.Collections
         public readonly T Empty;
         public readonly Func<T, T, T> Append;
 
-        readonly int cacheCount;
-        readonly int itemCount;
+        private readonly int _cacheCount;
+        private readonly int _itemCount;
 
         /// <summary>
         /// A complete binary tree.
-        /// The first <see cref="cacheCount"/> items are inner nodes
+        /// The first <see cref="_cacheCount"/> items are inner nodes
         /// whose value is cache of the query result.
-        /// The next <see cref="itemCount"/> items are leaf nodes.
+        /// The next <see cref="_itemCount"/> items are leaf nodes.
         /// The rest are filled with <see cref="Empty"/>.
         /// </summary>
-        readonly T[] nodes;
+        private readonly T[] _nodes;
 
         public int Count
         {
-            get { return itemCount; }
+            get { return _itemCount; }
         }
 
-        int LeafCount
+        private int LeafCount
         {
-            get { return nodes.Length - cacheCount; }
+            get { return _nodes.Length - _cacheCount; }
         }
 
-        void SetItem(int index, T item)
+        private void SetItem(int index, T item)
         {
-            var i = cacheCount + index;
+            var i = _cacheCount + index;
 
-            nodes[i] = item;
+            _nodes[i] = item;
 
             while (i != 0)
             {
                 var parentIndex = (i - 1) / 2;
                 var childIndex = parentIndex * 2 + 1;
-                nodes[parentIndex] = Append(nodes[childIndex], nodes[childIndex + 1]);
+                _nodes[parentIndex] = Append(_nodes[childIndex], _nodes[childIndex + 1]);
                 i = parentIndex;
             }
         }
@@ -56,7 +56,7 @@ namespace VainZero.Collections
             get
             {
                 if (index < 0 || index >= Count) throw new ArgumentOutOfRangeException("index");
-                return nodes[cacheCount + index];
+                return _nodes[_cacheCount + index];
             }
             set
             {
@@ -70,27 +70,27 @@ namespace VainZero.Collections
         /// </summary>
         public void CopyFrom(IReadOnlyList<T> list)
         {
-            if (list.Count != itemCount) throw new ArgumentException();
+            if (list.Count != _itemCount) throw new ArgumentException();
 
-            for (var k = 0; k < itemCount; k++)
+            for (var k = 0; k < _itemCount; k++)
             {
-                nodes[cacheCount + k] = list[k];
+                _nodes[_cacheCount + k] = list[k];
             }
 
-            for (var i = cacheCount + itemCount; i < nodes.Length; i++)
+            for (var i = _cacheCount + _itemCount; i < _nodes.Length; i++)
             {
-                nodes[i] = Empty;
+                _nodes[i] = Empty;
             }
 
-            for (var i = cacheCount - 1; i >= 0; i--)
+            for (var i = _cacheCount - 1; i >= 0; i--)
             {
                 var l = i * 2 + 1;
                 var r = i * 2 + 2;
-                nodes[i] = Append(nodes[l], nodes[r]);
+                _nodes[i] = Append(_nodes[l], _nodes[r]);
             }
         }
 
-        T QueryCore(int i, int nl, int nr, int ql, int qr)
+        private T QueryCore(int i, int nl, int nr, int ql, int qr)
         {
             if (qr <= nl || nr <= ql)
             {
@@ -98,7 +98,7 @@ namespace VainZero.Collections
             }
             else if (ql <= nl && nr <= qr)
             {
-                return nodes[i];
+                return _nodes[i];
             }
             else
             {
@@ -114,8 +114,8 @@ namespace VainZero.Collections
         /// </summary>
         public T Query(int index, int count)
         {
-            if (index < 0 || index > itemCount) throw new ArgumentOutOfRangeException("index");
-            if (count < 0 || index + count > itemCount) throw new ArgumentOutOfRangeException("count");
+            if (index < 0 || index > _itemCount) throw new ArgumentOutOfRangeException("index");
+            if (count < 0 || index + count > _itemCount) throw new ArgumentOutOfRangeException("count");
             if (count == 0) return Empty;
             return QueryCore(0, 0, LeafCount, index, index + count);
         }
@@ -125,11 +125,11 @@ namespace VainZero.Collections
         /// </summary>
         public T Query()
         {
-            return nodes[0];
+            return _nodes[0];
         }
 
         #region IReadOnlyList<_>, IList<_>
-        IEnumerator<T> GetEnumerator()
+        private IEnumerator<T> GetEnumerator()
         {
             for (var i = 0; i < Count; i++)
             {
@@ -137,7 +137,7 @@ namespace VainZero.Collections
             }
         }
 
-        void CopyTo(T[] array, int index)
+        private void CopyTo(T[] array, int index)
         {
             for (var i = 0; i < Count; i++)
             {
@@ -145,7 +145,7 @@ namespace VainZero.Collections
             }
         }
 
-        int IndexOf(T item)
+        private int IndexOf(T item)
         {
             for (var i = 0; i < Count; i++)
             {
@@ -157,7 +157,7 @@ namespace VainZero.Collections
             return -1;
         }
 
-        bool Contains(T item)
+        private bool Contains(T item)
         {
             return IndexOf(item) >= 0;
         }
@@ -259,9 +259,9 @@ namespace VainZero.Collections
 
         public SegmentTree(T[] nodes, int cacheCount, int itemCount, T empty, Func<T, T, T> append)
         {
-            this.nodes = nodes;
-            this.cacheCount = cacheCount;
-            this.itemCount = itemCount;
+            _nodes = nodes;
+            _cacheCount = cacheCount;
+            _itemCount = itemCount;
             Empty = empty;
             Append = append;
         }
@@ -269,7 +269,7 @@ namespace VainZero.Collections
 
     public static class SegmentTree
     {
-        static int CalculateHeight(int count)
+        private static int CalculateHeight(int count)
         {
             var h = 0;
             while ((1 << h) < count) h++;

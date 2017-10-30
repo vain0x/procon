@@ -55,23 +55,23 @@ public static class TemplateExtension
 
 public sealed class Scanner
 {
-    readonly TextReader reader;
-    readonly StringBuilder sb = new StringBuilder();
+    private readonly TextReader _reader;
+    private readonly StringBuilder _sb = new StringBuilder();
 
     /// <summary>
     /// Reads next word separated by spaces.
     /// </summary>
     public string Word()
     {
-        sb.Clear();
+        _sb.Clear();
 
         while (true)
         {
-            var r = reader.Read();
+            var r = _reader.Read();
 
             if (r == '\r')
             {
-                if (reader.Peek() == '\n') reader.Read();
+                if (_reader.Peek() == '\n') _reader.Read();
                 break;
             }
             else if (r == -1 || r == ' ' || r == '\n')
@@ -80,11 +80,11 @@ public sealed class Scanner
             }
             else
             {
-                sb.Append((char)r);
+                _sb.Append((char)r);
             }
         }
 
-        return sb.ToString();
+        return _sb.ToString();
     }
 
     /// <summary>
@@ -131,51 +131,51 @@ public sealed class Scanner
     /// </summary>
     public X[] Words<X>(Func<string, X> func)
     {
-        return reader.ReadLine().Split(' ').Select(func).ToArray();
+        return _reader.ReadLine().Split(' ').Select(func).ToArray();
     }
 
     public Scanner(TextReader reader)
     {
-        this.reader = reader;
+        _reader = reader;
     }
 }
 
 public partial class Program
 {
-    readonly TextReader input;
-    readonly TextWriter output;
-    readonly Scanner scanner;
+    private readonly TextReader _input;
+    private readonly TextWriter _output;
+    private readonly Scanner _scanner;
 
-    void WriteLine(int value)
+    private void WriteLine(int value)
     {
-        output.WriteLine(value);
+        _output.WriteLine(value);
     }
 
-    void WriteLine(long value)
+    private void WriteLine(long value)
     {
-        output.WriteLine(value);
+        _output.WriteLine(value);
     }
 
-    void WriteLine(double value)
+    private void WriteLine(double value)
     {
-        output.WriteLine(value);
+        _output.WriteLine(value);
     }
 
-    void WriteLine(char value)
+    private void WriteLine(char value)
     {
-        output.WriteLine(value);
+        _output.WriteLine(value);
     }
 
-    void WriteLine(string value)
+    private void WriteLine(string value)
     {
-        output.WriteLine(value);
+        _output.WriteLine(value);
     }
 
     public Program(TextReader input, TextWriter output)
     {
-        this.input = input;
-        this.output = output;
-        scanner = new Scanner(input);
+        _input = input;
+        _output = output;
+        _scanner = new Scanner(input);
     }
 
     public static void Main(string[] args)
@@ -186,15 +186,14 @@ public partial class Program
 
 public sealed partial class Program
 {
-    long Solve()
+    private long Solve()
     {
         return 0;
     }
 
-    void Read()
+    private void Read()
     {
-        var a = scanner;
-
+        var a = _scanner;
     }
 
     public void EntryPoint()

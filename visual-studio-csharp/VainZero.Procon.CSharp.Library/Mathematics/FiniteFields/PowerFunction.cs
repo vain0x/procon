@@ -8,7 +8,7 @@ namespace VainZero.Mathematics.FiniteFields
 {
     public sealed class PowerFunction
     {
-        readonly int mod;
+        private readonly int _mod;
 
         public long Power(long x, int n)
         {
@@ -17,12 +17,12 @@ namespace VainZero.Mathematics.FiniteFields
             {
                 if (n % 2 == 0)
                 {
-                    x = (x * x) % mod;
+                    x = (x * x) % _mod;
                     n /= 2;
                 }
                 else
                 {
-                    y = (y * x) % mod;
+                    y = (y * x) % _mod;
                     n--;
                 }
             }
@@ -31,12 +31,12 @@ namespace VainZero.Mathematics.FiniteFields
 
         public long Inverse(long x)
         {
-            return Power(x, mod - 2);
+            return Power(x, _mod - 2);
         }
 
         public PowerFunction(int mod)
         {
-            this.mod = mod;
+            _mod = mod;
         }
     }
 }

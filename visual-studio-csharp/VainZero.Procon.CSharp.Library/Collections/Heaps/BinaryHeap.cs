@@ -7,17 +7,17 @@ namespace VainZero.Collections.Heaps
     public sealed class BinaryHeap<TValue>
         : IReadOnlyCollection<TValue>
     {
-        readonly List<TValue> list;
-        readonly Func<TValue, TValue, int> compare;
+        private readonly List<TValue> _list;
+        private readonly Func<TValue, TValue, int> _compare;
 
         public int Count
         {
-            get { return list.Count; }
+            get { return _list.Count; }
         }
 
         public IEnumerator<TValue> GetEnumerator()
         {
-            return list.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -27,53 +27,53 @@ namespace VainZero.Collections.Heaps
 
         public TValue Peek()
         {
-            return list[0];
+            return _list[0];
         }
 
         public void Enqueue(TValue value)
         {
-            list.Add(value);
-            var i = list.Count - 1;
+            _list.Add(value);
+            var i = _list.Count - 1;
             while (i > 0)
             {
                 // Index of the parent.
                 var p = (i - 1) >> 1;
 
-                if (compare(list[p], value) <= 0) break;
-                list[i] = list[p];
+                if (_compare(_list[p], value) <= 0) break;
+                _list[i] = _list[p];
                 i = p;
             }
-            list[i] = value;
+            _list[i] = value;
         }
 
         public TValue Dequeue()
         {
-            var min = list[0];
-            var x = list[list.Count - 1];
+            var min = _list[0];
+            var x = _list[_list.Count - 1];
             var i = 0;
             while (true)
             {
                 // Index of children.
                 var l = (i << 1) + 1;
                 var r = (i << 1) + 2;
-                if (l >= list.Count) break;
+                if (l >= _list.Count) break;
 
                 // Index of the smaller child.
-                var c = r < list.Count && compare(list[r], list[l]) < 0 ? r : l;
+                var c = r < _list.Count && _compare(_list[r], _list[l]) < 0 ? r : l;
 
-                if (compare(list[c], x) >= 0) break;
-                list[i] = list[c];
+                if (_compare(_list[c], x) >= 0) break;
+                _list[i] = _list[c];
                 i = c;
             }
-            list[i] = x;
-            list.RemoveAt(list.Count - 1);
+            _list[i] = x;
+            _list.RemoveAt(_list.Count - 1);
             return min;
         }
 
         public BinaryHeap(List<TValue> list, Func<TValue, TValue, int> compare)
         {
-            this.list = list;
-            this.compare = compare;
+            _list = list;
+            _compare = compare;
         }
     }
 

@@ -9,7 +9,7 @@ namespace VainZero.Collections
 {
     public sealed class SegmentTreeTest
     {
-        X Aggregate<X>(X[] array, int index, int count, X empty, Func<X, X, X> append)
+        private X Aggregate<X>(X[] array, int index, int count, X empty, Func<X, X, X> append)
         {
             var j = index + count;
             var s = empty;
@@ -20,7 +20,7 @@ namespace VainZero.Collections
             return s;
         }
 
-        void Verify<X>(X[] array, SegmentTree<X> tree)
+        private void Verify<X>(X[] array, SegmentTree<X> tree)
         {
             for (var i = 0; i < array.Length; i++)
             {
@@ -37,7 +37,7 @@ namespace VainZero.Collections
             }
         }
 
-        void VerifySmall(int empty, Func<int, int, int> append)
+        private void VerifySmall(int empty, Func<int, int, int> append)
         {
             const int Min = -100;
             const int Max = 100;

@@ -8,14 +8,14 @@ namespace VainZero.Collections.Lists
 {
     public static class PermutationAlgorithm
     {
-        static void InplaceSwap<X>(IList<X> list, int i, int j)
+        private static void InplaceSwap<X>(IList<X> list, int i, int j)
         {
             var t = list[i];
             list[i] = list[j];
             list[j] = t;
         }
 
-        static void InplaceReverse<X>(IList<X> list, int first, int count)
+        private static void InplaceReverse<X>(IList<X> list, int first, int count)
         {
             for (var i = 0; i < count / 2; i++)
             {

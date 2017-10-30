@@ -9,7 +9,7 @@ namespace VainZero.Collections.Lists
 {
     public sealed class PermutationAlgorithmTest
     {
-        IComparer<X> DualComparer<X>()
+        private IComparer<X> DualComparer<X>()
         {
             return Comparer<X>.Create((l, r) => Comparer<X>.Default.Compare(r, l));
         }

@@ -9,7 +9,7 @@ namespace VainZero.Collections.Heaps
 {
     public sealed class BinaryHeapTest
     {
-        static IEnumerable<int> UnorderedSeq(int n)
+        private static IEnumerable<int> UnorderedSeq(int n)
         {
             return Enumerable.Range(0, n).Select(i => (i * i * i) % 17);
         }

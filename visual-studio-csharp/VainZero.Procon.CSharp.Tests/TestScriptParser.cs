@@ -20,17 +20,17 @@ namespace VainZero.Procon.CSharp
 
     public sealed class TestScriptParser
     {
-        static string NormalizeLinebreaks(string str)
+        private static string NormalizeLinebreaks(string str)
         {
             return str.Replace("\r\n", "\n").Replace("\r", "\n");
         }
 
-        static string[] SplitByLinebreaks(string str)
+        private static string[] SplitByLinebreaks(string str)
         {
             return NormalizeLinebreaks(str).Split('\n');
         }
 
-        static string Concat(IEnumerable<string> lines)
+        private static string Concat(IEnumerable<string> lines)
         {
             var builder = new StringBuilder();
             foreach (var line in lines)
@@ -40,7 +40,7 @@ namespace VainZero.Procon.CSharp
             return builder.ToString();
         }
 
-        static IEnumerable<IReadOnlyList<X>> SplitBy<X>(IEnumerable<X> xs, X delimiter)
+        private static IEnumerable<IReadOnlyList<X>> SplitBy<X>(IEnumerable<X> xs, X delimiter)
         {
             var chunk = new List<X>();
             foreach (var x in xs)
@@ -58,7 +58,7 @@ namespace VainZero.Procon.CSharp
             yield return chunk;
         }
 
-        static IEnumerable<IReadOnlyList<X>> ChunkBySize<X>(IEnumerable<X> xs, int chunkSize)
+        private static IEnumerable<IReadOnlyList<X>> ChunkBySize<X>(IEnumerable<X> xs, int chunkSize)
         {
             if (chunkSize <= 0) throw new ArgumentOutOfRangeException(nameof(chunkSize));
             var chunkOrNull = default(List<X>);

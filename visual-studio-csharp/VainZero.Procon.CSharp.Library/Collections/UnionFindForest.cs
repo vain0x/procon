@@ -8,21 +8,21 @@ namespace VainZero.Collections
 {
     public sealed class UnionFindForest
     {
-        readonly int[] parents;
-        readonly int[] ranks;
+        private readonly int[] _parents;
+        private readonly int[] _ranks;
 
         /// <summary>
         /// Constructs n-vertex UFF.
         /// </summary>
         public UnionFindForest(int n)
         {
-            parents = new int[n];
-            ranks = new int[n];
+            _parents = new int[n];
+            _ranks = new int[n];
 
             for (var v = 0; v < n; v++)
             {
-                parents[v] = v;
-                ranks[v] = 1;
+                _parents[v] = v;
+                _ranks[v] = 1;
             }
         }
 
@@ -31,13 +31,13 @@ namespace VainZero.Collections
         /// </summary>
         public int Root(int v)
         {
-            if (parents[v] == v)
+            if (_parents[v] == v)
             {
                 return v;
             }
 
-            var r = Root(parents[v]);
-            parents[v] = r;
+            var r = Root(_parents[v]);
+            _parents[v] = r;
             return r;
         }
 
@@ -49,7 +49,7 @@ namespace VainZero.Collections
             return Root(u) == Root(v);
         }
 
-        static void Swap<X>(ref X l, ref X r)
+        private static void Swap<X>(ref X l, ref X r)
         {
             var t = l;
             l = r;
@@ -65,13 +65,13 @@ namespace VainZero.Collections
             v = Root(v);
             if (u == v) return;
 
-            if (ranks[u] > ranks[v])
+            if (_ranks[u] > _ranks[v])
             {
                 Swap(ref u, ref v);
             }
 
-            parents[u] = v;
-            ranks[v] += ranks[u];
+            _parents[u] = v;
+            _ranks[v] += _ranks[u];
         }
     }
 }
