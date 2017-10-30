@@ -16,7 +16,7 @@ namespace VainZero.Collections
             var uff = new UnionFindForest(n);
             for (var i = 0; i < n; i++)
             {
-                Assert.Equal(i, uff.Root(i));
+                uff.Root(i).Is(i);
             }
         }
 
@@ -35,8 +35,8 @@ namespace VainZero.Collections
 
             for (var i = 1; i < n; i++)
             {
-                Assert.Equal(r, uff.Root(i));
-                Assert.True(uff.Connects(r, uff.Root(i)));
+                uff.Root(i).Is(r);
+                uff.Connects(r, uff.Root(i)).Is(true);
             }
         }
 
@@ -51,13 +51,13 @@ namespace VainZero.Collections
                 uff.Merge(i, i % 2);
             }
 
-            Assert.Equal(0, uff.Root(0) % 2);
-            Assert.Equal(1, uff.Root(1) % 2);
+            (uff.Root(0) % 2).Is(0);
+            (uff.Root(1) % 2).Is(1);
 
             for (var i = 0; i < n; i++)
             {
-                Assert.Equal(uff.Root(i % 2), uff.Root(i));
-                Assert.True(uff.Connects(i % 2, i));
+                uff.Root(i).Is(uff.Root(i % 2));
+                uff.Connects(i % 2, i).Is(true);
             }
         }
     }

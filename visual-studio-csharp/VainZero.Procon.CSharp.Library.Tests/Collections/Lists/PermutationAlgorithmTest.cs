@@ -28,10 +28,11 @@ namespace VainZero.Collections.Lists
                     new[] { 2, 1, 0 },
                 };
 
-            Assert.Equal(permutations, Enumerable.Range(0, 3).Permutations());
+            Enumerable.Range(0, 3).Permutations()
+                .IsSeq(permutations);
 
-            var descendingOrder = Enumerable.Range(0, 3).Permutations(DualComparer<int>());
-            Assert.Equal(permutations.Reverse(), descendingOrder);
+            Enumerable.Range(0, 3).Permutations(DualComparer<int>())
+                .IsSeq(permutations.Reverse());
         }
 
         [Fact]
@@ -66,7 +67,7 @@ namespace VainZero.Collections.Lists
                     new[] { 3, 2, 1, 0 },
                 };
 
-            Assert.Equal(permutations, Enumerable.Range(0, 4).Permutations());
+            Enumerable.Range(0, 4).Permutations().IsSeq(permutations);
         }
 
         [Fact]
@@ -89,7 +90,7 @@ namespace VainZero.Collections.Lists
                     new[] { 2, 1, 0, 0 },
                 };
 
-            Assert.Equal(permutations, new[] { 0, 0, 1, 2 }.Permutations());
+            new[] { 0, 0, 1, 2 }.Permutations().IsSeq(permutations);
         }
     }
 }

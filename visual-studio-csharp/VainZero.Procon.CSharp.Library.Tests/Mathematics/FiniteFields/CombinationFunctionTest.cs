@@ -28,15 +28,14 @@ namespace VainZero.Mathematics.FiniteFields
                 };
 
             var combinationFunction = new CombinationFunction(m, mod);
-            var actual =
-                Enumerable.Range(0, m + 1)
+
+            Enumerable.Range(0, m + 1)
                 .Select(n =>
                     Enumerable.Range(0, m + 1)
                     .Select(k => (int)combinationFunction.Combination(n, k))
                     .ToArray()
-                ).ToArray();
-
-            Assert.Equal(expected, actual);
+                )
+                .IsSeq(expected);
         }
     }
 }

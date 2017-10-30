@@ -25,7 +25,7 @@ namespace VainZero.Mathematics
             foreach (var a in rows)
             {
                 var g = a.x.Gcd(a.y);
-                Assert.Equal(g, a.g);
+                a.g.Is(g);
             }
         }
 
@@ -33,11 +33,10 @@ namespace VainZero.Mathematics
         {
             long actualS, actualT;
             var actualG = x.GcdExtended(y, out actualS, out actualT);
-            Assert.Equal(
-                new { g = g, s = s, t = t },
-                new { g = actualG, s = actualS, t = actualT }
+            new { g = actualG, s = actualS, t = actualT }.Is(
+                new { g = g, s = s, t = t }
             );
-            Assert.Equal(actualG, x * actualS + y * actualT);
+            (x * actualS + y * actualT).Is(actualG);
         }
 
         [Fact]

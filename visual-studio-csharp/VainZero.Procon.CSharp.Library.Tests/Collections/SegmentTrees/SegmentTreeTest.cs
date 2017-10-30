@@ -27,11 +27,11 @@ namespace VainZero.Collections
                 for (var k = 0; i + k <= array.Length; k++)
                 {
                     var expected = Aggregate(array, i, k, tree.Empty, tree.Append);
-                    Assert.Equal(expected, tree.Query(i, k));
+                    tree.Query(i, k).Is(expected);
 
                     if (i == 0 && k == array.Length)
                     {
-                        Assert.Equal(expected, tree.Query());
+                        tree.Query().Is(expected);
                     }
                 }
             }
@@ -49,8 +49,8 @@ namespace VainZero.Collections
                 var array = Enumerable.Repeat(0, count).Select(_ => random.Next(Min, Max)).ToArray();
                 var tree = SegmentTree.Create(array, empty, append);
 
-                Assert.Equal(count, tree.Count);
-                Assert.Equal(array, tree.ToArray());
+                tree.Count.Is(count);
+                tree.IsSeq(array);
 
                 Verify(array, tree);
 
@@ -92,14 +92,14 @@ namespace VainZero.Collections
             var l = 2345;
             var r = 8765;
             var expected = 220123632470L;
-            Assert.Equal(expected, tree.Query(l, r - l));
+            tree.Query(l, r - l).Is(expected);
 
             tree[5555] = 1;
             expected += 1 - 5555 * 5555;
 
             tree[r] = 0;
 
-            Assert.Equal(expected, tree.Query(l, r - l));
+            tree.Query(l, r - l).Is(expected);
         }
 
         [Fact]
@@ -107,8 +107,8 @@ namespace VainZero.Collections
         {
             var tree = SegmentTree.FromSemigroup(new[] { 3, 1, 4, 2, 5 }, (x, y) => x + y);
 
-            Assert.Equal(7, tree.Query(1, 3).Value);
-            Assert.Equal(false, tree.Query(5, 0).HasValue);
+            tree.Query(1, 3).Value.Is(7);
+            tree.Query(5, 0).HasValue.Is(false);
         }
     }
 }

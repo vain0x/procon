@@ -19,34 +19,34 @@ namespace VainZero.Collections.Heaps
         {
             var heap = BinaryHeap.Create<int>();
 
-            Assert.Equal(0, heap.Count);
+            heap.Count.Is(0);
             Assert.ThrowsAny<Exception>(() => heap.Dequeue());
             Assert.ThrowsAny<Exception>(() => heap.Peek());
 
             heap.Enqueue(1);
-            Assert.Equal(1, heap.Count);
-            Assert.Equal(1, heap.Peek());
+            heap.Count.Is(1);
+            heap.Peek().Is(1);
 
             // Test to add a value larger than min.
             {
                 heap.Enqueue(2);
-                Assert.Equal(2, heap.Count);
-                Assert.Equal(1, heap.Peek());
+                heap.Count.Is(2);
+                heap.Peek().Is(1);
 
                 var x = heap.Dequeue();
-                Assert.Equal(1, heap.Count);
-                Assert.Equal(1, x);
+                heap.Count.Is(1);
+                x.Is(1);
             }
 
             // Test to add a value less than min.
             {
                 heap.Enqueue(0);
-                Assert.Equal(2, heap.Count);
-                Assert.Equal(0, heap.Peek());
+                heap.Count.Is(2);
+                heap.Peek().Is(0);
 
                 var x = heap.Dequeue();
-                Assert.Equal(1, heap.Count);
-                Assert.Equal(0, x);
+                heap.Count.Is(1);
+                x.Is(0);
             }
         }
 
@@ -66,7 +66,7 @@ namespace VainZero.Collections.Heaps
             var actual = heap.OrderBy(x => x);
 
             Array.Sort(xs);
-            Assert.Equal(xs, actual);
+            actual.IsSeq(xs);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace VainZero.Collections.Heaps
             }
 
             Array.Sort(xs);
-            Assert.Equal(xs, ys);
+            ys.IsSeq(xs);
         }
     }
 }

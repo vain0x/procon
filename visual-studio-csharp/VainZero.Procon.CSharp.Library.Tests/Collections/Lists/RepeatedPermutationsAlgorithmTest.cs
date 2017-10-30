@@ -14,8 +14,8 @@ namespace VainZero.Collections.Lists
             [Fact]
             public void Test_edge_cases()
             {
-                Assert.Equal(new[] { new int[0] }, new[] { 0, 1 }.RepeatedPermutations(0));
-                Assert.Equal(new int[0][], new int[0].RepeatedPermutations(1));
+                new[] { 0, 1 }.RepeatedPermutations(0).IsSeq(new[] { new int[0] });
+                new int[0].RepeatedPermutations(1).IsSeq(new int[0][]);
             }
 
             [Fact]
@@ -35,8 +35,7 @@ namespace VainZero.Collections.Lists
                         new[] { 2, 2 },
                     };
 
-                var actual = new[] { 0, 1, 2 }.RepeatedPermutations(2);
-                Assert.Equal(expected, actual);
+                new[] { 0, 1, 2 }.RepeatedPermutations(2).IsSeq(expected);
             }
 
             [Fact]
@@ -55,8 +54,7 @@ namespace VainZero.Collections.Lists
                         new[] { 1, 1, 1 },
                     };
 
-                var actual = new[] { 0, 1 }.RepeatedPermutations(3);
-                Assert.Equal(expected, actual);
+                new[] { 0, 1 }.RepeatedPermutations(3).IsSeq(expected);
             }
         }
     }
