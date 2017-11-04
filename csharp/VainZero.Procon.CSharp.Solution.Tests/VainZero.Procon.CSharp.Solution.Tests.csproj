@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>VainZero</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +13,13 @@
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VainZero.Procon.CSharp.Solution\VainZero.Procon.CSharp.Solution.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet test $(ProjectPath) --no-restore --no-build&#xD;&#xA;" />
+  </Target>
 
 </Project>
