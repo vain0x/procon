@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Heaps\BinaryHeap.cs" />
+    <Compile Include="Collections\Lists\Deque.cs" />
     <Compile Include="Collections\Lists\PermutationAlgorithm.cs" />
     <Compile Include="Collections\Lists\RepeatedPermutationAlgorithm.cs" />
     <Compile Include="Collections\SegmentTrees\SegmentTree.cs" />
