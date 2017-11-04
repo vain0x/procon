@@ -52,7 +52,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Heaps\BinaryHeapTest.cs" />
+    <Compile Include="Collections\Lists\DequeTest.cs" />
+    <Compile Include="Collections\Lists\PermutationAlgorithmTest.cs" />
+    <Compile Include="Collections\Lists\RepeatedPermutationsAlgorithmTest.cs" />
+    <Compile Include="Collections\SegmentTrees\SegmentTreeTest.cs" />
+    <Compile Include="Collections\UnionFindForestTest.cs" />
+    <Compile Include="Mathematics\BinarySearchTest.cs" />
+    <Compile Include="Mathematics\FiniteFields\CombinationFunctionTest.cs" />
+    <Compile Include="Mathematics\FiniteFields\PowerFunctionTest.cs" />
+    <Compile Include="Mathematics\NumberTheory\GcdExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xunit\XunitExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VainZero.Procon.CSharp.Library\VainZero.Procon.CSharp.Library.csproj">
