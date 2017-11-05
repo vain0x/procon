@@ -1,0 +1,21 @@
+; .NET
+[*.sln]
+indent_style = tab
+indent_size = 4
+
+; C#
+[*.{cs,csx}]
+indent_style = space
+indent_size = 4
+charset = utf-8
+
+[*.csproj]
+indent_style = space
+indent_size = 2
+charset = utf-8
+
+; F#
+[*.{fs,fsi,fsl,fsy,fsproj}]
+indent_style = space
+indent_size = 2
+charset = utf-8
