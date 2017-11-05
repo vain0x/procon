@@ -1,8 +1,14 @@
-﻿// Learn more about F# at http://fsharp.org
+namespace VainZero.Procon
 
 open System
+open System.Collections
+open System.Collections.Generic
 
-[<EntryPoint>]
-let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+[<AutoOpen>]
+module Operators =
+  let read f = Console.ReadLine().Split([|' '|]) |> Array.map f
+
+module Program =
+  [<EntryPoint>]
+  let main _ =
+    0
