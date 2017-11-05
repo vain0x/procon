@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "library_test",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "${workspaceRoot}/VainZero.Procon.CSharp.Library.Tests/VainZero.Procon.CSharp.Library.Tests.csproj"
+            ],
+            "type": "shell",
+            "group": "test",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "solution_build",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceRoot}/VainZero.Procon.CSharp.Solution/VainZero.Procon.CSharp.Solution.csproj"
+            ],
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "solution_test",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "${workspaceRoot}/VainZero.Procon.CSharp.Solution.Tests/VainZero.Procon.CSharp.Solution.Tests.csproj"
+            ],
+            "type": "shell",
+            "group": "test",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
