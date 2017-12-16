@@ -183,14 +183,10 @@ public sealed partial class Program
         return 0;
     }
 
-    private void Read()
-    {
-        var a = _scanner;
-    }
-
     public void EntryPoint()
     {
-        Read();
+        var I = _scanner;
+
         WriteLine(Solve());
     }
 }
