@@ -53,7 +53,6 @@ public static class TemplateExtension
     }
 }
 
-
 public sealed class Scanner
 {
     private readonly TextReader _reader;
@@ -77,7 +76,9 @@ public sealed class Scanner
                     _reader.Read();
                 }
 
+                // Ignore leading spaces.
                 if (_sb.Length == 0) continue;
+
                 break;
             }
             else if (r == -1)
