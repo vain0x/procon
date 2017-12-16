@@ -68,7 +68,7 @@ public sealed class Scanner
         while (true)
         {
             var r = _reader.Read();
-            
+
             if (r == ' ' || r == '\r' || r == '\n')
             {
                 if (r == '\r' && _reader.Peek() == '\n')
