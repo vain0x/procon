@@ -53,6 +53,7 @@ public static class TemplateExtension
     }
 }
 
+
 public sealed class Scanner
 {
     private readonly TextReader _reader;
@@ -68,13 +69,18 @@ public sealed class Scanner
         while (true)
         {
             var r = _reader.Read();
-
-            if (r == '\r')
+            
+            if (r == ' ' || r == '\r' || r == '\n')
             {
-                if (_reader.Peek() == '\n') _reader.Read();
+                if (r == '\r' && _reader.Peek() == '\n')
+                {
+                    _reader.Read();
+                }
+
+                if (_sb.Length == 0) continue;
                 break;
             }
-            else if (r == -1 || r == ' ' || r == '\n')
+            else if (r == -1)
             {
                 break;
             }
@@ -92,7 +98,7 @@ public sealed class Scanner
     /// </summary>
     public int N()
     {
-        return int.Parse(Word());
+        return int.Parse(Word().Trim());
     }
 
     /// <summary>
@@ -109,21 +115,6 @@ public sealed class Scanner
     public double F()
     {
         return double.Parse(Word());
-    }
-
-    public int[] Ns(int count)
-    {
-        return count.MakeArray(_ => N());
-    }
-
-    public long[] Ls(int count)
-    {
-        return count.MakeArray(_ => L());
-    }
-
-    public double[] Fs(int count)
-    {
-        return count.MakeArray(_ => F());
     }
 
     /// <summary>
