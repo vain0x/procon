@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "rust"
+            ],
+            "program": "${workspaceRoot}/target/debug/rust-procon",
+            "args": [],
+            "preLaunchTask": "build",
+            "terminal": "external"
+        }
+    ]
+}
