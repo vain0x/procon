@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="BinarySearch.fs"/>
+    <Compile Include="ImperativeBuilder.fs"/>
   </ItemGroup>
 
 </Project>
