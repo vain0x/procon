@@ -1,10 +1,8 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "library_build",
+            "label": "library_build",
             "command": "dotnet",
             "args": [
                 "build",
@@ -18,7 +16,22 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "taskName": "solution_build",
+            "label": "library_test",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceRoot}/VainZero.Procon.FSharp.Library.Tests/VainZero.Procon.FSharp.Library.Tests.fsproj"
+            ],
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "solution_build",
             "command": "dotnet",
             "args": [
                 "build",
