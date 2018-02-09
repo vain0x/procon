@@ -1,4 +1,4 @@
-module VainZero.TestSamples
+module VainZero.Sample.Tests
 
 open Expecto
 
