@@ -1,0 +1,15 @@
+{
+    "version": "0.1.0",
+    "tasks": [
+        {
+            "taskName": "build",
+            "command": "cargo",
+            "args": [
+                "build"
+            ],
+            "isShellCommand": true,
+            "isBuildCommand": true,
+            "showOutput": "silent"
+        }
+    ]
+}
