@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -150,7 +151,7 @@ public partial class Program
 
     private void WriteLine(double value)
     {
-        _output.WriteLine(value);
+        _output.WriteLine(value.ToString(CultureInfo.InvariantCulture));
     }
 
     private void WriteLine(char value)
