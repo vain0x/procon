@@ -1,10 +1,10 @@
 use std::*;
 
 pub struct UnionFindForest {
-    nodes: Vec<UnionFindForestNode>,
+    nodes: Vec<UffNode>,
 }
 
-enum UnionFindForestNode {
+enum UffNode {
     Root(usize),
     Child(usize),
 }
@@ -13,17 +13,17 @@ impl UnionFindForest {
     pub fn new(size: usize) -> Self {
         UnionFindForest {
             nodes: (0..size)
-                .map(|_| UnionFindForestNode::Root(1))
+                .map(|_| UffNode::Root(1))
                 .collect::<Vec<_>>(),
         }
     }
 
     pub fn root_node(&mut self, v: usize) -> (usize, usize) {
         match self.nodes[v] {
-            UnionFindForestNode::Root(rank) => (v, rank),
-            UnionFindForestNode::Child(u) => {
+            UffNode::Root(rank) => (v, rank),
+            UffNode::Child(u) => {
                 let (u, rank) = self.root_node(u);
-                self.nodes[v] = UnionFindForestNode::Child(u);
+                self.nodes[v] = UffNode::Child(u);
                 (u, rank)
             }
         }
@@ -50,7 +50,7 @@ impl UnionFindForest {
             return;
         }
 
-        self.nodes[v] = UnionFindForestNode::Child(u);
-        self.nodes[u] = UnionFindForestNode::Root(u_rank + 1);
+        self.nodes[v] = UffNode::Child(u);
+        self.nodes[u] = UffNode::Root(u_rank + 1);
     }
 }
