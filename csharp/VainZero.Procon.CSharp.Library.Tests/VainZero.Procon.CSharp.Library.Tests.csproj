@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet test $(ProjectPath) --no-restore --no-build&#xD;&#xA;" />
+    <Exec Command="dotnet test $(ProjectPath) --no-restore --no-build" />
   </Target>
 
 </Project>
