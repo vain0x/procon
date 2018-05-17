@@ -1,10 +1,10 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
-use std::*;
+use procon::*;
 use std::collections::*;
 use std::ops::*;
-use procon::*;
+use std::*;
 
 pub fn main() {
     return;
