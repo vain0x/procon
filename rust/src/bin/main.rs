@@ -2,6 +2,7 @@
 #![allow(non_snake_case)]
 
 use procon::*;
+use std::cmp::{max, min};
 use std::collections::*;
 use std::ops::*;
 use std::*;
