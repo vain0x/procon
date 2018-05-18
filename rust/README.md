@@ -1,6 +1,7 @@
-# Rust
+# Procon / Rust
 
 - Language: Rust
+- Runtime: Native
 
 ## Install
 
