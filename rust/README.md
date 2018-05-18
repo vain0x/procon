@@ -14,7 +14,7 @@ rustup install 1.15.1
 rustup override set 1.15.1
 ```
 
-You can also by adding `rust-toolchain` file to override the toolchain, however, it seems Rust Language Server (which works only with `nightly` toolchain) doesn't work.
+You could override the toolchain by adding `rust-toolchain` file, however, it seems Rust Language Server (which works only with `nightly` toolchain) doesn't work.
 
 ## Run
 
