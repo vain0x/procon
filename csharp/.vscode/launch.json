@@ -8,11 +8,11 @@
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "solution_build",
+            "preLaunchTask": "solver_build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/VainZero.Procon.CSharp.Solution/bin/Debug/netcoreapp2.0/VainZero.Procon.CSharp.Solution.dll",
+            "program": "${workspaceRoot}/Solver/bin/Debug/netcoreapp2.0/Solver.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/VainZero.Procon.CSharp.Solution",
+            "cwd": "${workspaceRoot}/Solver",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "externalTerminal",
             "stopAtEntry": false,
