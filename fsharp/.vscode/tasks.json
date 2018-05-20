@@ -2,11 +2,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "library_build",
+            "label": "lib_build",
             "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceRoot}/VainZero.Procon.FSharp.Library/VainZero.Procon.FSharp.Library.fsproj"
+                "${workspaceRoot}/Lib/Lib.fsproj"
             ],
             "type": "shell",
             "group": "build",
@@ -16,12 +16,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "library_test",
+            "label": "lib_test",
             "command": "dotnet",
             "args": [
                 "run",
                 "--project",
-                "${workspaceRoot}/VainZero.Procon.FSharp.Library.Tests/VainZero.Procon.FSharp.Library.Tests.fsproj"
+                "${workspaceRoot}/Lib.Tests/Lib.Tests.fsproj"
             ],
             "type": "shell",
             "group": "build",
@@ -31,11 +31,11 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "solution_build",
+            "label": "solver_build",
             "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceRoot}/VainZero.Procon.FSharp.Solution/VainZero.Procon.FSharp.Solution.fsproj"
+                "${workspaceRoot}/Solver/Solver.fsproj"
             ],
             "type": "shell",
             "group": "build",
