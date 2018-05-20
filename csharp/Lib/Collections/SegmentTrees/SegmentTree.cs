@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VainZero.Collections
+namespace Procon
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     [System.Diagnostics.DebuggerDisplay("Count = {Count}")]
     public sealed class SegmentTree<T>
         : IReadOnlyList<T>

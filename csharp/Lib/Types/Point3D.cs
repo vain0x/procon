@@ -1,7 +1,7 @@
-using System;
-
-namespace VainZero
+namespace Procon
 {
+    using System;
+
     public sealed class Point3D<T>
         : Tuple<T, T, T>
     {

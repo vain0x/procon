@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace VainZero.Collections
+namespace Procon
 {
     public sealed class SegmentTreeTest
     {

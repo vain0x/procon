@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace VainZero
+namespace Procon
 {
     public static class XunitExtension
     {

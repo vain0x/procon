@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VainZero.Collections.Lists
+namespace Procon
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public static class RepeatedPermutationAlgorithm
     {
         private static IEnumerable<IReadOnlyList<X>> RepeatedPermutationsIterator<X>(int i, X[] source, X[] buffer)

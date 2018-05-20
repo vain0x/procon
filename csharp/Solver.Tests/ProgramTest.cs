@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace VainZero.Procon.CSharp
+namespace Procon
 {
     public class ProgramTest
     {

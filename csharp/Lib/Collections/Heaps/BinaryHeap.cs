@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VainZero.Collections.Heaps
+namespace Procon
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public sealed class BinaryHeap<TValue>
         : IReadOnlyCollection<TValue>
     {

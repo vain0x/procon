@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace VainZero.Collections.Lists
+namespace Procon
 {
     public sealed class PermutationAlgorithmTest
     {

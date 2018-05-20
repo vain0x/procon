@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace VainZero.Mathematics.FiniteFields
+namespace Procon
 {
     public sealed class CombinationFunctionTest
     {
