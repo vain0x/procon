@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="BinarySearch.fs"/>
+    <Compile Include="ImperativeBuilder.fs"/>
   </ItemGroup>
 
 </Project>
