@@ -1,5 +1,5 @@
 {
-    "terminal.integrated.cwd": "VainZero.Procon.CSharp.Solution",
+    "terminal.integrated.cwd": "Solver",
     "[csharp]": {
         "editor.formatOnSave": true
     }
