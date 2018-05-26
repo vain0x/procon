@@ -22,32 +22,32 @@ You could override the toolchain by adding `rust-toolchain` file, however, it se
 cargo run
 ```
 
-## Usage: Standard IO
+## Usage
 
-In `main.rs`, there are some standard IO helpers.
+Write your solution in `main.rs`.
 
-For example, the following code:
+There are some standard IO helpers. For example, the following code:
 
 ```rust
 pub fn main() {
     // Read a line to get a string. End of line is trimed.
-    let line = read_line();
+    let line = rl();
 
     assert_eq!(&line, "#...#.#.#..#");
 
     // Read a line and parse the whole contents as a non-negative integer (usize).
-    let N = read_line().parse::<usize>().unwrap();
+    let N = rl().parse::<usize>().unwrap();
 
     assert_eq!(N, 1_000);
 
     // Read a line, split it by spaces and parse each word as an integer (32-bit signed).
-    let A = read_words::<i32>();
+    let A = rw::<i32>();
 
     assert_eq!(A, vec![2, 3, 5, 7]);
 
     // Read a line, split it by spaces and parse two of them as different types.
     let (N, P) = {
-        let words = read_words::<String>();
+        let words = rw::<String>();
         let N = words[0].parse::<i64>().unwrap();
         let P = words[1].parse::<f64>().unwrap();
         (N, P)
