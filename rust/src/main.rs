@@ -59,7 +59,7 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_ok() {
+    fn test_ok() {
         assert_eq!(7, 1 + 2 * 3);
     }
 }
