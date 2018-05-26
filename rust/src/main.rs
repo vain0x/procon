@@ -37,18 +37,6 @@ pub mod procon {
             .collect()
     }
 
-    pub fn read_vec(len: usize) -> Vec<String> {
-        let mut vec = Vec::new();
-        while vec.len() < len {
-            let line = read_line();
-            for word in line.split_whitespace() {
-                vec.push(word.to_owned());
-            }
-        }
-        assert!(vec.len() == len);
-        vec
-    }
-
     // Polyfill
     #[derive(PartialEq, Eq, Clone, Debug)]
     pub struct Rev<T>(pub T);
