@@ -48,3 +48,11 @@ pub mod procon {
         vec
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    pub fn test_ok() {
+        assert_eq!(7, 1 + 2 * 3);
+    }
+}
