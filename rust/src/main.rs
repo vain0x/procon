@@ -19,13 +19,13 @@ pub mod procon {
     use std::mem;
     use std::str::FromStr;
 
-    pub fn read_line() -> String {
+    pub fn rl() -> String {
         let mut buf = String::new();
         io::stdin().read_line(&mut buf).unwrap();
         buf.trim_right().to_owned()
     }
 
-    pub fn read_words<T>() -> Vec<T>
+    pub fn rw<T>() -> Vec<T>
     where
         T: std::str::FromStr,
         T::Err: std::fmt::Debug,
