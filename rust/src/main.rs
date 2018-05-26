@@ -13,6 +13,7 @@ pub fn main() {
 
 pub mod procon {
     use std;
+    use std::cmp::*;
     use std::collections::*;
     use std::io;
     use std::mem;
@@ -47,12 +48,41 @@ pub mod procon {
         assert!(vec.len() == len);
         vec
     }
+
+    // Polyfill
+    #[derive(PartialEq, Eq, Clone, Debug)]
+    pub struct Rev<T>(pub T);
+
+    impl<T: PartialOrd> PartialOrd for Rev<T> {
+        fn partial_cmp(&self, other: &Rev<T>) -> Option<Ordering> {
+            other.0.partial_cmp(&self.0)
+        }
+    }
+
+    impl<T: Ord> Ord for Rev<T> {
+        fn cmp(&self, other: &Rev<T>) -> Ordering {
+            other.0.cmp(&self.0)
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     pub fn test_ok() {
         assert_eq!(7, 1 + 2 * 3);
+    }
+
+    #[test]
+    pub fn test_rev() {
+        let mut v: Vec<Rev<i32>> = vec![3, 1, 4, 1, 5, 9, 2]
+            .into_iter()
+            .map(|x| Rev(x))
+            .collect::<Vec<_>>();
+        v.sort();
+        let v = v.into_iter().map(|Rev(x)| x).collect::<Vec<_>>();
+        assert_eq!(vec![9, 5, 4, 3, 2, 1, 1], v);
     }
 }
