@@ -6,8 +6,10 @@ use std::collections::*;
 use std::ops::*;
 use std::*;
 
-pub fn main() {
-    return;
+impl Main {
+    fn entry_point(&mut self) {
+        return;
+    }
 }
 
 #[cfg(test)]
@@ -24,24 +26,34 @@ mod tests {
 // Framework
 // -----------------------------------------------
 
-#[allow(unused)]
-fn rl() -> String {
-    let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    buf.trim_right().to_owned()
+pub fn main() {
+    Main {}.entry_point();
 }
 
 #[allow(unused)]
-fn rw<T>() -> Vec<T>
-where
-    T: std::str::FromStr,
-    T::Err: std::fmt::Debug,
-{
-    let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    buf.split_whitespace()
-        .map(|word| T::from_str(word).unwrap())
-        .collect()
+struct Main {}
+
+#[allow(unused)]
+impl Main {
+    /// Reads a line.
+    fn rl(&mut self) -> String {
+        let mut buf = String::new();
+        io::stdin().read_line(&mut buf).unwrap();
+        buf.trim_right().to_owned()
+    }
+
+    /// Reads a line, splits into words, parses each of them.
+    fn rw<T>(&mut self) -> Vec<T>
+    where
+        T: str::FromStr,
+        T::Err: fmt::Debug,
+    {
+        let mut buf = String::new();
+        io::stdin().read_line(&mut buf).unwrap();
+        buf.split_whitespace()
+            .map(|word| T::from_str(word).unwrap())
+            .collect()
+    }
 }
 
 // -----------------------------------------------
