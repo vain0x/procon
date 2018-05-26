@@ -3,10 +3,21 @@
 
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
+use std::io::*;
 use std::ops::*;
 use std::*;
 
-impl Main {
+#[allow(unused)]
+macro_rules! o {
+    ($self_:expr, $($arg:expr),*) => { $self_.write_fmt(format_args!($($arg),*)) };
+}
+
+#[allow(unused)]
+macro_rules! ln {
+    ($self_:expr, $($arg:expr),*) => { $self_.write_fmt_ln(format_args!($($arg),*)) };
+}
+
+impl<'a> Main<'a> {
     fn entry_point(&mut self) {
         return;
     }
@@ -27,18 +38,25 @@ mod tests {
 // -----------------------------------------------
 
 pub fn main() {
-    Main {}.entry_point();
+    let (stdin, stdout) = (io::stdin(), io::stdout());
+    Main {
+        stdin: io::BufReader::new(stdin.lock()),
+        stdout: io::BufWriter::new(stdout.lock()),
+    }.entry_point();
 }
 
 #[allow(unused)]
-struct Main {}
+struct Main<'a> {
+    stdin: io::BufReader<io::StdinLock<'a>>,
+    stdout: io::BufWriter<io::StdoutLock<'a>>,
+}
 
 #[allow(unused)]
-impl Main {
+impl<'a> Main<'a> {
     /// Reads a line.
     fn rl(&mut self) -> String {
         let mut buf = String::new();
-        io::stdin().read_line(&mut buf).unwrap();
+        self.stdin.read_line(&mut buf).unwrap();
         buf.trim_right().to_owned()
     }
 
@@ -49,10 +67,19 @@ impl Main {
         T::Err: fmt::Debug,
     {
         let mut buf = String::new();
-        io::stdin().read_line(&mut buf).unwrap();
+        self.stdin.read_line(&mut buf).unwrap();
         buf.split_whitespace()
             .map(|word| T::from_str(word).unwrap())
             .collect()
+    }
+
+    fn write_fmt(&mut self, args: std::fmt::Arguments) {
+        self.stdout.write_fmt(args).unwrap();
+    }
+
+    fn write_fmt_ln(&mut self, args: fmt::Arguments) {
+        self.stdout.write_fmt(args).unwrap();
+        self.stdout.write(b"\n").unwrap();
     }
 }
 
