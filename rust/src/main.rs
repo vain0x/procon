@@ -3,6 +3,7 @@
 
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
+use std::io::*;
 use std::ops::*;
 use std::*;
 
@@ -47,6 +48,18 @@ impl<T: Ord> Ord for Rev<T> {
     fn cmp(&self, other: &Rev<T>) -> Ordering {
         other.0.cmp(&self.0)
     }
+}
+
+#[allow(unused)]
+macro_rules! eprintln {
+    ($($arg:expr),*) => { _eprintln(format_args!($($arg),*)) }
+}
+
+fn _eprintln(args: fmt::Arguments) {
+    let err = std::io::stderr();
+    let mut err = err.lock();
+    err.write_fmt(args).unwrap();
+    err.write(b"\n").unwrap();
 }
 
 // -----------------------------------------------
