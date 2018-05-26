@@ -11,6 +11,16 @@ pub fn main() {
     return;
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_ok() {
+        assert_eq!(7, 1 + 2 * 3);
+    }
+}
+
 pub mod procon {
     use std;
     use std::cmp::*;
@@ -51,15 +61,5 @@ pub mod procon {
         fn cmp(&self, other: &Rev<T>) -> Ordering {
             other.0.cmp(&self.0)
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_ok() {
-        assert_eq!(7, 1 + 2 * 3);
     }
 }
