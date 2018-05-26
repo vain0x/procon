@@ -31,6 +31,14 @@ where
         .collect()
 }
 
+trait IteratorExt: Iterator + Sized {
+    fn vec(self) -> Vec<Self::Item> {
+        self.collect()
+    }
+}
+
+impl<T: Iterator> IteratorExt for T {}
+
 #[allow(unused)]
 macro_rules! debug {
     ($($arg:expr),*) => {
