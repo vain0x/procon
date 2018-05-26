@@ -74,15 +74,4 @@ mod tests {
     pub fn test_ok() {
         assert_eq!(7, 1 + 2 * 3);
     }
-
-    #[test]
-    pub fn test_rev() {
-        let mut v: Vec<Rev<i32>> = vec![3, 1, 4, 1, 5, 9, 2]
-            .into_iter()
-            .map(|x| Rev(x))
-            .collect::<Vec<_>>();
-        v.sort();
-        let v = v.into_iter().map(|Rev(x)| x).collect::<Vec<_>>();
-        assert_eq!(vec![9, 5, 4, 3, 2, 1, 1], v);
-    }
 }
