@@ -12,9 +12,7 @@ enum UffNode {
 impl UnionFindForest {
     pub fn new(size: usize) -> Self {
         UnionFindForest {
-            nodes: (0..size)
-                .map(|_| UffNode::Root(1))
-                .collect::<Vec<_>>(),
+            nodes: (0..size).map(|_| UffNode::Root(1)).collect::<Vec<_>>(),
         }
     }
 
