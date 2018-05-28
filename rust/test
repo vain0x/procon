@@ -1,0 +1,3 @@
+# Run tests in `main.rs` whenever it changes.
+
+cargo watch -x 'test --bin rust-procon'
