@@ -5,7 +5,17 @@
 
 ## Install
 
-Install rustup first.
+See the official document: <https://rust-lang.org/>.
+
+Install `rustup` and `cargo`.
+
+### Install: (Optional) cargo-watch
+
+I recommend to install [cargo-watch](https://github.com/passcod/cargo-watch) to automate building.
+
+Use `./test` to start watching `main.rs` to test.
+
+### Install: (Optional) AtCoder-compatible Toolchain
 
 For AtCoder, set the default toolchain to the supported version, [1.15.1](https://github.com/rust-lang/rust/blob/master/RELEASES.md#version-1151-2017-02-09):
 
@@ -16,13 +26,15 @@ rustup override set 1.15.1
 
 You could override the toolchain by adding `rust-toolchain` file, however, it seems Rust Language Server (which works only with `nightly` toolchain) doesn't work.
 
-## Run
+## Usage
+
+### Usage: Run
 
 ```sh
 cargo run
 ```
 
-## Usage
+### Usage: main.rs
 
 Write your solution in `main.rs`.
 
