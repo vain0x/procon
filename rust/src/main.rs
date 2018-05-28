@@ -42,13 +42,16 @@ impl<T: Iterator> IteratorExt for T {}
 #[allow(unused)]
 macro_rules! debug {
     ($($arg:expr),*) => {
-        let entries = &[
-            $((
-                &stringify!($arg).to_string() as &fmt::Debug,
-                &($arg) as &fmt::Debug,
-            )),*
-        ];
-        eprintln!("{:?}", DebugMap(entries));
+        #[cfg(debug_assertions)]
+        {
+            let entries = &[
+                $((
+                    &stringify!($arg).to_string() as &fmt::Debug,
+                    &($arg) as &fmt::Debug,
+                )),*
+            ];
+            eprintln!("{:?}", DebugMap(entries));
+        }
     };
 }
 
