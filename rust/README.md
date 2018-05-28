@@ -9,6 +9,10 @@ See the official document: <https://rust-lang.org/>.
 
 Install `rustup` and `cargo`.
 
+### Install: (Optional) cargo-watch
+
+I recommend to install [cargo-watch](https://github.com/passcod/cargo-watch) to automate building.
+
 ### Install: (Optional) AtCoder-compatible Toolchain
 
 For AtCoder, set the default toolchain to the supported version, [1.15.1](https://github.com/rust-lang/rust/blob/master/RELEASES.md#version-1151-2017-02-09):
