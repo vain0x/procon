@@ -107,38 +107,52 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
-// FIXME: Replace the result type with impl FnMut in Rust 1.25+.
-fn fixpoint<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
-where
-    F: FnMut(&mut FnMut(X) -> Y, X) -> Y + 'a,
-{
-    trait ClosureMut<X, Y> {
-        fn call(&mut self, input: X) -> Y;
-    }
-
-    struct RecursiveClosureMut<X, Y, F>(UnsafeCell<F>, PhantomData<X>, PhantomData<Y>);
-
-    impl<X, Y, F> ClosureMut<X, Y> for RecursiveClosureMut<X, Y, F>
-    where
-        F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
-    {
-        fn call(&mut self, input: X) -> Y {
-            // Duplicate mutable reference. Dangerous!
-            let f = unsafe { &mut *self.0.get() };
-
-            f(&mut |x: X| self.call(x), input)
-        }
-    }
-
-    let mut f = RecursiveClosureMut(UnsafeCell::new(f), PhantomData, PhantomData);
-    Box::new(move |x: X| f.call(x))
+pub trait FnMutRec<X, Y> {
+    fn call(&mut self, x: X) -> Y;
 }
 
-fn recurse<X, Y, F>(x: X, f: F) -> Y
+pub struct ClosureFnMutRec<X, Y, F> {
+    x: PhantomData<X>,
+    y: PhantomData<Y>,
+    f: F,
+}
+
+impl<X, Y, F> ClosureFnMutRec<X, Y, F> {
+    pub fn new(f: F) -> Self {
+        ClosureFnMutRec {
+            x: PhantomData,
+            y: PhantomData,
+            f: f,
+        }
+    }
+}
+
+impl<X, Y, F> FnMutRec<X, Y> for ClosureFnMutRec<X, Y, F>
 where
     F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
 {
-    fixpoint(f)(x)
+    fn call(&mut self, x: X) -> Y {
+        // Duplicate mutable reference.
+        let f = unsafe { &mut *(&mut self.f as *mut F) };
+
+        f(&mut |x: X| self.call(x), x)
+    }
+}
+
+// FIXME: Replace the result type with impl FnMut in Rust 1.26+.
+pub fn recursive<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
+where
+    F: FnMut(&mut FnMut(X) -> Y, X) -> Y + 'a,
+{
+    let mut f = ClosureFnMutRec::new(f);
+    Box::new(move |x: X| f.call(x))
+}
+
+pub fn recurse_with<X, Y, F>(x: X, f: F) -> Y
+where
+    F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
+{
+    ClosureFnMutRec::new(f).call(x)
 }
 
 pub fn main() {
@@ -153,7 +167,7 @@ pub fn main() {
     let mut root = vec![None; N];
 
     for v in 0..N {
-        recurse((v, v), |dfs, (v, r)| {
+        recurse_with((v, v), |dfs, (v, r)| {
             if root[v].is_some() {
                 return;
             }
@@ -201,16 +215,16 @@ mod tests {
     }
 
     #[test]
-    fn fact() {
-        let f7 = recurse(7, |fact, n| if n == 0 { 1 } else { fact(n - 1) * n });
+    fn test_fact() {
+        let f7 = recurse_with(7, |fact, n| if n == 0 { 1 } else { fact(n - 1) * n });
         assert_eq!(f7, 1 * 2 * 3 * 4 * 5 * 6 * 7);
     }
 
     #[test]
-    fn memoization() {
+    fn test_memoized_fibonacci() {
         let mut memo = HashMap::new();
         let mut fib = {
-            fixpoint(|fib, n: i32| {
+            recursive(|fib, n: i32| {
                 let e = memo.entry(n).or_insert_with(|| {
                     if n <= 1 {
                         1
