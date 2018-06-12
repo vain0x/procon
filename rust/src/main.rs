@@ -111,29 +111,15 @@ pub trait FnMutRec<X, Y> {
     fn call(&mut self, x: X) -> Y;
 }
 
-pub struct ClosureFnMutRec<X, Y, F> {
-    x: PhantomData<X>,
-    y: PhantomData<Y>,
-    f: F,
-}
+pub struct ClosureFnMutRec<F>(F);
 
-impl<X, Y, F> ClosureFnMutRec<X, Y, F> {
-    pub fn new(f: F) -> Self {
-        ClosureFnMutRec {
-            x: PhantomData,
-            y: PhantomData,
-            f: f,
-        }
-    }
-}
-
-impl<X, Y, F> FnMutRec<X, Y> for ClosureFnMutRec<X, Y, F>
+impl<X, Y, F> FnMutRec<X, Y> for ClosureFnMutRec<F>
 where
     F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
 {
     fn call(&mut self, x: X) -> Y {
         // Duplicate mutable reference.
-        let f = unsafe { &mut *(&mut self.f as *mut F) };
+        let f = unsafe { &mut *(&mut self.0 as *mut F) };
 
         f(&mut |x: X| self.call(x), x)
     }
@@ -144,7 +130,7 @@ pub fn recursive<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
 where
     F: FnMut(&mut FnMut(X) -> Y, X) -> Y + 'a,
 {
-    let mut f = ClosureFnMutRec::new(f);
+    let mut f = ClosureFnMutRec(f);
     Box::new(move |x: X| f.call(x))
 }
 
@@ -152,7 +138,7 @@ pub fn recurse_with<X, Y, F>(x: X, f: F) -> Y
 where
     F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
 {
-    ClosureFnMutRec::new(f).call(x)
+    ClosureFnMutRec(f).call(x)
 }
 
 pub fn main() {
