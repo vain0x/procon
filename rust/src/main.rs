@@ -126,12 +126,11 @@ where
 }
 
 // FIXME: Replace the result type with impl FnMut in Rust 1.26+.
-pub fn recursive<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
+pub fn recursive<X, Y, F>(f: F) -> ClosureFnMutRec<F>
 where
-    F: FnMut(&mut FnMut(X) -> Y, X) -> Y + 'a,
+    F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
 {
-    let mut f = ClosureFnMutRec(f);
-    Box::new(move |x: X| f.call(x))
+    ClosureFnMutRec(f)
 }
 
 pub fn recurse_with<X, Y, F>(x: X, f: F) -> Y
@@ -209,18 +208,13 @@ mod tests {
     #[test]
     fn test_memoized_fibonacci() {
         let mut memo = HashMap::new();
-        let mut fib = {
-            recursive(|fib, n: i32| {
-                let e = memo.entry(n).or_insert_with(|| {
-                    if n <= 1 {
-                        1
-                    } else {
-                        fib(n - 1) + fib(n - 2)
-                    }
-                });
-                *e
-            })
-        };
+        let mut fib = recursive(|fib, n: i32| {
+            let e =
+                memo.entry(n)
+                    .or_insert_with(|| if n <= 1 { 1 } else { fib(n - 1) + fib(n - 2) });
+            *e
+        });
+        let mut fib = |n| fib.call(n);
         assert_eq!(fib(0), 1);
         assert_eq!(fib(4), 5);
         assert_eq!(fib(5), 8);
