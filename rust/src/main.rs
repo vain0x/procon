@@ -107,33 +107,36 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
+// FIXME: Replace the result type with impl FnMut in Rust 1.25+.
 fn fixpoint<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
 where
-    F: FnMut(&Fn(X) -> Y, X) -> Y + 'a,
+    F: FnMut(&mut FnMut(X) -> Y, X) -> Y + 'a,
 {
     trait ClosureMut<X, Y> {
-        fn call(&self, input: X) -> Y;
+        fn call(&mut self, input: X) -> Y;
     }
 
     struct RecursiveClosureMut<X, Y, F>(UnsafeCell<F>, PhantomData<X>, PhantomData<Y>);
 
     impl<X, Y, F> ClosureMut<X, Y> for RecursiveClosureMut<X, Y, F>
     where
-        F: FnMut(&Fn(X) -> Y, X) -> Y,
+        F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
     {
-        fn call(&self, input: X) -> Y {
+        fn call(&mut self, input: X) -> Y {
+            // Duplicate mutable reference. Dangerous!
             let f = unsafe { &mut *self.0.get() };
-            f(&|x: X| self.call(x), input)
+
+            f(&mut |x: X| self.call(x), input)
         }
     }
 
-    let f = RecursiveClosureMut(UnsafeCell::new(f), PhantomData, PhantomData);
+    let mut f = RecursiveClosureMut(UnsafeCell::new(f), PhantomData, PhantomData);
     Box::new(move |x: X| f.call(x))
 }
 
 fn recurse<X, Y, F>(x: X, f: F) -> Y
 where
-    F: FnMut(&Fn(X) -> Y, X) -> Y,
+    F: FnMut(&mut FnMut(X) -> Y, X) -> Y,
 {
     fixpoint(f)(x)
 }
