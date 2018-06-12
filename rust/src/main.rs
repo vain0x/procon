@@ -112,22 +112,20 @@ where
     Y: 'a,
     F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
-    unsafe {
-        let rg: Rc<UnsafeCell<Option<*mut (FnMut(X) -> Y + 'a)>>> = Rc::new(UnsafeCell::new(None));
+    let rg: Rc<UnsafeCell<Option<*mut (FnMut(X) -> Y + 'a)>>> = Rc::new(UnsafeCell::new(None));
 
-        let mut g: Box<FnMut(X) -> Y + 'a> = {
-            let rg = rg.clone();
-            let g = Box::new(move |x: X| {
-                let ref_g: &mut (FnMut(X) -> Y + 'a) = &mut **(*rg.get()).as_mut().unwrap();
-                f(ref_g, x)
-            });
-            g
-        };
-
-        *rg.get() = Some(g.as_mut());
-
+    let mut g: Box<FnMut(X) -> Y + 'a> = {
+        let rg = rg.clone();
+        let g = Box::new(move |x: X| {
+            let ref_g = unsafe { &mut **(*rg.get()).as_mut().unwrap() };
+            f(ref_g, x)
+        });
         g
-    }
+    };
+
+    unsafe { *rg.get() = Some(g.as_mut()) };
+
+    g
 }
 
 fn recurse<'a, X, Y, G>(x: X, g: G) -> Y
