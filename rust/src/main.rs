@@ -5,6 +5,7 @@ use std::cell::*;
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
 use std::io::*;
+use std::marker::PhantomData;
 use std::mem::*;
 use std::ops::*;
 use std::rc::*;
@@ -106,35 +107,35 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
-fn fixpoint<'a, X: 'a, Y: 'a, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
-where
-    F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
-{
-    // Owns `g` in heap. Shared by `fixpoint` and `g` itself.
-    let g_shared: Rc<UnsafeCell<*mut (FnMut(X) -> Y + 'a)>> =
-        Rc::new(UnsafeCell::new(unsafe { std::mem::uninitialized() }));
-
-    // The generated recursive function. Calls `f` passing `g` itself.
-    let mut g: Box<FnMut(X) -> Y + 'a> = {
-        let g_shared = g_shared.clone();
-        let g = Box::new(move |x: X| {
-            let g_ref: &mut (FnMut(X) -> Y + 'a) = unsafe { &mut **g_shared.get() };
-            f(g_ref, x)
-        });
-        g
-    };
-
-    let g_ptr: *mut (FnMut(X) -> Y + 'a) = &mut *g;
-    unsafe { *g_shared.get() = g_ptr };
-
-    g
+trait ClosureMut<X, Y> {
+    fn call(&mut self, input: X) -> Y;
 }
 
-fn recurse<'a, X: 'a, Y: 'a, F>(x: X, f: F) -> Y
+pub struct RecursiveClosureMut<X, Y, F>(F, PhantomData<X>, PhantomData<Y>);
+
+impl<'a, X, Y, F> ClosureMut<X, Y> for RecursiveClosureMut<X, Y, F>
 where
-    F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
+    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
 {
-    fixpoint(f)(x)
+    fn call(&mut self, input: X) -> Y {
+        (self.0)(self, input)
+    }
+}
+
+impl<'a, X, Y, F> ClosureMut<X, Y> for &'a mut RecursiveClosureMut<X, Y, F>
+where
+    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
+{
+    fn call(&mut self, input: X) -> Y {
+        self.call(input)
+    }
+}
+
+fn fix_point<X, Y, F>(x: X, f: F) -> Y
+where
+    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
+{
+    RecursiveClosureMut(f, PhantomData, PhantomData).call(x)
 }
 
 pub fn main() {
@@ -149,7 +150,7 @@ pub fn main() {
     let mut root = vec![None; N];
 
     for v in 0..N {
-        recurse((v, v), |dfs, (v, r)| {
+        fix_point((v, v), |recur, (v, r)| {
             if root[v].is_some() {
                 return;
             }
@@ -159,16 +160,34 @@ pub fn main() {
 
             for &w in A[v].iter() {
                 // Recursive call!
-                dfs((w, r));
+                recur.call((w, r));
             }
         });
+        /*
+        let mut dfs = Y(
+            |dfs: &mut FnMut((usize, usize)) -> (), (v, r): (usize, usize)| {
+                if root[v].is_some() {
+                    return;
+                }
+
+                // It can borrow variables out of the closure.
+                root[v] = Some(r);
+
+                for &w in A[v].iter() {
+                    // Recursive call!
+                    dfs((w, r));
+                }
+            },
+        );
+        dfs.apply((v, v));
+        */
     }
 
     debug!(root);
     return;
 }
 
-#[cfg(test)]
+#[cfg(tst)]
 mod tests {
     use super::*;
 
