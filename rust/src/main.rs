@@ -106,10 +106,8 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
-fn fixpoint<'a, X, Y, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
+fn fixpoint<'a, X: 'a, Y: 'a, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
 where
-    X: 'a,
-    Y: 'a,
     F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
     let rg: Rc<UnsafeCell<Option<*mut (FnMut(X) -> Y + 'a)>>> = Rc::new(UnsafeCell::new(None));
@@ -128,14 +126,11 @@ where
     g
 }
 
-fn recurse<'a, X, Y, G>(x: X, g: G) -> Y
+fn recurse<'a, X: 'a, Y: 'a, F>(x: X, f: F) -> Y
 where
-    X: 'a,
-    Y: 'a,
-    G: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
+    F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
-    let mut f = fixpoint(g);
-    f(x)
+    fixpoint(f)(x)
 }
 
 pub fn main() {
