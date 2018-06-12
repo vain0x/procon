@@ -1,10 +1,13 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
+use std::cell::*;
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
 use std::io::*;
+use std::mem::*;
 use std::ops::*;
+use std::rc::*;
 use std::*;
 
 // -----------------------------------------------
@@ -103,7 +106,61 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
+fn fixpoint<'a, X, Y, G>(g: &mut G) -> &'a mut FnMut(X) -> Y
+where
+    G: FnMut(&mut FnMut(X) -> Y, X) -> Y,
+{
+    unsafe {
+        let recur_ref: Rc<UnsafeCell<Option<Box<FnMut(X) -> Y>>>> = Rc::new(UnsafeCell::new(None));
+
+        let recur: Box<FnMut(X) -> Y> = {
+            let recur_ref = recur_ref.clone();
+            let recur_box = Box::new(move |x: X| {
+                let h = (*recur_ref.get()).as_mut().unwrap();
+                g(&mut **h, x)
+            });
+            recur_box
+        };
+
+        *recur_ref.get() = Some(recur);
+
+        let recur_box_ref = (&mut *(*recur_ref).get()).as_mut().unwrap();
+        let recur_ref = &mut **recur_box_ref;
+        std::mem::transmute_copy::<&mut FnMut(X) -> Y, &'a mut FnMut(X) -> Y>(&recur_ref)
+    }
+}
+
 pub fn main() {
+    let N = 7;
+    let mut A = vec![vec![]; N];
+
+    for &(u, v) in &[(1, 3), (3, 2), (3, 4), (5, 6)] {
+        A[u].push(v);
+        A[v].push(u);
+    }
+
+    let mut root = vec![None; N];
+    let mut o = 0;
+
+    let dfs = fixpoint(&mut |dfs, (v, r): (usize, usize)| {
+        if root[v].is_some() {
+            return;
+        }
+
+        root[v] = Some(r);
+        o += 1;
+
+        for &w in A[v].iter() {
+            dfs((w, r));
+        }
+
+        ()
+    });
+    for v in 0..N {
+        dfs((v, v));
+    }
+
+    debug!(root);
     return;
 }
 
