@@ -110,18 +110,21 @@ fn fixpoint<'a, X: 'a, Y: 'a, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
 where
     F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
-    let rg: Rc<UnsafeCell<Option<*mut (FnMut(X) -> Y + 'a)>>> = Rc::new(UnsafeCell::new(None));
+    let rg: Rc<UnsafeCell<*mut (FnMut(X) -> Y + 'a)>> =
+        Rc::new(UnsafeCell::new(unsafe { std::mem::uninitialized() }));
 
     let mut g: Box<FnMut(X) -> Y + 'a> = {
         let rg = rg.clone();
         let g = Box::new(move |x: X| {
-            let ref_g = unsafe { &mut **(*rg.get()).as_mut().unwrap() };
+            let ref_g: &mut (FnMut(X) -> Y + 'a) = unsafe { &mut *(*rg.get()) };
             f(ref_g, x)
         });
         g
     };
 
-    unsafe { *rg.get() = Some(g.as_mut()) };
+    unsafe {
+        *rg.get() = &mut *g;
+    };
 
     g
 }
