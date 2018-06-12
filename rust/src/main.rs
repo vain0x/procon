@@ -110,21 +110,22 @@ fn fixpoint<'a, X: 'a, Y: 'a, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
 where
     F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
-    let rg: Rc<UnsafeCell<*mut (FnMut(X) -> Y + 'a)>> =
+    // Owns `g` in heap. Shared by `fixpoint` and `g` itself.
+    let g_shared: Rc<UnsafeCell<*mut (FnMut(X) -> Y + 'a)>> =
         Rc::new(UnsafeCell::new(unsafe { std::mem::uninitialized() }));
 
+    // The generated recursive function. Calls `f` passing `g` itself.
     let mut g: Box<FnMut(X) -> Y + 'a> = {
-        let rg = rg.clone();
+        let g_shared = g_shared.clone();
         let g = Box::new(move |x: X| {
-            let ref_g: &mut (FnMut(X) -> Y + 'a) = unsafe { &mut *(*rg.get()) };
-            f(ref_g, x)
+            let g_ref: &mut (FnMut(X) -> Y + 'a) = unsafe { &mut **g_shared.get() };
+            f(g_ref, x)
         });
         g
     };
 
-    unsafe {
-        *rg.get() = &mut *g;
-    };
+    let g_ptr: *mut (FnMut(X) -> Y + 'a) = &mut *g;
+    unsafe { *g_shared.get() = g_ptr };
 
     g
 }
