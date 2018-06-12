@@ -106,28 +106,38 @@ fn _eprintln(args: fmt::Arguments) {
 // Solution
 // -----------------------------------------------
 
-fn fixpoint<'a, X, Y, G>(g: &mut G) -> &'a mut FnMut(X) -> Y
+fn fixpoint<'a, X, Y, F>(mut f: F) -> Box<FnMut(X) -> Y + 'a>
 where
-    G: FnMut(&mut FnMut(X) -> Y, X) -> Y,
+    X: 'a,
+    Y: 'a,
+    F: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
 {
     unsafe {
-        let recur_ref: Rc<UnsafeCell<Option<Box<FnMut(X) -> Y>>>> = Rc::new(UnsafeCell::new(None));
+        let rg: Rc<UnsafeCell<Option<*mut (FnMut(X) -> Y + 'a)>>> = Rc::new(UnsafeCell::new(None));
 
-        let recur: Box<FnMut(X) -> Y> = {
-            let recur_ref = recur_ref.clone();
-            let recur_box = Box::new(move |x: X| {
-                let h = (*recur_ref.get()).as_mut().unwrap();
-                g(&mut **h, x)
+        let mut g: Box<FnMut(X) -> Y + 'a> = {
+            let rg = rg.clone();
+            let g = Box::new(move |x: X| {
+                let ref_g: &mut (FnMut(X) -> Y + 'a) = &mut **(*rg.get()).as_mut().unwrap();
+                f(ref_g, x)
             });
-            recur_box
+            g
         };
 
-        *recur_ref.get() = Some(recur);
+        *rg.get() = Some(g.as_mut());
 
-        let recur_box_ref = (&mut *(*recur_ref).get()).as_mut().unwrap();
-        let recur_ref = &mut **recur_box_ref;
-        std::mem::transmute_copy::<&mut FnMut(X) -> Y, &'a mut FnMut(X) -> Y>(&recur_ref)
+        g
     }
+}
+
+fn recurse<'a, X, Y, G>(x: X, g: G) -> Y
+where
+    X: 'a,
+    Y: 'a,
+    G: FnMut(&mut (FnMut(X) -> Y + 'a), X) -> Y + 'a,
+{
+    let mut f = fixpoint(g);
+    f(x)
 }
 
 pub fn main() {
@@ -140,24 +150,19 @@ pub fn main() {
     }
 
     let mut root = vec![None; N];
-    let mut o = 0;
 
-    let dfs = fixpoint(&mut |dfs, (v, r): (usize, usize)| {
-        if root[v].is_some() {
-            return;
-        }
-
-        root[v] = Some(r);
-        o += 1;
-
-        for &w in A[v].iter() {
-            dfs((w, r));
-        }
-
-        ()
-    });
     for v in 0..N {
-        dfs((v, v));
+        recurse((v, v), |dfs, (v, r)| {
+            if root[v].is_some() {
+                return;
+            }
+
+            root[v] = Some(r);
+
+            for &w in A[v].iter() {
+                dfs((w, r));
+            }
+        });
     }
 
     debug!(root);
