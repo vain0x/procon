@@ -154,9 +154,11 @@ pub fn main() {
                 return;
             }
 
+            // It can borrow variables out of the closure.
             root[v] = Some(r);
 
             for &w in A[v].iter() {
+                // Recursive call!
                 dfs((w, r));
             }
         });
@@ -173,5 +175,11 @@ mod tests {
     #[test]
     fn test_ok() {
         assert_eq!(7, 1 + 2 * 3);
+    }
+
+    #[test]
+    fn fact() {
+        let f7 = recurse(7, |fact, n| if n == 0 { 1 } else { fact(n - 1) * n });
+        assert_eq!(f7, 1 * 2 * 3 * 4 * 5 * 6 * 7);
     }
 }
