@@ -108,34 +108,34 @@ fn _eprintln(args: fmt::Arguments) {
 // -----------------------------------------------
 
 trait ClosureMut<X, Y> {
-    fn call(&mut self, input: X) -> Y;
+    fn call(&self, input: X) -> Y;
 }
 
-pub struct RecursiveClosureMut<X, Y, F>(F, PhantomData<X>, PhantomData<Y>);
+struct RecursiveClosureMut<X, Y, F>(UnsafeCell<F>, PhantomData<X>, PhantomData<Y>);
 
-impl<'a, X, Y, F> ClosureMut<X, Y> for RecursiveClosureMut<X, Y, F>
+impl<X, Y, F> ClosureMut<X, Y> for RecursiveClosureMut<X, Y, F>
 where
-    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
+    F: FnMut(&ClosureMut<X, Y>, X) -> Y,
 {
-    fn call(&mut self, input: X) -> Y {
-        (self.0)(self, input)
+    fn call(&self, input: X) -> Y {
+        let f = unsafe { &mut *self.0.get() };
+        f(self, input)
     }
 }
 
-impl<'a, X, Y, F> ClosureMut<X, Y> for &'a mut RecursiveClosureMut<X, Y, F>
+fn recurse<X, Y, F>(x: X, f: F) -> Y
 where
-    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
+    F: FnMut(&ClosureMut<X, Y>, X) -> Y,
 {
-    fn call(&mut self, input: X) -> Y {
-        self.call(input)
-    }
+    RecursiveClosureMut(UnsafeCell::new(f), PhantomData, PhantomData).call(x)
 }
 
-fn fix_point<X, Y, F>(x: X, f: F) -> Y
+fn fixpoint<'a, X: 'a, Y: 'a, F>(f: F) -> Box<FnMut(X) -> Y + 'a>
 where
-    F: FnMut(&mut ClosureMut<X, Y>, X) -> Y,
+    F: FnMut(&ClosureMut<X, Y>, X) -> Y + 'a,
 {
-    RecursiveClosureMut(f, PhantomData, PhantomData).call(x)
+    let f = RecursiveClosureMut(UnsafeCell::new(f), PhantomData, PhantomData);
+    Box::new(move |x: X| f.call(x))
 }
 
 pub fn main() {
@@ -150,7 +150,7 @@ pub fn main() {
     let mut root = vec![None; N];
 
     for v in 0..N {
-        fix_point((v, v), |recur, (v, r)| {
+        recurse((v, v), |dfs, (v, r)| {
             if root[v].is_some() {
                 return;
             }
@@ -160,7 +160,7 @@ pub fn main() {
 
             for &w in A[v].iter() {
                 // Recursive call!
-                recur.call((w, r));
+                dfs.call((w, r));
             }
         });
         /*
@@ -187,7 +187,7 @@ pub fn main() {
     return;
 }
 
-#[cfg(tst)]
+#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -198,7 +198,7 @@ mod tests {
 
     #[test]
     fn fact() {
-        let f7 = recurse(7, |fact, n| if n == 0 { 1 } else { fact(n - 1) * n });
+        let f7 = recurse(7, |fact, n| if n == 0 { 1 } else { fact.call(n - 1) * n });
         assert_eq!(f7, 1 * 2 * 3 * 4 * 5 * 6 * 7);
     }
 
@@ -207,9 +207,13 @@ mod tests {
         let mut memo = HashMap::new();
         let mut fib = {
             fixpoint(|fib, n: i32| {
-                let e =
-                    memo.entry(n)
-                        .or_insert_with(|| if n <= 1 { 1 } else { fib(n - 1) + fib(n - 2) });
+                let e = memo.entry(n).or_insert_with(|| {
+                    if n <= 1 {
+                        1
+                    } else {
+                        fib.call(n - 1) + fib.call(n - 2)
+                    }
+                });
                 *e
             })
         };
