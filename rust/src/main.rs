@@ -182,4 +182,22 @@ mod tests {
         let f7 = recurse(7, |fact, n| if n == 0 { 1 } else { fact(n - 1) * n });
         assert_eq!(f7, 1 * 2 * 3 * 4 * 5 * 6 * 7);
     }
+
+    #[test]
+    fn memoization() {
+        let mut memo = HashMap::new();
+        let mut fib = {
+            fixpoint(|fib, n: i32| {
+                let e =
+                    memo.entry(n)
+                        .or_insert_with(|| if n <= 1 { 1 } else { fib(n - 1) + fib(n - 2) });
+                *e
+            })
+        };
+        assert_eq!(fib(0), 1);
+        assert_eq!(fib(4), 5);
+        assert_eq!(fib(5), 8);
+        assert_eq!(fib(10), 89);
+        assert_eq!(fib(20), 10946);
+    }
 }
