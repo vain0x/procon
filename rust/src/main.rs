@@ -31,6 +31,40 @@ where
         .collect()
 }
 
+#[allow(unused_macros)]
+macro_rules! read {
+    ([$t:ty] ; $n:expr) => {{
+        let n: usize = $n;
+        let mut v: Vec<_> = Vec::with_capacity(n);
+        for _ in 0..n {
+            v.push(read!([$t]));
+        }
+        v
+    }};
+    ($($t:ty),+ ; $n:expr) => {{
+        let n: usize = $n;
+        let mut v: Vec<_> = Vec::with_capacity(n);
+        for _ in 0..n {
+            v.push(read!($($t),+));
+        }
+        v
+    }};
+    ([$t:ty]) => {{
+        rl()
+            .split_whitespace()
+            .map(|word| word.parse().unwrap())
+            .collect::<Vec<$t>>()
+    }};
+    ($t:ty) => {
+        rl().parse::<$t>().unwrap()
+    };
+    ($($t:ty),*) => {{
+        let buf = rl();
+        let mut w = buf.split_whitespace().into_iter();
+        ($(w.next().unwrap().parse::<$t>().unwrap()),*)
+    }};
+}
+
 trait IteratorExt: Iterator + Sized {
     fn vec(self) -> Vec<Self::Item> {
         self.collect()
