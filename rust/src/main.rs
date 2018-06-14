@@ -51,7 +51,7 @@ macro_rules! debug {
         {
             let es = &[$((&stringify!($arg) as &Debug, &$arg as &Debug)),*];
             let mut err = std::io::stderr();
-            err.write_fmt(format_args!("{:?}\n", MyDebugMap(es))).unwrap();
+            err.write_fmt(format_args!("{:#?}\n", MyDebugMap(es))).unwrap();
         }
     };
 }
