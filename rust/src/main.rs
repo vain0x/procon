@@ -49,13 +49,9 @@ macro_rules! debug {
     ($($arg:expr),*) => {
         #[cfg(debug_assertions)]
         {
-            let entries = &[
-                $((
-                    &stringify!($arg) as &Debug,
-                    &($arg) as &Debug,
-                )),*
-            ];
-            eprintln!("{:?}", MyDebugMap(entries));
+            let es = &[$((&stringify!($arg) as &Debug, &$arg as &Debug)),*];
+            let mut err = std::io::stderr();
+            err.write_fmt(format_args!("{:?}\n", MyDebugMap(es))).unwrap();
         }
     };
 }
@@ -71,22 +67,6 @@ impl<'a> Debug for MyDebugMap<'a> {
         }
         m.finish()
     }
-}
-
-// -----------------------------------------------
-// Polyfill
-// -----------------------------------------------
-
-#[allow(unused)]
-macro_rules! eprintln {
-    ($($arg:expr),*) => { _eprintln(format_args!($($arg),*)) }
-}
-
-fn _eprintln(args: fmt::Arguments) {
-    let err = std::io::stderr();
-    let mut err = err.lock();
-    err.write_fmt(args).unwrap();
-    err.write(b"\n").unwrap();
 }
 
 // -----------------------------------------------
