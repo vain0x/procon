@@ -20,21 +20,14 @@ fn rl() -> String {
 
 #[allow(unused_macros)]
 macro_rules! read {
-    ([$t:ty] ; $n:expr) => {
-        (0..$n).map(|_| read!([$t])).collect::<Vec<_>>()
-    };
-    ($($t:ty),+ ; $n:expr) => {
-        (0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>()
-    };
-    ([$t:ty]) => {{
-        rl()
-            .split_whitespace()
-            .map(|word| word.parse().unwrap())
-            .collect::<Vec<$t>>()
-    }};
-    ($t:ty) => {
-        rl().parse::<$t>().unwrap()
-    };
+    ([$t:ty] ; $n:expr) =>
+        ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
+    ($($t:ty),+ ; $n:expr) =>
+        ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
+    ([$t:ty]) =>
+        (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
+    ($t:ty) =>
+        (rl().parse::<$t>().unwrap());
     ($($t:ty),*) => {{
         let buf = rl();
         let mut w = buf.split_whitespace();
