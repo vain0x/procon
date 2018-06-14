@@ -49,24 +49,10 @@ macro_rules! debug {
     ($($arg:expr),*) => {
         #[cfg(debug_assertions)]
         {
-            let es = &[$((&stringify!($arg) as &Debug, &$arg as &Debug)),*];
-            let mut err = std::io::stderr();
-            err.write_fmt(format_args!("{:#?}\n", MyDebugMap(es))).unwrap();
+            let entries = [$(&stringify!([$arg]:), &$arg as &Debug),*];
+            stderr().write_fmt(format_args!("{:#?}\n", entries)).unwrap();
         }
     };
-}
-
-#[allow(dead_code)]
-struct MyDebugMap<'a>(&'a [(&'a Debug, &'a Debug)]);
-
-impl<'a> Debug for MyDebugMap<'a> {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        let mut m = fmt.debug_map();
-        for &(key, value) in self.0.iter() {
-            m.entry(key, value);
-        }
-        m.finish()
-    }
 }
 
 // -----------------------------------------------
