@@ -37,7 +37,7 @@ macro_rules! read {
     };
     ($($t:ty),*) => {{
         let buf = rl();
-        let mut w = buf.split_whitespace().into_iter();
+        let mut w = buf.split_whitespace();
         ($(w.next().unwrap().parse::<$t>().unwrap()),*)
     }};
 }
