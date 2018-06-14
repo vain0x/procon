@@ -62,13 +62,3 @@ macro_rules! debug {
 pub fn main() {
     return;
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_ok() {
-        assert_eq!(7, 1 + 2 * 3);
-    }
-}
