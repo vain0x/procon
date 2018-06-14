@@ -18,17 +18,21 @@ fn rl() -> String {
     buf.trim_right().to_owned()
 }
 
-#[allow(unused)]
-fn rw<T>() -> Vec<T>
-where
-    T: std::str::FromStr,
-    T::Err: std::fmt::Debug,
-{
-    let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    buf.split_whitespace()
-        .map(|word| T::from_str(word).unwrap())
-        .collect()
+#[allow(unused_macros)]
+macro_rules! read {
+    ([$t:ty] ; $n:expr) =>
+        ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
+    ($($t:ty),+ ; $n:expr) =>
+        ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
+    ([$t:ty]) =>
+        (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
+    ($t:ty) =>
+        (rl().parse::<$t>().unwrap());
+    ($($t:ty),*) => {{
+        let buf = rl();
+        let mut w = buf.split_whitespace();
+        ($(w.next().unwrap().parse::<$t>().unwrap()),*)
+    }};
 }
 
 trait IteratorExt: Iterator + Sized {

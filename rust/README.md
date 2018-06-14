@@ -38,7 +38,7 @@ cargo run
 
 Write your solution in `main.rs`.
 
-There are some standard IO helpers. For example, the following code:
+There are some standard IO helpers. See the following parsing script and acceptable input.
 
 ```rust
 pub fn main() {
@@ -47,34 +47,39 @@ pub fn main() {
 
     assert_eq!(&line, "#...#.#.#..#");
 
-    // Read a line and parse the whole contents as a non-negative integer (usize).
-    let N = rl().parse::<usize>().unwrap();
+    // Parse a line as usize.
+    let N = read!(usize);
 
     assert_eq!(N, 1_000);
 
-    // Read a line, split it by spaces and parse each word as an integer (32-bit signed).
-    let A = rw::<i32>();
+    // Parse words in a line as i32 and collect them into a vec.
+    let A = read![[usize]];
 
     assert_eq!(A, vec![2, 3, 5, 7]);
 
-    // Read a line, split it by spaces and parse two of them as different types.
-    let (N, P) = {
-        let words = rw::<String>();
-        let N = words[0].parse::<i64>().unwrap();
-        let P = words[1].parse::<f64>().unwrap();
-        (N, P)
-    };
+    // Parse constant-number words in a line as tuple.
+    let (N, P) = read!(i64, f64);
 
     assert_eq!(N, 5_000_000_000_000_000);
     assert_eq!(P, 0.25);
+
+    // Parse the specified number of lines as table of i32's.
+    let board = read![[i32]; 2];
+    assert_eq!(board, vec![vec![11, 12, 13], vec![21, 22, 23]]);
+
+    // Parse the specified number of lines as list of tuples.
+    let tuples = read![String, i32; 2];
+    assert_eq!(tuples, vec![("a".to_string(), 1), ("b".to_string(), 2)]);
 }
 ```
-
-will parse the following input:
 
 ```
 #...#.#.#..#
 1000
 2 3 5 7
 5000000000000000 0.25
+11 12 13
+21 22 23
+a 1
+b 2
 ```
