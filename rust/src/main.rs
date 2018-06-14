@@ -18,19 +18,6 @@ fn rl() -> String {
     buf.trim_right().to_owned()
 }
 
-#[allow(unused)]
-fn rw<T>() -> Vec<T>
-where
-    T: std::str::FromStr,
-    T::Err: std::fmt::Debug,
-{
-    let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    buf.split_whitespace()
-        .map(|word| T::from_str(word).unwrap())
-        .collect()
-}
-
 #[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) => {
