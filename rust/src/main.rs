@@ -3,6 +3,7 @@
 
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
+use std::fmt::{Debug, Formatter};
 use std::io::*;
 use std::ops::*;
 use std::*;
@@ -50,8 +51,8 @@ macro_rules! debug {
         {
             let entries = &[
                 $((
-                    &stringify!($arg) as &fmt::Debug,
-                    &($arg) as &fmt::Debug,
+                    &stringify!($arg) as &Debug,
+                    &($arg) as &Debug,
                 )),*
             ];
             eprintln!("{:?}", DebugMap(entries));
@@ -60,10 +61,10 @@ macro_rules! debug {
 }
 
 #[allow(unused)]
-struct DebugMap<'a>(&'a [(&'a fmt::Debug, &'a fmt::Debug)]);
+struct DebugMap<'a>(&'a [(&'a Debug, &'a Debug)]);
 
-impl<'a> std::fmt::Debug for DebugMap<'a> {
-    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+impl<'a> Debug for DebugMap<'a> {
+    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         let mut m = fmt.debug_map();
         for &(key, value) in self.0.iter() {
             m.entry(key, value);
