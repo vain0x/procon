@@ -50,7 +50,7 @@ macro_rules! debug {
         {
             let entries = &[
                 $((
-                    &stringify!($arg).to_string() as &fmt::Debug,
+                    &stringify!($arg) as &fmt::Debug,
                     &($arg) as &fmt::Debug,
                 )),*
             ];
