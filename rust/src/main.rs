@@ -12,13 +12,6 @@ use std::*;
 // Framework
 // -----------------------------------------------
 
-#[allow(dead_code)]
-fn rl() -> String {
-    let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    buf.trim_right().to_owned()
-}
-
 #[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) =>
@@ -36,14 +29,6 @@ macro_rules! read {
     }};
 }
 
-trait IteratorExt: Iterator + Sized {
-    fn vec(self) -> Vec<Self::Item> {
-        self.collect()
-    }
-}
-
-impl<T: Iterator> IteratorExt for T {}
-
 #[allow(unused_macros)]
 macro_rules! debug {
     ($($arg:expr),*) => {
@@ -54,6 +39,21 @@ macro_rules! debug {
         }
     };
 }
+
+#[allow(dead_code)]
+fn rl() -> String {
+    let mut buf = String::new();
+    io::stdin().read_line(&mut buf).unwrap();
+    buf.trim_right().to_owned()
+}
+
+trait IteratorExt: Iterator + Sized {
+    fn vec(self) -> Vec<Self::Item> {
+        self.collect()
+    }
+}
+
+impl<T: Iterator> IteratorExt for T {}
 
 // -----------------------------------------------
 // Solution
