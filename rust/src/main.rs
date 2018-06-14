@@ -55,15 +55,15 @@ macro_rules! debug {
                     &($arg) as &Debug,
                 )),*
             ];
-            eprintln!("{:?}", DebugMap(entries));
+            eprintln!("{:?}", MyDebugMap(entries));
         }
     };
 }
 
 #[allow(unused)]
-struct DebugMap<'a>(&'a [(&'a Debug, &'a Debug)]);
+struct MyDebugMap<'a>(&'a [(&'a Debug, &'a Debug)]);
 
-impl<'a> Debug for DebugMap<'a> {
+impl<'a> Debug for MyDebugMap<'a> {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         let mut m = fmt.debug_map();
         for &(key, value) in self.0.iter() {
