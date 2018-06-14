@@ -12,7 +12,7 @@ use std::*;
 // Framework
 // -----------------------------------------------
 
-#[allow(unused)]
+#[allow(dead_code)]
 fn rl() -> String {
     let mut buf = String::new();
     io::stdin().read_line(&mut buf).unwrap();
@@ -44,7 +44,7 @@ trait IteratorExt: Iterator + Sized {
 
 impl<T: Iterator> IteratorExt for T {}
 
-#[allow(unused)]
+#[allow(unused_macros)]
 macro_rules! debug {
     ($($arg:expr),*) => {
         #[cfg(debug_assertions)]
@@ -56,7 +56,7 @@ macro_rules! debug {
     };
 }
 
-#[allow(unused)]
+#[allow(dead_code)]
 struct MyDebugMap<'a>(&'a [(&'a Debug, &'a Debug)]);
 
 impl<'a> Debug for MyDebugMap<'a> {
