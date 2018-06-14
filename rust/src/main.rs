@@ -33,22 +33,12 @@ where
 
 #[allow(unused_macros)]
 macro_rules! read {
-    ([$t:ty] ; $n:expr) => {{
-        let n: usize = $n;
-        let mut v: Vec<_> = Vec::with_capacity(n);
-        for _ in 0..n {
-            v.push(read!([$t]));
-        }
-        v
-    }};
-    ($($t:ty),+ ; $n:expr) => {{
-        let n: usize = $n;
-        let mut v: Vec<_> = Vec::with_capacity(n);
-        for _ in 0..n {
-            v.push(read!($($t),+));
-        }
-        v
-    }};
+    ([$t:ty] ; $n:expr) => {
+        (0..$n).map(|_| read!([$t])).collect::<Vec<_>>()
+    };
+    ($($t:ty),+ ; $n:expr) => {
+        (0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>()
+    };
     ([$t:ty]) => {{
         rl()
             .split_whitespace()
