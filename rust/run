@@ -1,0 +1,11 @@
+#!/bin/bash
+# Run main.rs repeatedly.
+
+while :
+do
+
+    cargo run
+
+    sleep 0.5
+    >&2 echo 'Restarting... (C-c to stop)'
+done
