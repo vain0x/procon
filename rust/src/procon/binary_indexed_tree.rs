@@ -1,3 +1,23 @@
+// Binary Indexed Tree (BIT) is an array structure
+// implemented as a tree that looks like:
+//
+//      [                       8                     ] _ ..
+//      [          4          ] _______________________ [ ..
+//      [    2    ] ___________ [    6    ] ___________ [ ..
+//      [ 1 ] _____ [ 3 ] _____ [ 5 ] _____ [ 7 ] _____ [ ..
+//                                                        ..
+//      < 0 > < 1 > < 2 > < 3 > < 4 > < 5 > < 6 > < 7 > < ..
+//
+// where each ``[ i ]`` is i-th node
+// and each ``< i >`` is i-th element of the structure.
+
+// Invariant: each node holds the sum of values of elements that covers. e.g.
+//      [1] = <0>,
+//      [6] = <4> + <5>,
+//      [2^N] = <0> + .. + <2^N - 1>.
+
+// Technique: for i (> 1), node [i]'s parent is [i + (i & -i)].
+
 // 1-indexed. [0] is unused.
 type BIT = Vec<i64>;
 
