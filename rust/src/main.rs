@@ -1,12 +1,14 @@
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
+use std::cell::RefCell;
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
 use std::fmt::{Debug, Formatter};
 use std::io::*;
+use std::mem::{replace, swap};
 use std::ops::*;
-use std::*;
+use std::rc::Rc;
 
 // -----------------------------------------------
 // Framework
@@ -43,7 +45,7 @@ macro_rules! debug {
 #[allow(dead_code)]
 fn rl() -> String {
     let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
+    stdin().read_line(&mut buf).unwrap();
     buf.trim_right().to_owned()
 }
 
