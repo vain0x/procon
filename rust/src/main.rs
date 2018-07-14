@@ -14,6 +14,16 @@ use std::rc::Rc;
 // Framework
 // -----------------------------------------------
 
+#[cfg(debug_assertions)]
+#[macro_use]
+extern crate rust_procon_debug;
+
+#[cfg(not(debug_assertions))]
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($ts:tt)*) => {};
+}
+
 #[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) =>
@@ -29,14 +39,6 @@ macro_rules! read {
         let mut w = buf.split_whitespace();
         ($(w.next().unwrap().parse::<$t>().unwrap()),*)
     }};
-}
-
-#[allow(unused_macros)]
-macro_rules! debug {
-    ($($arg:expr),*) => {
-        #[cfg(debug_assertions)]
-        $(writeln!(stderr(), "{} = {:?}", stringify!($arg), $arg).unwrap());*
-    };
 }
 
 #[allow(dead_code)]
