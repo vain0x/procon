@@ -1,0 +1,6 @@
+{
+    "rust-client.channel": "nightly",
+    "[rust]": {
+        "editor.formatOnSave": true
+    }
+}
