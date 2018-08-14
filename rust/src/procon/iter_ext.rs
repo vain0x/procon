@@ -52,6 +52,16 @@ trait IteratorExt2: Iterator + Sized {
             .collect::<Vec<_>>()
             .join(separator)
     }
+
+    fn sort_by_key<K, F>(self, f: F) -> std::vec::IntoIter<Self::Item>
+    where
+        K: Ord,
+        F: Fn(&Self::Item) -> K,
+    {
+        let mut v = self.collect::<Vec<_>>();
+        v.sort_by_key(f);
+        v.into_iter()
+    }
 }
 
 impl<T: Iterator> IteratorExt2 for T {}
