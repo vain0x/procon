@@ -62,5 +62,5 @@ impl<T: Iterator> IteratorExt for T {}
 // -----------------------------------------------
 
 pub fn main() {
-    return;
+    println!("{}", 0)
 }
