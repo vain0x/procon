@@ -4,8 +4,8 @@
 use std::cell::RefCell;
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
-use std::fmt::{Debug, Formatter};
-use std::io::*;
+use std::fmt::{Debug, Formatter, Write as FmtWrite};
+use std::io::{stderr, stdin, BufRead, Write};
 use std::mem::{replace, swap};
 use std::ops::*;
 use std::rc::Rc;
@@ -35,10 +35,7 @@ macro_rules! read {
 macro_rules! debug {
     ($($arg:expr),*) => {
         #[cfg(debug_assertions)]
-        {
-            let entries = [$(&stringify!([$arg]:), &$arg as &Debug),*];
-            stderr().write_fmt(format_args!("{:#?}\n", entries)).unwrap();
-        }
+        $(writeln!(stderr(), "{} = {:?}", stringify!($arg), $arg).unwrap());*
     };
 }
 
@@ -61,6 +58,6 @@ impl<T: Iterator> IteratorExt for T {}
 // Solution
 // -----------------------------------------------
 
-pub fn main() {
-    return;
+fn main() {
+    println!("{}", 0)
 }
