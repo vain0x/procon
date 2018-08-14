@@ -62,6 +62,41 @@ trait IteratorExt2: Iterator + Sized {
         v.sort_by_key(f);
         v.into_iter()
     }
+
+    fn group_by<K, V, KF, VF>(
+        self,
+        mut key_fn: KF,
+        mut value_fn: VF,
+    ) -> std::vec::IntoIter<(K, Vec<V>)>
+    where
+        K: Clone + Eq + std::hash::Hash,
+        KF: FnMut(&Self::Item) -> K,
+        VF: FnMut(Self::Item) -> V,
+    {
+        use std::collections::HashMap;
+
+        let mut groups = Vec::<(K, Vec<V>)>::new();
+        let mut group_indices = HashMap::<K, usize>::new();
+
+        for item in self {
+            let key = key_fn(&item);
+            let value = value_fn(item);
+
+            match group_indices.get(&key) {
+                Some(&index) => {
+                    let (_, ref mut items) = groups[index];
+                    items.push(value);
+                }
+                None => {
+                    let index = groups.len();
+                    groups.push((key.clone(), vec![value]));
+                    group_indices.insert(key, index);
+                }
+            }
+        }
+
+        groups.into_iter()
+    }
 }
 
 impl<T: Iterator> IteratorExt2 for T {}
@@ -92,5 +127,32 @@ mod tests {
     fn test_pairwise_empty() {
         assert_eq!(0, (0..0).pairwise().count());
         assert_eq!(0, (0..1).pairwise().count());
+    }
+
+    #[test]
+    fn test_group_by() {
+        let kvs = vec![
+            ("Japan", "Tokyo"),
+            ("Japan", "Osaka"),
+            ("USA", "New York"),
+            ("China", "Shanghai"),
+            ("USA", "Los Angeles"),
+        ];
+        let expected = vec![
+            ("Japan", vec!["Tokyo", "Osaka"]),
+            ("USA", vec!["New York", "Los Angeles"]),
+            ("China", vec!["Shanghai"]),
+        ];
+
+        let actual = kvs
+            .into_iter()
+            .group_by(|&(country, _)| country, |(_, city)| city);
+
+        for ((ak, av), (xk, xv)) in actual.into_iter().zip(expected) {
+            assert_eq!(xk, ak);
+            for (a, x) in av.into_iter().zip(xv) {
+                assert_eq!(a, x);
+            }
+        }
     }
 }
