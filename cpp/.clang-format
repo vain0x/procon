@@ -1,0 +1,3 @@
+Language: Cpp
+BreakBeforeBraces: Attach
+IndentWidth: 4
