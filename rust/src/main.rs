@@ -11,7 +11,7 @@ use std::ops::*;
 use std::rc::Rc;
 
 // -----------------------------------------------
-// Framework
+// Framework <https://github.com/vain0x/procon>
 // -----------------------------------------------
 
 #[allow(unused_macros)]
