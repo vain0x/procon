@@ -17,9 +17,13 @@ pub fn gcd_ext(x: i64, y: i64) -> (i64, i64, i64) {
     }
 }
 
+pub fn lcm(x: i64, y: i64) -> i64 {
+    x / gcd(x, y) * y
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{gcd, gcd_ext};
+    use super::{gcd, gcd_ext, lcm};
 
     #[test]
     fn test_gcd() {
@@ -49,5 +53,11 @@ mod tests {
         case(360 * 5 * 5 * 11, 360 * 7 * 7 * 13, (360, -227, 98));
         case(4, -6, (2, -1, -1));
         case(-9, -12, (3, 1, -1));
+    }
+
+    #[test]
+    fn test_lcm() {
+        assert_eq!(lcm(1, 1), 1);
+        assert_eq!(lcm(12, 18), 36);
     }
 }
