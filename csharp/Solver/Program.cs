@@ -9,6 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//------------------------------------------------
+// Framework <https://github.com/vain0x/procon>
+//------------------------------------------------
+
 public static class TemplateExtension
 {
     public static X[] MakeArray<X>(this int count, Func<int, X> func)
@@ -176,6 +180,10 @@ public partial class Program
         new Program(Console.In, Console.Out).EntryPoint();
     }
 }
+
+//------------------------------------------------
+// Solution
+//------------------------------------------------
 
 public sealed partial class Program
 {
