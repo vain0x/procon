@@ -18,6 +18,8 @@
 
 // Technique: for i (> 1), node [i]'s parent is [i + (i & -i)].
 
+use std::cmp::min;
+
 // 1-indexed. [0] is unused.
 type BIT = Vec<i64>;
 
@@ -32,7 +34,7 @@ pub fn bit_len(bit: &BIT) -> usize {
 /// Increments an element.
 pub fn bit_add(bit: &mut BIT, index: usize, value: i64) {
     let mut j = index + 1;
-    while j < bit_len(bit) {
+    while j <= bit_len(bit) {
         bit[j] += value;
         j += rightmost_bit(j);
     }
@@ -41,8 +43,8 @@ pub fn bit_add(bit: &mut BIT, index: usize, value: i64) {
 /// Gets sum of items in range 0..right.
 pub fn bit_acc(bit: &BIT, right: usize) -> i64 {
     let mut acc = 0;
-    let mut j = right;
-    while 0 < j && j < bit_len(bit) {
+    let mut j = min(right, bit_len(bit));
+    while j > 0 {
         acc += bit[j];
         j -= rightmost_bit(j);
     }
@@ -51,9 +53,7 @@ pub fn bit_acc(bit: &BIT, right: usize) -> i64 {
 
 /// Gets sum of items in range left..right.
 pub fn bit_sum(bit: &BIT, left: usize, right: usize) -> i64 {
-    let mut acc = bit_acc(bit, right);
-    acc -= bit_acc(bit, left);
-    acc
+    bit_acc(bit, right) - bit_acc(bit, min(left, right))
 }
 
 fn rightmost_bit(n: usize) -> usize {
@@ -65,14 +65,29 @@ fn rightmost_bit(n: usize) -> usize {
 #[allow(unused_imports)]
 mod tests {
     use super::*;
+    use std::cmp::min;
 
     #[test]
     fn test() {
-        let mut bit = bit_new(6);
-        for (i, &x) in [3, 1, 4, 1, 5, 9].into_iter().enumerate() {
+        let a = vec![3, 1, 4, 1, 5, 9];
+        let n = a.len();
+
+        let mut bit = bit_new(n);
+        for (i, &x) in a.iter().enumerate() {
             bit_add(&mut bit, i, x);
         }
 
+        assert_eq!(3 + 1 + 4, bit_acc(&bit, 3));
+        assert_eq!(3 + 1 + 4 + 1 + 5 + 9, bit_acc(&bit, 6));
+
         assert_eq!(1 + 4 + 1, bit_sum(&bit, 1, 4));
+
+        for l in 0..n {
+            for r in 0..n {
+                let actual = a[min(l, r)..r].iter().sum::<i64>();
+                let expected = bit_sum(&bit, l, r);
+                assert_eq!(actual, expected, "l={} r={}", l, r);
+            }
+        }
     }
 }
