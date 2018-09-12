@@ -1,4 +1,5 @@
 pub mod binary_indexed_tree;
+pub mod binary_search;
 pub mod dijkstra;
 pub mod gcd;
 pub mod iter_ext;
