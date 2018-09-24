@@ -23,20 +23,34 @@ macro_rules! debug {
 }
 
 #[allow(unused_macros)]
-macro_rules! read {
-    ([$t:ty] ; $n:expr) =>
-        ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
-    ($($t:ty),+ ; $n:expr) =>
-        ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
-    ([$t:ty]) =>
-        (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
-    ($t:ty) =>
-        (rl().parse::<$t>().unwrap());
-    ($($t:ty),*) => {{
-        let buf = rl();
-        let mut w = buf.split_whitespace();
-        ($(w.next().unwrap().parse::<$t>().unwrap()),*)
-    }};
+macro_rules! scan {
+    (@w $ws:expr; $v:ident : $t:ty) => {
+        let $v : $t = $ws.next().unwrap().parse().unwrap();
+    };
+    (@l; $($v:ident : $t:ty),+;) => {
+        let stdin = std::io::stdin();
+        let mut line = String::new();
+        stdin.read_line(&mut line).unwrap();
+        let mut ws = line.split_whitespace();
+        $(scan!{@w ws; $v : $t})*
+    };
+    ($($($v:ident : $t:ty),+);+ $(;)*) => {
+        $(scan!{@l; $($v : $t),*;})*
+    };
+
+    // ([$t:ty] ; $n:expr) =>
+    //     ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
+    // ($($t:ty),+ ; $n:expr) =>
+    //     ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
+    // ([$t:ty]) =>
+    //     (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
+    // ($t:ty) =>
+    //     (rl().parse::<$t>().unwrap());
+    // ($($t:ty),*) => {{
+    //     let buf = rl();
+    //     let mut w = buf.split_whitespace();
+    //     ($(w.next().unwrap().parse::<$t>().unwrap()),*)
+    // }};
 }
 
 #[allow(dead_code)]
@@ -59,5 +73,11 @@ impl<T: Iterator> IteratorExt for T {}
 // -----------------------------------------------
 
 fn main() {
-    println!("{}", 0)
+    scan!{
+        a: i32;
+        b: i32, c: i32;
+        s: String;
+    }
+
+    println!("{} {}", a + b + c, s);
 }
