@@ -1,5 +1,12 @@
 use std::collections::BTreeMap;
 
+/// Determines if the specified number is a prime or not.
+/// O(√x) time.
+pub fn is_prime(x: i64) -> bool {
+    let r = |x: i64| (x as f64).sqrt() as i64 + 1;
+    x >= 2 && (2..r(x)).all(|k| x % k != 0)
+}
+
 /// Performs prime factorization in O(√x) time.
 pub fn factorize(mut x: i64) -> BTreeMap<i64, i64> {
     let mut ms = BTreeMap::new();
@@ -28,7 +35,23 @@ pub fn factorize(mut x: i64) -> BTreeMap<i64, i64> {
 
 #[cfg(test)]
 mod tests {
-    use super::factorize;
+    use super::{factorize, is_prime};
+
+    #[test]
+    fn test_is_prime_edges() {
+        assert_eq!(is_prime(1), false);
+        assert_eq!(is_prime(2), true);
+        assert_eq!(is_prime(1_000_000_007), true);
+    }
+
+    #[test]
+    fn test_is_prime_small() {
+        for x in 1..100 {
+            let actual = is_prime(x);
+            let expected = x >= 2 && (2..x).all(|d| x % d != 0);
+            assert_eq!(actual, expected, "{}", x);
+        }
+    }
 
     #[test]
     fn test_factorize() {
