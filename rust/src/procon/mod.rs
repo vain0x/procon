@@ -1,6 +1,7 @@
 pub mod binary_indexed_tree;
 pub mod binary_search;
 pub mod dijkstra;
+pub mod finite;
 pub mod gcd;
 pub mod iter_ext;
 pub mod ord_adapter;
