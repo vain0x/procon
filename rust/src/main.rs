@@ -25,9 +25,16 @@ macro_rules! debug {
 #[allow(unused_macros)]
 macro_rules! scan {
     (@w $ws:expr; $v:ident : $t:ty) => {
-        let $v : $t = $ws.next().unwrap().parse().unwrap();
+        let $v = <$t as Scan>::scan($ws.next().unwrap());
     };
-    (@l; $($v:ident : $t:ty),+;) => {
+    (@l; $v:ident : $t:ty [ ]) => {
+        let stdin = std::io::stdin();
+        let mut line = String::new();
+        stdin.read_line(&mut line).unwrap();
+        let mut ws = line.split_whitespace();
+        let $v : Vec<$t> = ws.map(|x| <$t as Parse>::parse(x)).collect();
+    };
+    (@l; $($v:ident : $t:ty),+) => {
         let stdin = std::io::stdin();
         let mut line = String::new();
         stdin.read_line(&mut line).unwrap();
@@ -35,7 +42,7 @@ macro_rules! scan {
         $(scan!{@w ws; $v : $t})*
     };
     ($($($v:ident : $t:ty),+);+ $(;)*) => {
-        $(scan!{@l; $($v : $t),*;})*
+        $(scan!{@l; $($v : $t),*})*
     };
 
     // ([$t:ty] ; $n:expr) =>
@@ -68,6 +75,39 @@ trait IteratorExt: Iterator + Sized {
 
 impl<T: Iterator> IteratorExt for T {}
 
+struct Scanner;
+
+trait Scan {
+    type Output;
+
+    fn scan(s: &str) -> Self::Output;
+}
+
+macro_rules! impl_scan {
+    ($($t:ty),*) => {
+        $(impl Scan for $t {
+            type Output = $t;
+
+            fn scan(s: &str) -> Self::Output {
+                s.parse::<Self::Output>().unwrap()
+            }
+        })*
+    };
+}
+
+impl_scan!{char, String, usize, i32, i64, f64}
+
+impl<T: Scan> Scan for Vec<T> {
+    type Output = Vec<T::Output>;
+
+    fn scan(source: &str) -> Self::Output {
+        source
+            .split_whitespace()
+            .map(|w| <T as Scan>::scan(w))
+            .collect()
+    }
+}
+
 // -----------------------------------------------
 // Solution
 // -----------------------------------------------
@@ -77,7 +117,9 @@ fn main() {
         a: i32;
         b: i32, c: i32;
         s: String;
+        z: i32[];
     }
 
     println!("{} {}", a + b + c, s);
+    debug!(z);
 }
