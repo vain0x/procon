@@ -27,22 +27,54 @@ macro_rules! scan {
     (@w $ws:expr; $v:ident : $t:ty) => {
         let $v = <$t as Scan>::scan($ws.next().unwrap());
     };
-    (@l; $v:ident : $t:ty [ ]) => {
-        let stdin = std::io::stdin();
-        let mut line = String::new();
-        stdin.read_line(&mut line).unwrap();
-        let mut ws = line.split_whitespace();
-        let $v : Vec<$t> = ws.map(|x| <$t as Parse>::parse(x)).collect();
-    };
+    // (@l; $($v:ident : $t:ty $([@never $e:expr])*),+ [$d:expr]) => {
+    //     let $v = {
+    //         let mut v = vec![];
+    //         $({
+    //             scan!{$(t : $t:ty $([$d0:expr])*),+}
+    //             v.push(t);
+    //         })*
+    //         v
+    //     };
+    // };
+    // (@l; $v:ident : $t:ty []) => {
+    //     let stdin = std::io::stdin();
+    //     let mut line = String::new();
+    //     stdin.read_line(&mut line).unwrap();
+
+    //     let $v : Vec<$t> = line.split_whitespace().map(|x| <$t as Scan>::scan(x)).collect();
+    // };
     (@l; $($v:ident : $t:ty),+) => {
         let stdin = std::io::stdin();
         let mut line = String::new();
         stdin.read_line(&mut line).unwrap();
+
         let mut ws = line.split_whitespace();
         $(scan!{@w ws; $v : $t})*
     };
-    ($($($v:ident : $t:ty),+);+ $(;)*) => {
-        $(scan!{@l; $($v : $t),*})*
+    (
+        @l [$lv:ident ; $ln:expr];
+        $($wv:ident : $wt:ty),+
+    ) => {
+        let $lv = {
+            let mut v = vec![];
+            for _ in 0..$ln {
+                scan!{@l; $($wv: $wt),*}
+                v.push(($($wv),*));
+            }
+            v
+        };
+    };
+    (
+        $(
+            $($wv:ident : $wt:ty),+
+            $([ $lv:ident ; $ln:expr ])*
+        );+ $(;)*
+    ) => {
+        $(scan!{
+            @l $([$lv ; $ln])*;
+            $($wv : $wt),*
+        })*
     };
 
     // ([$t:ty] ; $n:expr) =>
@@ -95,7 +127,7 @@ macro_rules! impl_scan {
     };
 }
 
-impl_scan!{char, String, usize, i32, i64, f64}
+impl_scan!{ String, usize, i32, i64, f64}
 
 impl<T: Scan> Scan for Vec<T> {
     type Output = Vec<T::Output>;
@@ -113,13 +145,26 @@ impl<T: Scan> Scan for Vec<T> {
 // -----------------------------------------------
 
 fn main() {
+    let z = vec![1];
+
     scan!{
-        a: i32;
-        b: i32, c: i32;
+        a: usize;
+        b: usize, c: usize;
         s: String;
-        z: i32[];
+        // z: [i32];
+        u: usize, v: usize [es; a];
     }
 
     println!("{} {}", a + b + c, s);
-    debug!(z);
+    debug!(a, b, s, z, es);
 }
+
+/*
+
+2
+3 4
+test
+9 8 7
+1 2
+2 3
+*/
