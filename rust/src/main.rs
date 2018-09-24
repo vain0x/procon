@@ -14,6 +14,14 @@ use std::rc::Rc;
 // Framework <https://github.com/vain0x/procon>
 // -----------------------------------------------
 
+#[cfg(debug_assertions)]
+include!{"./procon/debug.rs"}
+
+#[cfg(not(debug_assertions))]
+macro_rules! debug {
+    ($($arg:expr),*) => {};
+}
+
 #[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) =>
@@ -29,14 +37,6 @@ macro_rules! read {
         let mut w = buf.split_whitespace();
         ($(w.next().unwrap().parse::<$t>().unwrap()),*)
     }};
-}
-
-#[allow(unused_macros)]
-macro_rules! debug {
-    ($($arg:expr),*) => {
-        #[cfg(debug_assertions)]
-        $(writeln!(stderr(), "{} = {:?}", stringify!($arg), $arg).unwrap());*
-    };
 }
 
 #[allow(dead_code)]
