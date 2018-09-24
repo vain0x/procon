@@ -7,6 +7,28 @@ pub fn is_prime(x: i64) -> bool {
     x >= 2 && (2..r(x)).all(|k| x % k != 0)
 }
 
+/// Performs the sieve of Eratosthenes.
+/// O(n log (log n)) time.
+pub fn sieve(n: usize) -> Vec<bool> {
+    let mut sieve = vec![true; n];
+    sieve[0] = false;
+    sieve[1] = false;
+
+    for p in 2..n {
+        if !sieve[p] {
+            continue;
+        }
+
+        let mut k = 2 * p;
+        while k < n {
+            sieve[k] = false;
+            k += p;
+        }
+    }
+
+    sieve
+}
+
 /// Performs prime factorization in O(√x) time.
 pub fn factorize(mut x: i64) -> BTreeMap<i64, i64> {
     let mut ms = BTreeMap::new();
@@ -35,7 +57,7 @@ pub fn factorize(mut x: i64) -> BTreeMap<i64, i64> {
 
 #[cfg(test)]
 mod tests {
-    use super::{factorize, is_prime};
+    use super::{factorize, is_prime, sieve};
 
     #[test]
     fn test_is_prime_edges() {
@@ -51,6 +73,21 @@ mod tests {
             let expected = x >= 2 && (2..x).all(|d| x % d != 0);
             assert_eq!(actual, expected, "{}", x);
         }
+    }
+
+    #[test]
+    fn test_sieve_small() {
+        let sieve = sieve(50);
+        let primes = (0..sieve.len()).filter(|&p| sieve[p]).collect::<Vec<_>>();
+        let expected = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+        assert_eq!(primes, expected);
+    }
+
+    #[test]
+    fn test_sieve_large() {
+        let sieve = sieve(100_000);
+        let prime_count = (0..sieve.len()).filter(|&p| sieve[p]).count();
+        assert_eq!(prime_count, 9592);
     }
 
     #[test]
