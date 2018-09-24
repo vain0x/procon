@@ -6,6 +6,7 @@ pub mod gcd;
 pub mod iter_ext;
 pub mod ord_adapter;
 pub mod perm;
+pub mod prime;
 pub mod recurse;
 pub mod rev;
 pub mod uff;
