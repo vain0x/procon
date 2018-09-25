@@ -1,26 +1,4 @@
-#![allow(unused_imports)]
-#![allow(non_snake_case)]
-
-use std::cell::RefCell;
-use std::cmp::{max, min, Ordering};
-use std::collections::*;
-use std::fmt::{Debug, Formatter, Write as FmtWrite};
-use std::io::{stderr, stdin, BufRead, Write};
-use std::mem::{replace, swap};
-use std::ops::*;
-use std::rc::Rc;
-
-// -----------------------------------------------
-// Framework <https://github.com/vain0x/procon>
-// -----------------------------------------------
-
-#[cfg(debug_assertions)]
-include!{"./procon/debug.rs"}
-
-#[cfg(not(debug_assertions))]
-macro_rules! debug {
-    ($($arg:expr),*) => {};
-}
+use std::io::BufRead;
 
 #[allow(unused_macros)]
 macro_rules! scan {
@@ -45,13 +23,15 @@ macro_rules! scan {
             $(scan!(!! ($ws); ($($xv : $xt),*)); $zv.push(($($xv),*));)*
         }
     };
-    ($(
-        $([ $yv:ident : $yt:ty ]),*
-        $(( $($xv:ident : $xt:ty),* )),*
-        $({ $zv:ident : $zn:expr }),*
-    ;)+) => {
-        let stdin = std::io::stdin();
-        let mut stdin = std::io::BufReader::new(stdin.lock());
+    (
+        @input $r:expr;
+        $(
+            $([ $yv:ident : $yt:ty ]),*
+            $(( $($xv:ident : $xt:ty),* )),*
+            $({ $zv:ident : $zn:expr }),*
+        ;)+
+    ) => {
+        let mut stdin = std::io::BufReader::new($r);
         let mut line = String::new();
         $(scan!{
             !! ({
@@ -65,44 +45,40 @@ macro_rules! scan {
     };
 }
 
-trait IteratorExt: Iterator + Sized {
-    fn vec(self) -> Vec<Self::Item> {
-        self.collect()
-    }
-}
-
-impl<T: Iterator> IteratorExt for T {}
-
-// -----------------------------------------------
-// Solution
-// -----------------------------------------------
-
-// (n: usize, x: i64)
-// [x: i64]
-// (u: usize, v: usize) {es: m}
-// [x: i64] {board: h}
-
 fn main() {
+    let source = r#"1
+2 3
+test
+3 1 4 1 5 9
+1 2
+1 3
+3 1 4
+1 5 9
+"#;
+
+    // stdin.lock は1回だけ。
+    // read_line(&mut line) のバッファ line は1個を使い回す。
     scan!{
-        (a: usize);
-        (b: usize, c: i64);
-        (s: String);
-        [x: i32];
-        (u: usize, v: usize) {es: a};
-        [b: i32] {B: a};
+        @input std::io::Cursor::new(source);
+        (a: usize);                   // 1
+        (b: usize, c: i64);           // 2 3
+        (s: String);                  // test
+        [x: i32];                     // 3 1 4 1 5 9
+        (u: usize, v: usize) {es: b}; // 1 2
+                                      // 1 3
+        [x: i32] {board: b};          // 3 1 4
+                                      // 1 5 9
     }
 
     println!("{} {}", a + b + c as usize, s);
-    debug!(a, b, c, s, x, es, B);
+    println!(
+        "a={a} b={b} c={c} s={s} x={x:?} es={es:?} board={board:?}",
+        a = a,
+        b = b,
+        c = c,
+        s = s,
+        x = x,
+        es = es,
+        board = board
+    );
 }
-
-/*
-2
-3 4
-test
-9 8 7
-1 2
-2 3
-1 2 3 4 5 6 7 8
-8 7 6 5 4 3 2 1
-*/
