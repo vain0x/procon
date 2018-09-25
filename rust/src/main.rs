@@ -24,84 +24,45 @@ macro_rules! debug {
 
 #[allow(unused_macros)]
 macro_rules! scan {
-    (@l; $v:ident : $t:ty []) => {
-        let stdin = std::io::stdin();
-        let mut line = String::new();
-        stdin.read_line(&mut line).unwrap();
-
-        let $v : Vec<$t> = line.split_whitespace().map(|w| {
-            scan!{@w w; x : $t};
-            x
-        }).collect();
-    };
-    (@w $w:expr; $v:ident : $t:ty $({ - $f:expr })*) => {
-        // let $v = <$t as Scan>::scan($ws.next().unwrap());
-        let $v : $t = $w.parse().unwrap();
-        $(let $v = $v - $f;)*
-    };
-    // (@l; $($v:ident : $t:ty $([@never $e:expr])*),+ [$d:expr]) => {
-    //     let $v = {
-    //         let mut v = vec![];
-    //         $({
-    //             scan!{$(t : $t:ty $([$d0:expr])*),+}
-    //             v.push(t);
-    //         })*
-    //         v
-    //     };
-    // };
-    (@l; $($v:ident : $t:ty $([ $(@ $d:ident)* ])* $({ $f:expr })*),+) => {
-        let stdin = std::io::stdin();
-        let mut line = String::new();
-        stdin.read_line(&mut line).unwrap();
-
-        let mut ws = line.split_whitespace();
-        $(scan!{@w ws.next().unwrap(); $v : $t $([ $(@ $d)* ])* $({ $f })*})*
-    };
-    (
-        @l [$lv:ident ; $ln:expr];
-        $($wv:ident : $wt:ty $([ $(@ $d:ident)* ])* $({ $f:expr })*),+
+    (!! ($ws:expr);
+        $([ $yv:ident : $yt:ty ]),*
+        $(( $($xv:ident : $xt:ty),* )),*
     ) => {
-        let $lv = {
-            let mut v = vec![];
-            for _ in 0..$ln {
-                scan!{@l; $($wv: $wt $([ $(@ $d)* ])* $({ $f })*),*}
-                v.push(($($wv),*));
-            }
-            v
-        };
-    };
-    (
-        $(
-            $($wv:ident : $wt:ty $([ $(@ $d:ident)* ])* $({- $f:expr})*),+
-            $([ $lv:ident ; $ln:expr ])*
-        );+ $(;)*
-    ) => {
-        $(scan!{
-            @l $([$lv ; $ln])*;
-            $($wv : $wt $([ $(@ $d)* ])* $({ $f })*),*
+        $(let $yv : Vec<$yt> =
+            $ws.map(|w| w.parse().unwrap()).collect();)*
+        $($(let $xv;)* {
+            let mut ws = $ws;
+            $($xv = ws.next().unwrap().parse::<$xt>().unwrap();)*
         })*
     };
-
-    // ([$t:ty] ; $n:expr) =>
-    //     ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
-    // ($($t:ty),+ ; $n:expr) =>
-    //     ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
-    // ([$t:ty]) =>
-    //     (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
-    // ($t:ty) =>
-    //     (rl().parse::<$t>().unwrap());
-    // ($($t:ty),*) => {{
-    //     let buf = rl();
-    //     let mut w = buf.split_whitespace();
-    //     ($(w.next().unwrap().parse::<$t>().unwrap()),*)
-    // }};
-}
-
-#[allow(dead_code)]
-fn rl() -> String {
-    let mut buf = String::new();
-    stdin().read_line(&mut buf).unwrap();
-    buf.trim_right().to_owned()
+    (!! ($ws:expr) { $zv:ident : $zn:expr };
+        $([ $yv:ident : $yt:ty ]),*
+        $(( $($xv:ident : $xt:ty),* )),*
+    ) => {
+        let mut $zv = vec![];
+        for _ in 0..$zn {
+            $(scan!(!! ($ws); [ $yv : $yt ]); $zv.push($yv);)*
+            $(scan!(!! ($ws); ($($xv : $xt),*)); $zv.push(($($xv),*));)*
+        }
+    };
+    ($(
+        $([ $yv:ident : $yt:ty ]),*
+        $(( $($xv:ident : $xt:ty),* )),*
+        $({ $zv:ident : $zn:expr }),*
+    ;)+) => {
+        let stdin = std::io::stdin();
+        let mut stdin = std::io::BufReader::new(stdin.lock());
+        let mut line = String::new();
+        $(scan!{
+            !! ({
+                line.clear();
+                stdin.read_line(&mut line).unwrap();
+                line.split_whitespace()
+            }) $({ $zv : $zn })*;
+            $([ $yv : $yt ]),*
+            $(( $($xv : $xt),* )),*
+        })*
+    };
 }
 
 trait IteratorExt: Iterator + Sized {
@@ -111,53 +72,6 @@ trait IteratorExt: Iterator + Sized {
 }
 
 impl<T: Iterator> IteratorExt for T {}
-
-// struct chars;
-// impl chars {
-//     fn parse(s: &str) -> Option<Vec<char>> {
-//         Some(s.chars().collect())
-//     }
-// }
-
-// struct usize1;
-// impl usize1 {
-//     fn parse(s: &str) -> Option<usize> {
-//         Some(s.parse::<usize>().unwrap() - 1)
-//     }
-// }
-
-// struct Scanner;
-
-trait Scan {
-    type Output;
-
-    fn scan(s: &str) -> Self::Output;
-}
-
-macro_rules! impl_scan {
-    ($($t:ty),*) => {
-        $(impl Scan for $t {
-            type Output = $t;
-
-            fn scan(s: &str) -> Self::Output {
-                s.parse::<Self::Output>().unwrap()
-            }
-        })*
-    };
-}
-
-impl_scan!{ String, usize, i32, i64, f64}
-
-impl<T: Scan> Scan for Vec<T> {
-    type Output = Vec<T::Output>;
-
-    fn scan(source: &str) -> Self::Output {
-        source
-            .split_whitespace()
-            .map(|w| <T as Scan>::scan(w))
-            .collect()
-    }
-}
 
 // -----------------------------------------------
 // Solution
@@ -173,12 +87,12 @@ fn main() {
     let z = vec![1];
 
     scan!{
-        a: usize;
-        b: usize, c: usize;
-        s: String;
-        z: i32[];
-        u: usize, v: usize [es; a];
-        b: i32[] [B; a];
+        (a: usize);
+        (b: usize, c: usize);
+        (s: String);
+        [z: i32];
+        (u: usize, v: usize) {es: a};
+        [b: i32] {B: a};
     }
 
     println!("{} {}", a + b + c, s);
@@ -193,4 +107,6 @@ test
 9 8 7
 1 2
 2 3
+1 2 3 4 5 6 7 8
+8 7 6 5 4 3 2 1
 */
