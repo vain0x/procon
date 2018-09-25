@@ -77,30 +77,26 @@ impl<T: Iterator> IteratorExt for T {}
 // Solution
 // -----------------------------------------------
 
-// a : i32
-// n : usize, k : i64
-// x : i64 []
-// u : usize, v : usize [es ; m]
-// x : i32 [] [board ; h]
+// (n: usize, x: i64)
+// [x: i64]
+// (u: usize, v: usize) {es: m}
+// [x: i64] {board: h}
 
 fn main() {
-    let z = vec![1];
-
     scan!{
         (a: usize);
-        (b: usize, c: usize);
+        (b: usize, c: i64);
         (s: String);
-        [z: i32];
+        [x: i32];
         (u: usize, v: usize) {es: a};
         [b: i32] {B: a};
     }
 
-    println!("{} {}", a + b + c, s);
-    debug!(a, b, s, z, es, B);
+    println!("{} {}", a + b + c as usize, s);
+    debug!(a, b, c, s, x, es, B);
 }
 
 /*
-
 2
 3 4
 test
