@@ -10,4 +10,5 @@ pub mod perm;
 pub mod prime;
 pub mod recurse;
 pub mod rev;
+pub mod seg_tree;
 pub mod uff;
