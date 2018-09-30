@@ -6,7 +6,6 @@ use std::cmp::{max, min, Ordering};
 use std::collections::*;
 use std::fmt::{Debug, Formatter, Write as FmtWrite};
 use std::io::{stderr, stdin, BufRead, Write};
-use std::marker::PhantomData;
 use std::mem::{replace, swap};
 use std::ops::*;
 use std::rc::Rc;
