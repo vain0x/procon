@@ -39,7 +39,7 @@ where
             mappend: mappend,
         };
         for i in 0..it.bucket.len() {
-            it.refresh(i);
+            it.refresh(i * bucket_size);
         }
 
         it
@@ -123,5 +123,18 @@ mod test {
         assert_eq!(v.sum(0, 8).0, 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8);
         assert_eq!(v.sum(2, 7), Linear(3 * 4 * 5 * 6 * 7, 3619));
         assert_eq!(v.sum(3, 6), Linear(4 * 5 * 6, 156));
+    }
+
+    #[test]
+    fn test_buckets_with_initial() {
+        let mut v = BucketVec::new((0..5).collect(), 0, |l, r| l + r);
+        let mut s = 0 + 1 + 2 + 3 + 4;
+        assert_eq!(v.sum(0, 5), s);
+
+        for i in 0..5 {
+            v.set(i, i + 10);
+            s += 10;
+            assert_eq!(v.sum(0, 5), s);
+        }
     }
 }
