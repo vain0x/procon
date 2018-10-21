@@ -14,12 +14,15 @@ use std::rc::Rc;
 // Framework <https://github.com/vain0x/procon>
 // -----------------------------------------------
 
-#[cfg(debug_assertions)]
-include!{"./procon/debug.rs"}
-
-#[cfg(not(debug_assertions))]
+#[allow(unused_macros)]
 macro_rules! debug {
-    ($($arg:expr),*) => {};
+    ($($e:expr),*) => {
+        #[cfg(debug_assertions)]
+        $({
+            let (e, mut err) = (stringify!($e), stderr());
+            writeln!(err, "\x1B[33m{}\x1B[0m = {:?}", e, $e).unwrap()
+        })*
+    };
 }
 
 #[allow(unused_macros)]

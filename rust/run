@@ -1,9 +1,16 @@
 #!/bin/bash
 # Run main.rs repeatedly.
 
+COLOR_RESET=$(tput sgr0)
+COLOR_GREEN=$(tput setaf 2)
+
+colorize () {
+   sed -E "s/^.*\$/$COLOR_GREEN\0$COLOR_RESET/g"
+}
+
 while :
 do
-    RUST_BACKTRACE=1 cargo run
+    RUST_BACKTRACE=1 cargo run | colorize
 
     sleep 0.5
     >&2 echo 'Restarting... (C-c to stop)'
