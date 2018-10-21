@@ -33,8 +33,6 @@ macro_rules! read {
         ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
     ([$t:ty]) =>
         (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
-    ($t:ty) =>
-        (rl().parse::<$t>().unwrap());
     ($($t:ty),*) => {{
         let buf = rl();
         let mut w = buf.split_whitespace();
