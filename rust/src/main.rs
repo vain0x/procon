@@ -49,14 +49,6 @@ fn rl() -> String {
     buf.trim_right().to_owned()
 }
 
-trait IteratorExt: Iterator + Sized {
-    fn vec(self) -> Vec<Self::Item> {
-        self.collect()
-    }
-}
-
-impl<T: Iterator> IteratorExt for T {}
-
 // -----------------------------------------------
 // Solution
 // -----------------------------------------------
