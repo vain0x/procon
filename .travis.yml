@@ -1,0 +1,24 @@
+matrix:
+  include:
+  - name: csharp
+    os: linux
+    language: csharp
+    dotnet: 2.1
+    mono: none
+    env:
+      global:
+        - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+        - DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    install:
+      - (cd ./csharp && dotnet restore)
+    script:
+      - (cd ./csharp && ./test)
+  - name: rust
+    os: linux
+    language: rust
+    rust: stable
+    cache: cargo
+    install:
+      - (cd ./rust && ./task install)
+    script:
+      - (cd ./rust && ./task test)

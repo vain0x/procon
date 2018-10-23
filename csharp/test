@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dotnet test Lib.Tests -c Release
+
+# No tests for now
+# dotnet test Solver.Tests
