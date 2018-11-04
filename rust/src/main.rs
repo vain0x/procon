@@ -1,3 +1,9 @@
+// -----------------------------------------------
+// Framework <https://github.com/vain0x/procon>
+//
+// See the bottom of file for solution.
+// -----------------------------------------------
+
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
@@ -9,10 +15,6 @@ use std::io::{stderr, stdin, BufRead, Write};
 use std::mem::{replace, swap};
 use std::ops::*;
 use std::rc::Rc;
-
-// -----------------------------------------------
-// Framework <https://github.com/vain0x/procon>
-// -----------------------------------------------
 
 #[allow(unused_macros)]
 macro_rules! debug {
