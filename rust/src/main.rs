@@ -1,3 +1,9 @@
+// -----------------------------------------------
+// Framework <https://github.com/vain0x/procon>
+//
+// See the bottom of file for solution.
+// -----------------------------------------------
+
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 
@@ -10,16 +16,15 @@ use std::mem::{replace, swap};
 use std::ops::*;
 use std::rc::Rc;
 
-// -----------------------------------------------
-// Framework <https://github.com/vain0x/procon>
-// -----------------------------------------------
-
-#[cfg(debug_assertions)]
-include!{"./procon/debug.rs"}
-
-#[cfg(not(debug_assertions))]
+#[allow(unused_macros)]
 macro_rules! debug {
-    ($($arg:expr),*) => {};
+    ($($e:expr),*) => {
+        #[cfg(debug_assertions)]
+        $({
+            let (e, mut err) = (stringify!($e), stderr());
+            writeln!(err, "\x1B[33m{}\x1B[0m = {:?}", e, $e).unwrap()
+        })*
+    };
 }
 
 #[allow(unused_macros)]
@@ -30,8 +35,6 @@ macro_rules! read {
         ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
     ([$t:ty]) =>
         (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
-    ($t:ty) =>
-        (rl().parse::<$t>().unwrap());
     ($($t:ty),*) => {{
         let buf = rl();
         let mut w = buf.split_whitespace();
@@ -45,14 +48,6 @@ fn rl() -> String {
     stdin().read_line(&mut buf).unwrap();
     buf.trim_right().to_owned()
 }
-
-trait IteratorExt: Iterator + Sized {
-    fn vec(self) -> Vec<Self::Item> {
-        self.collect()
-    }
-}
-
-impl<T: Iterator> IteratorExt for T {}
 
 // -----------------------------------------------
 // Solution

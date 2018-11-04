@@ -1,0 +1,8 @@
+{
+    "Collect iterator to vec": {
+        "prefix": "to_vec",
+        "body": [
+            "collect::<Vec<_>>()"
+        ]
+    }
+}
