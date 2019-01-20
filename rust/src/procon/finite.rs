@@ -1,3 +1,5 @@
+use std;
+use std::fmt::{Debug, Formatter};
 use std::ops::*;
 
 const P: i64 = 1_000_000_007;
@@ -35,8 +37,14 @@ pub fn inv_dp(n: usize) -> Vec<i64> {
 }
 
 /// Represents an element of finite field.
-#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 struct Finite<T>(T);
+
+impl<T: Debug> Debug for Finite<T> {
+    fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
+        formatter.write_fmt(format_args!("{:?}", self.0))
+    }
+}
 
 trait Normalize {
     fn normalize(&mut self);
