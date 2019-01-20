@@ -37,7 +37,7 @@ pub fn inv_dp(n: usize) -> Vec<i64> {
 }
 
 /// Represents an element of finite field.
-#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
 struct Finite<T>(T);
 
 impl<T: Debug> Debug for Finite<T> {
