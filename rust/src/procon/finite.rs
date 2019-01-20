@@ -18,6 +18,22 @@ pub fn pow(x: i64, n: i64) -> i64 {
     y
 }
 
+/// Calculates `a^(-1)` for each `a` in `1..n`.
+pub fn inv_dp(n: usize) -> Vec<i64> {
+    let mut dp = vec![0; n];
+    if n >= 2 {
+        dp[1] = 1;
+        for i in 2..n {
+            let mut z = P - dp[(P % i as i64) as usize];
+            z %= P;
+            z *= P / i as i64;
+            z %= P;
+            dp[i] = z;
+        }
+    }
+    dp
+}
+
 /// Represents an element of finite field.
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Debug)]
 struct Finite<T>(T);
@@ -134,7 +150,7 @@ impl DivAssign<i64> for Finite<i64> {
 
 #[cfg(test)]
 mod tests {
-    use super::{pow, Finite, P};
+    use super::{inv_dp, pow, Finite, P};
     use std;
 
     #[test]
@@ -154,6 +170,19 @@ mod tests {
                 let expected = (0..n).fold(1_i64, |acc, _| (acc * x) % P);
                 assert_eq!(actual, expected, "{}^{}", x, n);
             }
+        }
+    }
+
+    #[test]
+    fn test_inv_dp() {
+        let n = 10000;
+        let dp = inv_dp(n);
+        for i in 1..n {
+            let mut z = dp[i] * i as i64;
+            z %= P;
+            z += P;
+            z %= P;
+            assert_eq!(z, 1);
         }
     }
 
