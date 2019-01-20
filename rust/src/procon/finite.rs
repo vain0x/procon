@@ -1,5 +1,5 @@
 use std;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{Debug, Display, Formatter};
 use std::ops::*;
 
 const P: i64 = 1_000_000_007;
@@ -43,6 +43,12 @@ struct Finite<T>(T);
 impl<T: Debug> Debug for Finite<T> {
     fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
         formatter.write_fmt(format_args!("{:?}", self.0))
+    }
+}
+
+impl<T: Display> Display for Finite<T> {
+    fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
+        formatter.write_fmt(format_args!("{}", self.0))
     }
 }
 
