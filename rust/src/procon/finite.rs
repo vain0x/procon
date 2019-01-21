@@ -41,6 +41,18 @@ pub fn inv_dp(n: usize) -> Vec<i64> {
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
 struct Finite(i64);
 
+impl Finite {
+    fn pow(self, e: i64) -> Self {
+        pow(self.0, e).into()
+    }
+
+    fn normalize(&mut self) {
+        self.0 %= P;
+        self.0 += P;
+        self.0 %= P;
+    }
+}
+
 impl Debug for Finite {
     fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
         formatter.write_fmt(format_args!("{:?}", self.0))
@@ -61,10 +73,9 @@ impl From<i64> for Finite {
     }
 }
 
-// Derive binary operation trait from the `FooAssign` impl.
-// Define `x + y` as `{ let mut x = x.clone(); x += y; x }`.
+// Generate binary operation traits.
 macro_rules! impl_binary_op_for_finite {
-    ($op_trait:ident, $op:ident, $assign_trait:ident, $assign:ident) => {
+    ($op_trait:ident, $op:ident, $assign_trait:ident, $assign:ident $(, $f:ident)*) => {
         impl $op_trait<i64> for Finite {
             type Output = Self;
 
@@ -79,62 +90,29 @@ macro_rules! impl_binary_op_for_finite {
             type Output = Self;
 
             fn $op(self, other: Self) -> Self {
-                let mut it = self.clone();
-                it.$assign(other);
-                it
+                self.$op(other.0)
             }
         }
-    };
-}
 
-// Derive assign operation trait by unwrapping the right hand side.
-macro_rules! impl_binary_op_assign_with_finite_for_finite {
-    ($op_trait:ident, $op:ident) => {
-        impl $op_trait<Finite> for Finite {
-            fn $op(&mut self, other: Self) {
-                self.$op(other.0);
+        impl $assign_trait<Finite> for Finite {
+            fn $assign(&mut self, other: Self) {
+                self.$assign(other.0);
             }
         }
-    };
-}
 
-// Derive assign operation trait from impl for inner type.
-macro_rules! impl_binary_op_assign_with_inner_for_finite {
-    ($op_trait:ident, $op:ident) => {
-        impl $op_trait<i64> for Finite {
-            fn $op(&mut self, other: i64) {
-                let mut other = Finite::from(other);
-                other.normalize();
-                (self.0).$op(other.0);
+        $(impl $assign_trait<i64> for Finite {
+            fn $assign(&mut self, other: i64) {
+                (self.0).$f(Finite::from(other).0);
                 self.normalize();
             }
-        }
+        })*
     };
 }
 
-impl_binary_op_for_finite! {Add, add, AddAssign, add_assign}
-impl_binary_op_for_finite! {Sub, sub, SubAssign, sub_assign}
-impl_binary_op_for_finite! {Mul, mul, MulAssign, mul_assign}
+impl_binary_op_for_finite! {Add, add, AddAssign, add_assign, add_assign}
+impl_binary_op_for_finite! {Sub, sub, SubAssign, sub_assign, sub_assign}
+impl_binary_op_for_finite! {Mul, mul, MulAssign, mul_assign, mul_assign}
 impl_binary_op_for_finite! {Div, div, DivAssign, div_assign}
-impl_binary_op_assign_with_inner_for_finite! {AddAssign, add_assign}
-impl_binary_op_assign_with_inner_for_finite! {SubAssign, sub_assign}
-impl_binary_op_assign_with_inner_for_finite! {MulAssign, mul_assign}
-impl_binary_op_assign_with_finite_for_finite! {AddAssign, add_assign}
-impl_binary_op_assign_with_finite_for_finite! {SubAssign, sub_assign}
-impl_binary_op_assign_with_finite_for_finite! {MulAssign, mul_assign}
-impl_binary_op_assign_with_finite_for_finite! {DivAssign, div_assign}
-
-impl Finite {
-    fn pow(self, e: i64) -> Self {
-        pow(self.0, e).into()
-    }
-
-    fn normalize(&mut self) {
-        self.0 %= P;
-        self.0 += P;
-        self.0 %= P;
-    }
-}
 
 impl DivAssign<i64> for Finite {
     fn div_assign(&mut self, other: i64) {
