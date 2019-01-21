@@ -186,4 +186,10 @@ mod tests {
         x /= 3;
         assert_eq!(x, 8.into());
     }
+
+    #[test]
+    fn test_finite_fmt() {
+        assert_eq!(format!("{:?}", Finite::from(2)), "2");
+        assert_eq!(format!("{}", Finite::from(2)), "2");
+    }
 }
