@@ -16,6 +16,7 @@ use std::mem::{replace, swap};
 use std::ops::*;
 use std::rc::Rc;
 
+/// Print values to standard error if debug mode.
 #[allow(unused_macros)]
 macro_rules! debug {
     ($($e:expr),*) => {
@@ -27,6 +28,10 @@ macro_rules! debug {
     };
 }
 
+/// Read from standard input and parse each word.
+/// - `read!(T, U, ..)` parses a line as a tuple of words.
+/// - `read![[T]]` parses a line as an array of words.
+/// - `read![..; N]` parses `N` lines, using `read!(..)` repeatedly.
 #[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) =>
@@ -42,6 +47,7 @@ macro_rules! read {
     }};
 }
 
+/// Read a line from standard input.
 #[allow(dead_code)]
 fn rl() -> String {
     let mut buf = String::new();
