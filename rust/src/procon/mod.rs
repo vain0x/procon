@@ -11,4 +11,4 @@ pub mod prime;
 pub mod recurse;
 pub mod rev;
 pub mod seg_tree;
-pub mod uff;
+pub mod union_find;
