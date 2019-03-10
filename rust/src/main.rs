@@ -1,8 +1,8 @@
-// -----------------------------------------------
-// Framework <https://github.com/vain0x/procon>
-//
-// See the bottom of file for solution.
-// -----------------------------------------------
+//! ----------------------------------------------
+//! Framework <https://github.com/vain0x/procon>
+//!
+//! See the bottom of file for solution.
+//! ----------------------------------------------
 
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
