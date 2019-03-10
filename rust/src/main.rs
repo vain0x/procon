@@ -52,6 +52,8 @@ macro_rules! read {
 fn rl() -> String {
     let mut buf = String::new();
     stdin().read_line(&mut buf).unwrap();
+
+    #[allow(deprecated)]
     buf.trim_right().to_owned()
 }
 
