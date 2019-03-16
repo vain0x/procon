@@ -12,3 +12,4 @@ pub mod recurse;
 pub mod rev;
 pub mod seg_tree;
 pub mod union_find;
+pub mod graph;
