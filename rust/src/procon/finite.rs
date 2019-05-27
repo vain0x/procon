@@ -20,7 +20,8 @@ pub fn pow(x: i64, n: i64) -> i64 {
     y
 }
 
-/// Calculates `a^(-1)` for each `a` in `1..n`.
+/// Calculates `1/a` for each `a` in `1..n`.
+/// Use `P = floor(P / k) * k + P % k` for proof.
 pub fn inv_dp(n: usize) -> Vec<i64> {
     let mut dp = vec![0; n];
     if n >= 2 {
