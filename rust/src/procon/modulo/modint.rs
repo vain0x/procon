@@ -4,60 +4,60 @@ use std;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::*;
 
-/// Represents an element of finite field.
+/// Represents an element of ModInt field.
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
-struct Finite(i64);
+struct ModInt(i64);
 
-impl Finite {
+impl ModInt {
     fn pow(self, e: i64) -> Self {
         pow(self.0, e).into()
     }
 }
 
-impl Debug for Finite {
+impl Debug for ModInt {
     fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
         formatter.write_fmt(format_args!("{:?}", self.0))
     }
 }
 
-impl Display for Finite {
+impl Display for ModInt {
     fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
         formatter.write_fmt(format_args!("{}", self.0))
     }
 }
 
-impl From<i64> for Finite {
+impl From<i64> for ModInt {
     fn from(value: i64) -> Self {
-        Finite((value % P + P) % P)
+        ModInt((value % P + P) % P)
     }
 }
 
 // Generate binary operation traits.
-macro_rules! impl_binary_op_for_finite {
+macro_rules! impl_binary_op_for_modint {
     ($op_trait:ident, $op:ident, $assign_trait:ident, $assign:ident $(, $f:ident)*) => {
-        $(impl $op_trait<Finite> for Finite {
+        $(impl $op_trait<ModInt> for ModInt {
             type Output = Self;
 
             fn $op(self, other: Self) -> Self {
-                Finite::from((self.0).$f(other.0))
+                ModInt::from((self.0).$f(other.0))
             }
         })*
 
-        impl $op_trait<i64> for Finite {
+        impl $op_trait<i64> for ModInt {
             type Output = Self;
 
             fn $op(self, other: i64) -> Self {
-                self.$op(Finite::from(other))
+                self.$op(ModInt::from(other))
             }
         }
 
-        impl $assign_trait<Finite> for Finite {
+        impl $assign_trait<ModInt> for ModInt {
             fn $assign(&mut self, other: Self) {
                 *self = self.$op(other)
             }
         }
 
-        impl $assign_trait<i64> for Finite {
+        impl $assign_trait<i64> for ModInt {
             fn $assign(&mut self, other: i64) {
                 *self = self.$op(other)
             }
@@ -65,13 +65,13 @@ macro_rules! impl_binary_op_for_finite {
     };
 }
 
-impl_binary_op_for_finite! {Add, add, AddAssign, add_assign, add}
-impl_binary_op_for_finite! {Sub, sub, SubAssign, sub_assign, sub}
-impl_binary_op_for_finite! {Mul, mul, MulAssign, mul_assign, mul}
-impl_binary_op_for_finite! {Div, div, DivAssign, div_assign}
+impl_binary_op_for_modint! {Add, add, AddAssign, add_assign, add}
+impl_binary_op_for_modint! {Sub, sub, SubAssign, sub_assign, sub}
+impl_binary_op_for_modint! {Mul, mul, MulAssign, mul_assign, mul}
+impl_binary_op_for_modint! {Div, div, DivAssign, div_assign}
 
-impl Div<Finite> for Finite {
-    type Output = Finite;
+impl Div<ModInt> for ModInt {
+    type Output = ModInt;
 
     fn div(self, other: Self) -> Self {
         self * other.pow(P - 2)
@@ -83,8 +83,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_finite() {
-        let x = Finite::from(P + 2);
+    fn test_ops() {
+        let x = ModInt::from(P + 2);
 
         // `from` should normalize the value.
         assert_eq!(x.0, 2);
@@ -95,10 +95,10 @@ mod tests {
         assert_eq!(x * 3, (2 * 3).into());
         assert_eq!((x / 11) * 11, 2.into());
 
-        assert_eq!(x + Finite::from(7), (2 + 7).into());
-        assert_eq!(x - Finite::from(7), (P + (2 - 7)).into());
-        assert_eq!(x * Finite::from(3), (2 * 3).into());
-        assert_eq!((x / Finite::from(11)) * 11, 2.into());
+        assert_eq!(x + ModInt::from(7), (2 + 7).into());
+        assert_eq!(x - ModInt::from(7), (P + (2 - 7)).into());
+        assert_eq!(x * ModInt::from(3), (2 * 3).into());
+        assert_eq!((x / ModInt::from(11)) * 11, 2.into());
 
         let mut x = x;
         x += 7;
@@ -112,8 +112,8 @@ mod tests {
     }
 
     #[test]
-    fn test_finite_fmt() {
-        assert_eq!(format!("{:?}", Finite::from(2)), "2");
-        assert_eq!(format!("{}", Finite::from(2)), "2");
+    fn test_fmt() {
+        assert_eq!(format!("{:?}", ModInt::from(2)), "2");
+        assert_eq!(format!("{}", ModInt::from(2)), "2");
     }
 }
