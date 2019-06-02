@@ -4,7 +4,7 @@ use std;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::*;
 
-/// Represents an element of ModInt field.
+/// Represents an element of finite field.
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
 struct ModInt(i64);
 
