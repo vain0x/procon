@@ -5,16 +5,15 @@
 #include <set>
 #include <vector>
 
-#define REP(I, S, E) for (decltype(S + E) I = (S), _E = (E); I < _E; ++I)
-#define REP_REV(I, S, E) for (decltype(S + E) I = (E)-1, _S = (S); I >= _S; --I)
+#define REP(I, S, E) for (decltype(S + E) I = (S), _e = (E); I < _e; ++I)
+#define REP_REV(I, S, E) for (decltype(S + E) I = (E), _s = (S); (I)-- > _s;)
 
-using namespace std;
-using ll = long long;
+using i64 = std::int64_t;
 
 auto main() -> int {
-    int i;
-    cin >> i;
+    i64 N;
+    std::cin >> N;
 
-    cout << "Hello, world!" << endl;
+    std::cout << 0 << std::endl;
     return 0;
 }
