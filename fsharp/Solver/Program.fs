@@ -1,13 +1,11 @@
-﻿namespace global
-  open System
-  open System.Collections
-  open System.Collections.Generic
+﻿module Program
 
-  [<AutoOpen>]
-  module Operators =
-    let read f = Console.ReadLine().Split([|' '|]) |> Array.map f
+open System
+open System.Collections
+open System.Collections.Generic
 
-  module Program =
-    [<EntryPoint>]
-    let main _ =
-      0
+let read f = Console.ReadLine().Split([|' '|]) |> Array.map f
+
+[<EntryPoint>]
+let main _ =
+  0
