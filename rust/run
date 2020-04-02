@@ -10,7 +10,7 @@ colorize () {
 
 while :
 do
-    RUST_BACKTRACE=1 cargo run | colorize
+    RUST_BACKTRACE=1 cargo +1.15.1 run | colorize
 
     sleep 0.5
     >&2 echo 'Restarting... (C-c to stop)'
