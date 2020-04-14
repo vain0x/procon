@@ -3,7 +3,6 @@
 #![allow(non_snake_case)]
 #![allow(unused_imports)]
 
-use std::cmp::{max, min};
 use std::collections::*;
 use std::ops::*;
 
