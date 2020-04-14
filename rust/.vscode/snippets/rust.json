@@ -11,5 +11,39 @@
             "#[cfg(debug_assertions)]",
             "eprintln!(\"\\x1B[33m{}\\x1B[0m = {:?}\", \"$1\", $1);"
         ]
+    },
+    "Read line as words": {
+        "prefix": "rw",
+        "description": "Read a line from standard input and create an iterator of words. Use `nw` to parse words.",
+        "body": [
+            "read_line(&mut stdin, &mut buf);",
+            "let mut words = buf.split_whitespace();"
+        ]
+    },
+    "Next word of line": {
+        "prefix": "nw",
+        "description": "Get a next token provided by an iterator named `words`. Use `rw` first to define `words`.",
+        "body": [
+            "parse(words.next().unwrap_or(\"\"))"
+        ]
+    },
+    "Read line as vector": {
+        "prefix": "rv",
+        "description": "Read a line from standard input and build a vector of words.",
+        "body": [
+            "read_line(&mut stdin, &mut buf);",
+            "let $1: Vec<$2> = buf.split_whitespace().map(parse).collect();"
+        ]
+    },
+    "Read lines as table": {
+        "prefix": "rt",
+        "description": "Read N line(s) from standard input and build a table of words.",
+        "body": [
+            "let $1: Vec<_> = (0..${2:N})",
+            "    .map(|_| {",
+            "        $0",
+            "    })",
+            "    .collect();"
+        ]
     }
 }

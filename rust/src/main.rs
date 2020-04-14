@@ -2,43 +2,30 @@
 
 #![allow(non_snake_case)]
 #![allow(unused_imports)]
-#![allow(unused_macros)]
 
 use std::cmp::{max, min};
 use std::collections::*;
-use std::io::{stderr, stdin, Write as IoWrite};
 use std::ops::*;
 
-/// Read from standard input and parse each word.
-/// - `read!(T, U, ..)` parses a line as a tuple of words.
-/// - `read![[T]]` parses a line as an array of words.
-/// - `read![..; N]` parses `N` lines, using `read!(..)` repeatedly.
-macro_rules! read {
-    ([$t:ty] ; $n:expr) =>
-        ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
-    ($($t:ty),+ ; $n:expr) =>
-        ((0..$n).map(|_| read!($($t),+)).collect::<Vec<_>>());
-    ([$t:ty]) =>
-        (rl().split_whitespace().map(|w| w.parse().unwrap()).collect::<Vec<$t>>());
-    ($($t:ty),*) => {{
-        let buf = rl();
-        let mut w = buf.split_whitespace();
-        ($(w.next().unwrap().parse::<$t>().unwrap()),*)
-    }};
+fn read_line(reader: &mut impl std::io::BufRead, buf: &mut String) {
+    buf.clear();
+    reader.read_line(buf).unwrap();
 }
 
-/// Read a line from standard input.
-#[allow(dead_code)]
-fn rl() -> String {
-    let mut buf = String::new();
-    stdin().read_line(&mut buf).unwrap();
-
-    #[allow(deprecated)]
-    buf.trim_right().to_owned()
+fn parse<T: std::str::FromStr>(word: &str) -> T {
+    T::from_str(word).unwrap_or_else(|_| std::process::exit(66))
 }
 
 // ###############################################
 
 fn main() {
-    println!("{}", 0)
+    let stdin = std::io::stdin();
+    let mut stdin = stdin.lock();
+    let mut buf = String::new();
+
+    read_line(&mut stdin, &mut buf);
+    let mut words = buf.split_whitespace();
+    let N: usize = parse(words.next().unwrap_or(""));
+
+    println!("{}", N);
 }
