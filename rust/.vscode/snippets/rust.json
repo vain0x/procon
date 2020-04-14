@@ -4,5 +4,12 @@
         "body": [
             "collect::<Vec<_>>()"
         ]
+    },
+    "Debug print": {
+        "prefix": "debug",
+        "body": [
+            "#[cfg(debug_assertions)]",
+            "eprintln!(\"\\x1B[33m{}\\x1B[0m = {:?}\", \"$1\", $1);"
+        ]
     }
 }

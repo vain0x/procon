@@ -9,17 +9,6 @@ use std::collections::*;
 use std::io::{stderr, stdin, Write as IoWrite};
 use std::ops::*;
 
-/// Print values to standard error only if debug mode.
-macro_rules! debug {
-    ($($e:expr),*) => {
-        #[cfg(debug_assertions)]
-        $({
-            let (e, mut err) = (stringify!($e), stderr());
-            writeln!(err, "\x1B[33m{}\x1B[0m = {:?}", e, $e).unwrap()
-        })*
-    };
-}
-
 /// Read from standard input and parse each word.
 /// - `read!(T, U, ..)` parses a line as a tuple of words.
 /// - `read![[T]]` parses a line as an array of words.
