@@ -10,13 +10,14 @@ fn main() {
     let stdin = std::io::stdin();
     let mut stdin = stdin.lock();
     let mut buf = String::new();
-
-    let mut words = {
+    let mut words = std::iter::repeat_with(|| {
         buf.clear();
         std::io::BufRead::read_line(&mut stdin, &mut buf).unwrap();
-        buf.split_whitespace()
-    };
-    let N: usize = words.next().unwrap().parse().unwrap();
+        Box::leak(buf.clone().into_boxed_str()).split_whitespace()
+    })
+    .flatten();
+
+    let N = words.next().unwrap().parse::<usize>().unwrap();
 
     println!("{}", N);
 }

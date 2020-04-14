@@ -27,7 +27,7 @@
         "prefix": "nw",
         "description": "Get a next token provided by an iterator named `words`. Use `rw` first to define `words`.",
         "body": [
-            "words.next().unwrap().parse().unwrap()"
+            "words.next().unwrap().parse::<$1>().unwrap()"
         ]
     },
     "Read line as vector": {
