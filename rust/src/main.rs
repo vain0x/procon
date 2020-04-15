@@ -6,23 +6,16 @@
 use std::collections::*;
 use std::ops::*;
 
-struct StdinLines<R>(String, R);
+pub struct Scan(Box<dyn Iterator<Item = &'static str>>);
 
-impl<R: std::io::BufRead> Iterator for StdinLines<R> {
-    type Item = std::str::SplitWhitespace<'static>;
-
-    fn next(&mut self) -> Option<std::str::SplitWhitespace<'static>> {
-        self.0.clear();
-        std::io::BufRead::read_line(&mut self.1, &mut self.0).unwrap();
-        Some(Box::leak(self.0.clone().into_boxed_str()).split_whitespace())
-    }
-}
-
-pub struct Scan<'a>(std::iter::Flatten<StdinLines<std::io::StdinLock<'a>>>);
-
-impl<'a> Scan<'a> {
-    fn new(stdin: std::io::StdinLock<'a>) -> Self {
-        Scan(StdinLines(String::new(), stdin).flatten())
+impl Scan {
+    fn new() -> Self {
+        let mut buf = String::new();
+        let read_line = move || {
+            std::io::stdin().read_line(&mut buf).unwrap();
+            Box::leak(buf.split_off(0).into_boxed_str()).split_whitespace()
+        };
+        Scan(Box::new(std::iter::repeat_with(read_line).flatten()))
     }
 
     pub fn word<T: std::str::FromStr>(&mut self) -> T {
@@ -30,13 +23,12 @@ impl<'a> Scan<'a> {
     }
 
     pub fn list<T: std::str::FromStr>(&mut self, len: usize) -> Vec<T> {
-        (0..len).map(|_| self.word()).collect()
+        std::iter::repeat_with(|| self.word()).take(len).collect()
     }
 }
 
 fn main() {
-    let stdin = std::io::stdin();
-    let mut scan = Scan::new(stdin.lock());
+    let mut scan = Scan::new();
 
     let N = scan.word::<usize>();
 
