@@ -4,7 +4,6 @@
 #![allow(unused_imports)]
 
 use std::collections::*;
-use std::ops::*;
 
 pub struct Scan(Box<dyn Iterator<Item = &'static str>>);
 
