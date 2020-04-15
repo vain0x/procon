@@ -5,7 +5,7 @@
 
 use std::collections::*;
 
-pub struct Scan(Box<dyn Iterator<Item = &'static str>>);
+pub struct Scan(Box<dyn Iterator<Item = &'static str>>); // '
 
 impl Scan {
     fn new() -> Self {
