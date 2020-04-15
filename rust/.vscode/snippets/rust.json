@@ -12,44 +12,24 @@
             "eprintln!(\"\\x1B[33m{}\\x1B[0m = {:?}\", \"$1\", $1);"
         ]
     },
-    "Read line as words": {
-        "prefix": "rw",
-        "description": "Read a line from standard input and create an iterator of words. Use `nw` to parse words.",
+    "Scan a word": {
+        "prefix": "scanw",
         "body": [
-            "let mut words = {",
-            "    buf.clear();",
-            "    std::io::BufRead::read_line(&mut stdin, &mut buf).unwrap();",
-            "    buf.split_whitespace()",
-            "};"
+            "scan.word::<${1:usize}>()"
         ]
     },
-    "Next word of line": {
-        "prefix": "nw",
-        "description": "Get a next token provided by an iterator named `words`. Use `rw` first to define `words`.",
+    "Scan a list of words": {
+        "prefix": "scanl",
         "body": [
-            "words.next().unwrap().parse::<$1>().unwrap()"
+            "scan.list::<${1:i64}>(${2:N})"
         ]
     },
-    "Read line as vector": {
-        "prefix": "rv",
-        "description": "Read a line from standard input and build a vector of words.",
+    "Scan a table of words": {
+        "prefix": "scant",
         "body": [
-            "let $1: Vec<$2> = {",
-            "    buf.clear();",
-            "    std::io::BufRead::read_line(&mut stdin, &mut buf).unwrap();",
-            "    buf.split_whitespace().map(|word| word.parse().unwrap()).collect()",
-            "};"
-        ]
-    },
-    "Read lines as table": {
-        "prefix": "rt",
-        "description": "Read N line(s) from standard input and build a table of words.",
-        "body": [
-            "let $1: Vec<_> = (0..${2:N})",
-            "    .map(|_| {",
-            "        $0",
-            "    })",
-            "    .collect();"
+            "(0..${1:N})",
+            ".map(|_| {$0})",
+            ".collect::<Vec<_>>()"
         ]
     }
 }
