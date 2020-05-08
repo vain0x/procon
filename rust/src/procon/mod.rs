@@ -9,6 +9,5 @@ pub mod modulo;
 pub mod ord_adapter;
 pub mod perm;
 pub mod prime;
-pub mod rev;
 pub mod seg_tree;
 pub mod union_find;
