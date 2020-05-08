@@ -33,9 +33,9 @@ impl<'a> StrongComponentDecomposition<'a> {
         }
 
         let it = StrongComponentDecomposition {
-            n: n,
-            g: g,
-            h: h,
+            n,
+            g,
+            h,
             gray: vec![],
             top_ord: vec![n; n],
             top_seq: vec![],

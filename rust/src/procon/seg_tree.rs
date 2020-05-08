@@ -6,7 +6,7 @@ struct Interval<T> {
 
 impl<T: Ord> Interval<T> {
     fn new(l: T, r: T) -> Interval<T> {
-        Interval { l: l, r: r }
+        Interval { l, r }
     }
 
     fn disjoint(&self, other: &Self) -> bool {

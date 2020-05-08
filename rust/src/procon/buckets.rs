@@ -32,11 +32,11 @@ where
         }
 
         let mut it = BucketVec {
-            node: node,
-            bucket: bucket,
-            bucket_size: bucket_size,
-            mempty: mempty,
-            mappend: mappend,
+            node,
+            bucket,
+            bucket_size,
+            mempty,
+            mappend,
         };
         for i in 0..it.bucket.len() {
             it.refresh(i * bucket_size);
