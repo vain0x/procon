@@ -5,6 +5,7 @@ pub mod gcd;
 pub mod graph;
 pub mod grid_vec;
 pub mod iter_ext;
+pub mod modint;
 pub mod modulo;
 pub mod ord_adapter;
 pub mod perm;

@@ -1,6 +1,4 @@
-pub mod modint;
-
-const P: i64 = 1_000_000_007;
+pub const P: i64 = 1_000_000_007;
 
 /// Calculates `x^n`. O(log n) time.
 /// By Fermat's little theorem, `x^(-1) = pow(x, P - 2)`.
