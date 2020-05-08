@@ -75,7 +75,6 @@ impl ChooseFn {
 #[cfg(test)]
 mod tests {
     use super::{inv_dp, pow, ChooseFn, P};
-    use std;
 
     #[test]
     fn test_pow_edges() {

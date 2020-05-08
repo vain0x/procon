@@ -1,7 +1,5 @@
 //! Verified at <https://atcoder.jp/contests/abc120/submissions/4468801>.
 
-use std;
-
 pub struct UnionFind {
     nodes: Vec<UnionFindNode>,
 }

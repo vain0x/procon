@@ -107,7 +107,6 @@ where
 #[cfg(test)]
 mod tests {
     use super::SegTree;
-    use std;
 
     #[test]
     fn test_segtree_min() {

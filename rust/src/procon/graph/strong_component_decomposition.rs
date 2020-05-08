@@ -1,7 +1,5 @@
 // Verified: http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3429517#1
 
-use std;
-
 pub struct StrongComponentDecomposition<'a> {
     /// Number of vertices.
     n: usize,

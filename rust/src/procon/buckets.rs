@@ -1,7 +1,5 @@
 //! Provides basic bucket structure of square root decomposition.
 
-use std;
-
 #[derive(Clone, Debug)]
 pub struct BucketVec<T, F> {
     node: Vec<T>,

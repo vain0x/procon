@@ -1,6 +1,5 @@
 use crate::procon::modulo::*;
 
-use std;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::*;
 
