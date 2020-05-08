@@ -1,7 +1,6 @@
 /// Finds the lower bound of `y`, i.e. the end of `< y` half.
 /// Given slice must be sorted in the ascending order.
 pub fn lower_bound<T: Ord>(xs: &[T], y: &T) -> usize {
-    // True-side.
     let mut l = 0;
     let mut r = xs.len() + 1;
 
@@ -20,7 +19,6 @@ pub fn lower_bound<T: Ord>(xs: &[T], y: &T) -> usize {
 /// Finds the upper bound of `y`, i.e. the end of `<= y` half.
 /// Given slice must be sorted in the ascending order.
 pub fn upper_bound<T: Ord>(xs: &[T], y: &T) -> usize {
-    // True-side.
     let mut l = 0;
     let mut r = xs.len() + 1;
 
