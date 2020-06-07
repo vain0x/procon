@@ -8,7 +8,7 @@ pub struct UnionFind {
 
 enum UnionFindNode {
     Root { size: usize },
-    Child { parent: std::cell::RefCell<usize> },
+    Child { parent: std::cell::Cell<usize> },
 }
 
 impl UnionFind {
@@ -26,9 +26,9 @@ impl UnionFind {
         match &self.nodes[v] {
             &UnionFindNode::Root { size } => (v, size),
             &UnionFindNode::Child { parent: ref p } => {
-                let (u, size) = self.root_node(*p.borrow());
+                let (u, size) = self.root_node(p.get());
                 // Path compression.
-                *p.borrow_mut() = u;
+                p.set(u);
                 (u, size)
             }
         }
@@ -64,7 +64,7 @@ impl UnionFind {
         }
 
         self.nodes[v] = UnionFindNode::Child {
-            parent: std::cell::RefCell::new(u),
+            parent: std::cell::Cell::new(u),
         };
         self.nodes[u] = UnionFindNode::Root {
             size: u_size + v_size,
