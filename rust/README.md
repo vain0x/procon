@@ -1,30 +1,17 @@
-# Procon / Rust
-
-- Language: Rust
-- Runtime: Native
+# Competitive Programming with Rust
 
 ## Install
 
-See the official document: <https://rust-lang.org/>.
-
-Install `rustup` and `cargo`.
-
-### Install: (Optional) cargo-watch
-
-I recommend to install [cargo-watch](https://github.com/passcod/cargo-watch) to automate building.
-
-Use `./test` to start watching `main.rs` to test.
+Follow the instruction written in the official page <https://rust-lang.org/>.
 
 ### Install: (Optional) AtCoder-compatible Toolchain
 
-For AtCoder, set the default toolchain to the supported version, [1.15.1](https://github.com/rust-lang/rust/blob/master/RELEASES.md#version-1151-2017-02-09):
+For AtCoder, set the default toolchain to the supported version:
 
 ```sh
-rustup install 1.15.1
-rustup override set 1.15.1
+rustup install 1.42.0
+rustup override set 1.42.0
 ```
-
-You could override the toolchain by adding `rust-toolchain` file, however, it seems Rust Language Server (which works only with `nightly` toolchain) doesn't work.
 
 ## Usage
 

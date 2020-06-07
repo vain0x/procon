@@ -1,11 +1,12 @@
 #!/bin/bash
+# Used for continuous integration (CI).
 
-set -xeu
+set -eux
 
 if [[ "$1" = install ]]
 then
-    rustup install 1.15.1
-    rustup override set 1.15.1
+    rustup install 1.42.0
+    rustup override set 1.42.0
     cargo build --release
 elif [[ "$1" = test ]]
 then

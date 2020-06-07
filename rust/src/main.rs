@@ -2,15 +2,14 @@
 
 #![allow(non_snake_case)]
 #![allow(unused_imports)]
+#![allow(unused_macros)]
 
-use std::cell::RefCell;
-use std::cmp::{max, min, Ordering};
+use std::cmp::{max, min};
 use std::collections::*;
-use std::fmt::{Debug, Display, Formatter, Write as FmtWrite};
-use std::io::{stderr, stdin, BufRead, Write};
+use std::io::{stderr, stdin, Write as IoWrite};
+use std::ops::*;
 
-/// Print values to standard error if debug mode.
-#[allow(unused_macros)]
+/// Print values to standard error only if debug mode.
 macro_rules! debug {
     ($($e:expr),*) => {
         #[cfg(debug_assertions)]
@@ -25,7 +24,6 @@ macro_rules! debug {
 /// - `read!(T, U, ..)` parses a line as a tuple of words.
 /// - `read![[T]]` parses a line as an array of words.
 /// - `read![..; N]` parses `N` lines, using `read!(..)` repeatedly.
-#[allow(unused_macros)]
 macro_rules! read {
     ([$t:ty] ; $n:expr) =>
         ((0..$n).map(|_| read!([$t])).collect::<Vec<_>>());
