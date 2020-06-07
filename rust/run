@@ -1,8 +1,6 @@
 #!/bin/bash
 # Run main.rs repeatedly.
 
-set -o pipefail
-
 COLOR_RESET=$(tput sgr0)
 COLOR_GREEN=$(tput setaf 2)
 
@@ -13,10 +11,6 @@ colorize () {
 while :
 do
     RUST_BACKTRACE=1 cargo +1.42.0 run | colorize
-    if [[ $? -eq 66 ]]
-    then
-        >&2 echo -e 'BAD INPUT'
-    fi
 
     sleep 0.5
     >&2 echo 'Restarting... (C-c to stop)'
