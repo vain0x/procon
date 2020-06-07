@@ -3,13 +3,12 @@
 #![allow(non_snake_case)]
 
 use std;
-use std::rc::Rc;
 
-pub struct StrongComponentDecomposition {
+pub struct StrongComponentDecomposition<'a> {
     /// Number of vertices.
     N: usize,
     /// The graph.
-    G: Rc<Vec<Vec<usize>>>,
+    G: &'a [Vec<usize>],
     /// Dual of the graph.
     H: Vec<Vec<usize>>,
     /// gray[u] = true if the vertex u is visited.
@@ -24,8 +23,8 @@ pub struct StrongComponentDecomposition {
     components: Vec<Vec<usize>>,
 }
 
-impl StrongComponentDecomposition {
-    pub fn run(G: Rc<Vec<Vec<usize>>>) -> Vec<Vec<usize>> {
+impl<'a> StrongComponentDecomposition<'a> {
+    pub fn run(G: &'a [Vec<usize>]) -> Vec<Vec<usize>> {
         let N = G.len();
 
         let mut H = vec![vec![]; N];
@@ -79,7 +78,8 @@ impl StrongComponentDecomposition {
         }
         self.gray[u] = true;
 
-        for &v in Rc::clone(&self.G)[u].iter() {
+        for i in 0..self.G[u].len() {
+            let v = self.G[u][i];
             self.top(v);
         }
 
