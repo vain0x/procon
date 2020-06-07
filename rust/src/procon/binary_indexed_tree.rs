@@ -18,7 +18,7 @@
 
 // Technique: for i (> 1), node [i]'s parent is [i + (i & -i)].
 
-use std::cmp::min;
+use std;
 
 // 1-indexed. [0] is unused.
 type BIT = Vec<i64>;
@@ -43,7 +43,7 @@ pub fn bit_add(bit: &mut BIT, index: usize, value: i64) {
 /// Gets sum of items in range 0..right.
 pub fn bit_acc(bit: &BIT, right: usize) -> i64 {
     let mut acc = 0;
-    let mut j = min(right, bit_len(bit));
+    let mut j = std::cmp::min(right, bit_len(bit));
     while j > 0 {
         acc += bit[j];
         j -= rightmost_bit(j);
@@ -53,7 +53,7 @@ pub fn bit_acc(bit: &BIT, right: usize) -> i64 {
 
 /// Gets sum of items in range left..right.
 pub fn bit_sum(bit: &BIT, left: usize, right: usize) -> i64 {
-    bit_acc(bit, right) - bit_acc(bit, min(left, right))
+    bit_acc(bit, right) - bit_acc(bit, std::cmp::min(left, right))
 }
 
 fn rightmost_bit(n: usize) -> usize {

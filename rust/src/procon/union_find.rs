@@ -1,6 +1,6 @@
 //! Verified at <https://atcoder.jp/contests/abc120/submissions/4468801>.
 
-use std::cell::RefCell;
+use std;
 
 pub struct UnionFind {
     nodes: Vec<UnionFindNode>,
@@ -8,7 +8,7 @@ pub struct UnionFind {
 
 enum UnionFindNode {
     Root { size: usize },
-    Child { parent: RefCell<usize> },
+    Child { parent: std::cell::RefCell<usize> },
 }
 
 impl UnionFind {
@@ -64,7 +64,7 @@ impl UnionFind {
         }
 
         self.nodes[v] = UnionFindNode::Child {
-            parent: RefCell::new(u),
+            parent: std::cell::RefCell::new(u),
         };
         self.nodes[u] = UnionFindNode::Root {
             size: u_size + v_size,

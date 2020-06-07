@@ -1,11 +1,12 @@
 use std;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
 
 /// Evaluates minimal path cost for each vertex u from `start`.
 /// g[u][_] = (u, v, w): an edge from u to v with cost w.
 /// dist[v] = cost of minimal-cost path from `start` to `v`.
 pub fn dijkstra(g: &Vec<Vec<(usize, usize, i64)>>, start: usize) -> Vec<i64> {
+    use std::cmp::Ordering;
+    use std::collections::BinaryHeap;
+
     #[derive(PartialEq, Eq, Ord, Clone, Debug)]
     struct Route {
         cost: i64,

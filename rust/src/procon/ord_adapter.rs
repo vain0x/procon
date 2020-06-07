@@ -1,4 +1,4 @@
-use std::cmp::*;
+use std;
 
 /// Wraps a partial-ord value to impl Ord.
 #[derive(PartialEq, PartialOrd, Clone, Copy, Debug)]
@@ -7,7 +7,7 @@ pub struct OrdAdapter<T>(pub T);
 impl<T: PartialEq> Eq for OrdAdapter<T> {}
 
 impl<T: PartialOrd> Ord for OrdAdapter<T> {
-    fn cmp(&self, other: &Self) -> Ordering {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.partial_cmp(other).unwrap()
     }
 }
@@ -15,7 +15,8 @@ impl<T: PartialOrd> Ord for OrdAdapter<T> {
 #[cfg(test)]
 #[allow(unused_imports)]
 mod tests {
-    use super::*;
+    use super::OrdAdapter;
+    use std::cmp::Ordering;
     use std::f64::consts::{E, PI};
 
     #[test]
