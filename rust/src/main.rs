@@ -1,20 +1,13 @@
-//! ----------------------------------------------
 //! Framework <https://github.com/vain0x/procon>
-//!
-//! See the bottom of file for solution.
-//! ----------------------------------------------
 
-#![allow(unused_imports)]
 #![allow(non_snake_case)]
+#![allow(unused_imports)]
 
 use std::cell::RefCell;
 use std::cmp::{max, min, Ordering};
 use std::collections::*;
 use std::fmt::{Debug, Display, Formatter, Write as FmtWrite};
 use std::io::{stderr, stdin, BufRead, Write};
-use std::mem::{replace, swap};
-use std::ops::*;
-use std::rc::Rc;
 
 /// Print values to standard error if debug mode.
 #[allow(unused_macros)]
@@ -57,9 +50,7 @@ fn rl() -> String {
     buf.trim_right().to_owned()
 }
 
-// -----------------------------------------------
-// Solution
-// -----------------------------------------------
+// ###############################################
 
 fn main() {
     println!("{}", 0)
