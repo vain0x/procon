@@ -35,9 +35,48 @@ pub fn inv_dp(n: usize) -> Vec<i64> {
     dp
 }
 
+pub struct ChooseFn {
+    fact: Vec<i64>,
+    fact_inv: Vec<i64>,
+}
+
+impl ChooseFn {
+    pub fn new(m: usize) -> Self {
+        let mut fact = vec![0; m];
+        fact[0] = 1;
+        fact[1] = 1;
+        for i in 2..m {
+            fact[i] = (i as i64) * fact[i - 1] % P;
+        }
+
+        let mut fact_inv = vec![0; m];
+        fact_inv[m - 1] = pow(fact[m - 1], P - 2);
+        for i in (1..m).rev() {
+            fact_inv[i - 1] = (i as i64) * fact_inv[i] % P;
+        }
+
+        ChooseFn {
+            fact: fact,
+            fact_inv: fact_inv,
+        }
+    }
+
+    pub fn call(&self, n: usize, r: usize) -> i64 {
+        if n < r {
+            return 0;
+        }
+
+        let mut t = self.fact[n];
+        t *= self.fact_inv[n - r];
+        t %= P;
+        t *= self.fact_inv[r];
+        t % P
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{inv_dp, pow, P};
+    use super::{inv_dp, pow, ChooseFn, P};
     use std;
 
     #[test]
@@ -70,6 +109,26 @@ mod tests {
             z += P;
             z %= P;
             assert_eq!(z, 1);
+        }
+    }
+
+    #[test]
+    fn test_choose() {
+        let table = vec![
+            vec![1],
+            vec![1, 1],
+            vec![1, 2, 1],
+            vec![1, 3, 3, 1],
+            vec![1, 4, 6, 4, 1],
+            vec![1, 5, 10, 10, 5, 1],
+        ];
+
+        let m = table.len();
+        let choose_fn = ChooseFn::new(m + 1);
+        for n in 0..m {
+            for r in 0..n + 1 {
+                assert_eq!(choose_fn.call(n, r), table[n][r]);
+            }
         }
     }
 }
