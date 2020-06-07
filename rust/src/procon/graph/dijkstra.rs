@@ -29,6 +29,10 @@ pub fn dijkstra(g: &Vec<Vec<(usize, usize, i64)>>, start: usize) -> Vec<i64> {
     });
 
     while let Some(Route { cost: d, vertex: u }) = heap.pop() {
+        if d > dist[u] {
+            continue;
+        }
+
         for &(_, v, cost) in g[u].iter() {
             let d = d + cost;
 
