@@ -1,7 +1,7 @@
 # Procon/C\#
 
-- Language: C# 6
-- Runtime: .NET Core 2.0
+- Language: C# 9
+- Runtime: .NET Core 3.1
 
 ## Structure
 ### The Solution project
