@@ -21,12 +21,13 @@ namespace Procon
 
         [Theory]
         [MemberData(nameof(TestCases))]
-        public void Test(InputOutputPair pair)
+        public void Test((string input, string output) pair)
         {
-            var inputReader = new StringReader(pair.Input);
+            var (input, output) = pair;
+            var inputReader = new StringReader(input);
             var outputWriter = new StringWriter();
             new Program(inputReader, outputWriter).EntryPoint();
-            Assert.Equal(pair.Output, outputWriter.ToString());
+            Assert.Equal(output, outputWriter.ToString());
         }
     }
 }

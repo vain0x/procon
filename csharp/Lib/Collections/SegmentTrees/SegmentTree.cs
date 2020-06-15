@@ -238,30 +238,15 @@ namespace Procon
             return tree;
         }
 
-        public struct Option<T>
-        {
-            public T Value { get; }
-            public bool HasValue { get; }
-
-            public Option(T value)
-            {
-                Value = value;
-                HasValue = true;
-            }
-
-            public override string ToString() =>
-                HasValue ? string.Concat(Value) : "None";
-        }
-
-        public static SegmentTree<Option<T>> FromSemigroup<T>(IEnumerable<T> source, Func<T, T, T> append) =>
+        public static SegmentTree<(bool ok, T value)> FromSemigroup<T>(IEnumerable<T> source, Func<T, T, T> append) =>
             Create(
-                source.Select(item => new Option<T>(item)),
+                source.Select(value => (ok: true, value)),
                 default,
-                (xo, yo) => xo.HasValue
-                    ? (yo.HasValue ?
-                        new Option<T>(append(xo.Value, yo.Value))
-                        : xo)
-                    : yo
+                (opt1, opt2) => opt1.ok
+                    ? (opt2.ok ?
+                        (true, append(opt1.value, opt2.value))
+                        : opt1)
+                    : opt2
             );
     }
 }

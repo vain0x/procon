@@ -39,13 +39,6 @@ namespace Procon
         public bool Connects(int u, int v) =>
             Root(u) == Root(v);
 
-        private static void Swap<T>(ref T first, ref T second)
-        {
-            var t = first;
-            first = second;
-            second = t;
-        }
-
         /// <summary>
         /// Merges the specified vertices' group.
         /// </summary>
@@ -58,7 +51,7 @@ namespace Procon
 
             if (_ranks[u] > _ranks[v])
             {
-                Swap(ref u, ref v);
+                (u, v) = (v, u);
             }
 
             _parents[u] = v;

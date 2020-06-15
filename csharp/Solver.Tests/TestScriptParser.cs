@@ -5,18 +5,6 @@ using System.Text;
 
 namespace Procon
 {
-    public sealed class InputOutputPair
-    {
-        public string Input { get; }
-        public string Output { get; }
-
-        public InputOutputPair(string input, string output)
-        {
-            Input = input;
-            Output = output;
-        }
-    }
-
     public sealed class TestScriptParser
     {
         private static string NormalizeLinebreaks(string str) =>
@@ -80,7 +68,7 @@ namespace Procon
             }
         }
 
-        public IEnumerable<InputOutputPair> Parse(string source)
+        public IEnumerable<(string input, string output)> Parse(string source)
         {
             var lines =
                 SplitByLinebreaks(source)
@@ -94,7 +82,7 @@ namespace Procon
                 if (chunk.Count != 2)
                     throw new Exception("Missing output for the last input.");
 
-                yield return new InputOutputPair(Concat(chunk[0]), Concat(chunk[1]));
+                yield return (Concat(chunk[0]), Concat(chunk[1]));
             }
         }
     }

@@ -27,16 +27,16 @@ namespace Procon
         {
             var array = new[] { 1, 2, 2, 4 };
 
-            var equalRange = new Func<int, Tuple<int, int>>(value =>
-                Tuple.Create(array.LowerBound(value), array.UpperBound(value))
+            var equalRange = new Func<int, (int lb, int ub)>(value =>
+                (array.LowerBound(value), array.UpperBound(value))
             );
 
-            equalRange(0).Is(Tuple.Create(0, 0));
-            equalRange(1).Is(Tuple.Create(0, 1));
-            equalRange(2).Is(Tuple.Create(1, 3));
-            equalRange(3).Is(Tuple.Create(3, 3));
-            equalRange(4).Is(Tuple.Create(3, 4));
-            equalRange(5).Is(Tuple.Create(4, 4));
+            equalRange(0).Is((0, 0));
+            equalRange(1).Is((0, 1));
+            equalRange(2).Is((1, 3));
+            equalRange(3).Is((3, 3));
+            equalRange(4).Is((3, 4));
+            equalRange(5).Is((4, 4));
         }
 
         [Fact]
@@ -49,18 +49,17 @@ namespace Procon
             var ub = 6;
             var comparer = Comparer<int>.Create((l, r) => r - l);
 
-            var equalRange = new Func<int, Tuple<int, int>>(value =>
-                Tuple.Create(
-                    array.LowerBound(value, lb, ub, comparer),
-                    array.UpperBound(value, lb, ub, comparer)
-                ));
+            var equalRange = new Func<int, (int lb, int ub)>(value => (
+                array.LowerBound(value, lb, ub, comparer),
+                array.UpperBound(value, lb, ub, comparer)
+            ));
 
-            equalRange(6).Is(Tuple.Create(2, 2));
-            equalRange(5).Is(Tuple.Create(2, 3));
-            equalRange(4).Is(Tuple.Create(3, 4));
-            equalRange(3).Is(Tuple.Create(4, 4));
-            equalRange(2).Is(Tuple.Create(4, 6));
-            equalRange(1).Is(Tuple.Create(6, 6));
+            equalRange(6).Is((2, 2));
+            equalRange(5).Is((2, 3));
+            equalRange(4).Is((3, 4));
+            equalRange(3).Is((4, 4));
+            equalRange(2).Is((4, 6));
+            equalRange(1).Is((6, 6));
         }
     }
 }

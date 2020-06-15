@@ -27,27 +27,8 @@ public static class TemplateExtension
     public static string Intercalate<T>(this IEnumerable<T> source, string separator) =>
         string.Join(separator, source);
 
-    public sealed class ValueIndexPair<T>
-        : Tuple<T, int>
-    {
-        public T Value => Item1;
-        public int Index => Item2;
-
-        public ValueIndexPair(T value, int index)
-            : base(value, index)
-        {
-        }
-    }
-
-    public static IEnumerable<ValueIndexPair<T>> Indexed<T>(this IEnumerable<T> source)
-    {
-        var i = 0;
-        foreach (var item in source)
-        {
-            yield return new ValueIndexPair<T>(item, i);
-            i++;
-        }
-    }
+    public static IEnumerable<(T item, int index)> Indexed<T>(this IEnumerable<T> source) =>
+        source.Select((item, i) => (item, i));
 }
 
 public sealed class Scanner

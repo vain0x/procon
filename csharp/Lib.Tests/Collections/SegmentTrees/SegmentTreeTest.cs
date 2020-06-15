@@ -100,8 +100,8 @@ namespace Procon
         {
             var tree = SegmentTree.FromSemigroup(new[] { 3, 1, 4, 2, 5 }, (x, y) => x + y);
 
-            tree.Query(1, 3).Value.Is(7);
-            tree.Query(5, 0).HasValue.Is(false);
+            tree.Query(1, 3).value.Is(7);
+            tree.Query(5, 0).ok.Is(false);
         }
     }
 }
