@@ -1,6 +1,6 @@
 namespace Procon
 {
-    public sealed class UnionFindForest
+    public sealed class UnionFind
     {
         private readonly int[] _parents;
         private readonly int[] _ranks;
@@ -8,7 +8,7 @@ namespace Procon
         /// <summary>
         /// Constructs n-vertex UFF.
         /// </summary>
-        public UnionFindForest(int n)
+        public UnionFind(int n)
         {
             _parents = new int[n];
             _ranks = new int[n];
