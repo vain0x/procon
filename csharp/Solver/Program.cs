@@ -9,6 +9,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+public sealed partial class Program
+{
+    private long Solve()
+    {
+        return 0;
+    }
+
+    public void EntryPoint()
+    {
+        var I = _scanner;
+
+        WriteLine(Solve());
+    }
+}
+
+// ###############################################
+
 public static class TemplateExtension
 {
     public static T[] MakeArray<T>(this int count, Func<int, T> selector)
@@ -122,21 +139,4 @@ public partial class Program
 
     public static void Main(string[] args) =>
         new Program(Console.In, Console.Out).EntryPoint();
-}
-
-// ###############################################
-
-public sealed partial class Program
-{
-    private long Solve()
-    {
-        return 0;
-    }
-
-    public void EntryPoint()
-    {
-        var I = _scanner;
-
-        WriteLine(Solve());
-    }
 }
