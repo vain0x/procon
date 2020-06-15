@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "solver_build",
-            "program": "${workspaceRoot}/Solver/bin/Debug/netcoreapp2.0/Solver.dll",
+            "program": "${workspaceRoot}/Solver/bin/Debug/netcoreapp3.1/Solver.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
