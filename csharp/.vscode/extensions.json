@@ -1,6 +1,5 @@
 {
     "recommendations": [
-        "ms-vscode.csharp",
-        "EditorConfig.editorconfig"
+        "ms-vscode.csharp"
     ]
 }

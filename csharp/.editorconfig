@@ -1,25 +1,19 @@
-; .NET
-[*.sln]
-indent_style = tab
-indent_size = 4
+root = true
 
-; C#
+
+
 [*.{cs,csx}]
-indent_style = space
-indent_size = 4
 charset = utf-8
-trim_trailing_whitespace = true
+indent_size = 4
+indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
 
 [*.csproj]
-indent_style = space
-indent_size = 2
 charset = utf-8
+indent_size = 2
+indent_style = space
 
-; F#
-[*.{fs,fsi,fsl,fsy,fsproj}]
-indent_style = space
-indent_size = 2
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
+[*.sln]
+indent_size = 4
+indent_style = tab
