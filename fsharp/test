@@ -1,0 +1,4 @@
+#!/bin/bash
+# (Not run by CI.)
+
+dotnet test Lib.Tests -c Release
