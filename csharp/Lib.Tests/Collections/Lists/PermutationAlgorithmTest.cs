@@ -1,17 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Procon
 {
     public sealed class PermutationAlgorithmTest
     {
-        private IComparer<X> DualComparer<X>()
+        private IComparer<T> DescComparer<T>()
         {
-            return Comparer<X>.Create((l, r) => Comparer<X>.Default.Compare(r, l));
+            return Comparer<T>.Create((l, r) => Comparer<T>.Default.Compare(r, l));
         }
 
         [Fact]
@@ -31,7 +28,7 @@ namespace Procon
             Enumerable.Range(0, 3).Permutations()
                 .IsSeq(permutations);
 
-            Enumerable.Range(0, 3).Permutations(DualComparer<int>())
+            Enumerable.Range(0, 3).Permutations(DescComparer<int>())
                 .IsSeq(permutations.Reverse());
         }
 

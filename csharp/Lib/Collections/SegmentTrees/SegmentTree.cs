@@ -1,11 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     [System.Diagnostics.DebuggerDisplay("Count = {Count}")]
     public sealed class SegmentTree<T>
         : IReadOnlyList<T>
@@ -25,6 +23,15 @@ namespace Procon
         /// The rest are filled with <see cref="Empty"/>.
         /// </summary>
         private readonly T[] _nodes;
+
+        public SegmentTree(T[] nodes, int cacheCount, int itemCount, T empty, Func<T, T, T> append)
+        {
+            _nodes = nodes;
+            _cacheCount = cacheCount;
+            _itemCount = itemCount;
+            Empty = empty;
+            Append = append;
+        }
 
         public int Count
         {
@@ -129,6 +136,7 @@ namespace Procon
         }
 
         #region IReadOnlyList<_>, IList<_>
+
         private IEnumerator<T> GetEnumerator()
         {
             for (var i = 0; i < Count; i++)
@@ -255,16 +263,8 @@ namespace Procon
         {
             throw new NotSupportedException();
         }
-        #endregion
 
-        public SegmentTree(T[] nodes, int cacheCount, int itemCount, T empty, Func<T, T, T> append)
-        {
-            _nodes = nodes;
-            _cacheCount = cacheCount;
-            _itemCount = itemCount;
-            Empty = empty;
-            Append = append;
-        }
+        #endregion
     }
 
     public static class SegmentTree
@@ -276,9 +276,9 @@ namespace Procon
             return h;
         }
 
-        public static SegmentTree<X> Create<X>(IEnumerable<X> items, X empty, Func<X, X, X> append)
+        public static SegmentTree<T> Create<T>(IEnumerable<T> items, T empty, Func<T, T, T> append)
         {
-            var buffer = items as IReadOnlyList<X> ?? items.ToList();
+            var buffer = items as IReadOnlyList<T> ?? items.ToList();
             var count = buffer.Count;
 
             if (count == 0)
@@ -287,10 +287,10 @@ namespace Procon
             }
 
             var height = CalculateHeight(count);
-            var nodes = new X[(1 << height) * 2 - 1];
+            var nodes = new T[(1 << height) * 2 - 1];
             var innerNodeCount = (1 << height) - 1;
 
-            var tree = new SegmentTree<X>(nodes, innerNodeCount, count, empty, append);
+            var tree = new SegmentTree<T>(nodes, innerNodeCount, count, empty, append);
             tree.CopyFrom(buffer);
 
             return tree;
@@ -301,9 +301,10 @@ namespace Procon
             public readonly T Value;
             public readonly bool HasValue;
 
-            public override string ToString()
+            public Option(T value)
             {
-                return HasValue ? string.Concat(Value) : "None";
+                Value = value;
+                HasValue = true;
             }
 
             public static Option<T> None
@@ -311,22 +312,21 @@ namespace Procon
                 get { return new Option<T>(); }
             }
 
-            public Option(T value)
+            public override string ToString()
             {
-                Value = value;
-                HasValue = true;
+                return HasValue ? string.Concat(Value) : "None";
             }
         }
 
-        public static SegmentTree<Option<X>> FromSemigroup<X>(IEnumerable<X> items, Func<X, X, X> append)
+        public static SegmentTree<Option<T>> FromSemigroup<T>(IEnumerable<T> source, Func<T, T, T> append)
         {
             return
                 Create(
-                    items.Select(x => new Option<X>(x)),
-                    Option<X>.None,
+                    source.Select(x => new Option<T>(x)),
+                    Option<T>.None,
                     (xo, yo) =>
                         xo.HasValue
-                            ? (yo.HasValue ? new Option<X>(append(xo.Value, yo.Value)) : xo)
+                            ? (yo.HasValue ? new Option<T>(append(xo.Value, yo.Value)) : xo)
                             : yo
                 );
         }

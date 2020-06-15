@@ -1,36 +1,31 @@
+using System;
+using System.Collections.Generic;
+
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    public sealed class BinaryHeap<TValue>
-        : IReadOnlyCollection<TValue>
+    public sealed class BinaryHeap<T>
+        : IReadOnlyCollection<T>
     {
-        private readonly List<TValue> _list;
-        private readonly Func<TValue, TValue, int> _compare;
+        private readonly List<T> _list;
+        private readonly Func<T, T, int> _compare;
+
+        public BinaryHeap(List<T> list, Func<T, T, int> compare)
+        {
+            _list = list;
+            _compare = compare;
+        }
 
         public int Count
         {
             get { return _list.Count; }
         }
 
-        public IEnumerator<TValue> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public TValue Peek()
+        public T Peek()
         {
             return _list[0];
         }
 
-        public void Enqueue(TValue value)
+        public void Enqueue(T value)
         {
             _list.Add(value);
             var i = _list.Count - 1;
@@ -46,10 +41,10 @@ namespace Procon
             _list[i] = value;
         }
 
-        public TValue Dequeue()
+        public T Dequeue()
         {
             var min = _list[0];
-            var x = _list[_list.Count - 1];
+            var item = _list[_list.Count - 1];
             var i = 0;
             while (true)
             {
@@ -61,44 +56,48 @@ namespace Procon
                 // Index of the smaller child.
                 var c = r < _list.Count && _compare(_list[r], _list[l]) < 0 ? r : l;
 
-                if (_compare(_list[c], x) >= 0) break;
+                if (_compare(_list[c], item) >= 0) break;
                 _list[i] = _list[c];
                 i = c;
             }
-            _list[i] = x;
+            _list[i] = item;
             _list.RemoveAt(_list.Count - 1);
             return min;
         }
 
-        public BinaryHeap(List<TValue> list, Func<TValue, TValue, int> compare)
+        public IEnumerator<T> GetEnumerator()
         {
-            _list = list;
-            _compare = compare;
+            return _list.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
     public static class BinaryHeap
     {
-        public static BinaryHeap<X> Create<X>(Func<X, X, int> compare)
+        public static BinaryHeap<T> Create<T>(Func<T, T, int> compare)
         {
-            return new BinaryHeap<X>(new List<X>(), compare);
+            return new BinaryHeap<T>(new List<T>(), compare);
         }
 
-        public static BinaryHeap<X> Create<X>()
+        public static BinaryHeap<T> Create<T>()
         {
-            return new BinaryHeap<X>(new List<X>(), Comparer<X>.Default.Compare);
+            return new BinaryHeap<T>(new List<T>(), Comparer<T>.Default.Compare);
         }
 
-        public static BinaryHeap<X> FromEnumerable<X>(IEnumerable<X> xs, Func<X, X, int> compare)
+        public static BinaryHeap<T> FromEnumerable<T>(IEnumerable<T> source, Func<T, T, int> compare)
         {
-            var list = new List<X>(xs);
-            list.Sort(new Comparison<X>(compare));
-            return new BinaryHeap<X>(list, compare);
+            var list = new List<T>(source);
+            list.Sort(new Comparison<T>(compare));
+            return new BinaryHeap<T>(list, compare);
         }
 
-        public static BinaryHeap<X> FromEnumerable<X>(IEnumerable<X> xs)
+        public static BinaryHeap<T> FromEnumerable<T>(IEnumerable<T> source)
         {
-            return FromEnumerable(xs, Comparer<X>.Default.Compare);
+            return FromEnumerable(source, Comparer<T>.Default.Compare);
         }
     }
 }

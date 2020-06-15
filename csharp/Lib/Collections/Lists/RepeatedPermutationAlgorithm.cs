@@ -1,14 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public static class RepeatedPermutationAlgorithm
     {
-        private static IEnumerable<IReadOnlyList<X>> RepeatedPermutationsIterator<X>(int i, X[] source, X[] buffer)
+        private static IEnumerable<IReadOnlyList<T>> RepeatedPermutationsIterator<T>(int i, T[] source, T[] buffer)
         {
             if (i == buffer.Length)
             {
@@ -16,13 +13,13 @@ namespace Procon
             }
             else
             {
-                foreach (var x in source)
+                foreach (var item in source)
                 {
-                    buffer[i] = x;
+                    buffer[i] = item;
 
-                    foreach (var xs in RepeatedPermutationsIterator(i + 1, source, buffer))
+                    foreach (var list in RepeatedPermutationsIterator(i + 1, source, buffer))
                     {
-                        yield return xs;
+                        yield return list;
                     }
                 }
             }
@@ -31,9 +28,9 @@ namespace Procon
         /// <summary>
         /// Enumerates repeated permutations with the specified length.
         /// </summary>
-        public static IEnumerable<IReadOnlyList<X>> RepeatedPermutations<X>(this IEnumerable<X> @this, int count)
+        public static IEnumerable<IReadOnlyList<T>> RepeatedPermutations<T>(this IEnumerable<T> source, int count)
         {
-            return RepeatedPermutationsIterator(0, @this.ToArray(), new X[count]);
+            return RepeatedPermutationsIterator(0, source.ToArray(), new T[count]);
         }
     }
 }

@@ -1,7 +1,7 @@
+using System;
+
 namespace Procon
 {
-    using System;
-
     public sealed class Position<T>
         : Tuple<T, T>
     {

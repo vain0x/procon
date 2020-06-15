@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Procon
@@ -33,9 +31,9 @@ namespace Procon
                 heap.Count.Is(2);
                 heap.Peek().Is(1);
 
-                var x = heap.Dequeue();
+                var item = heap.Dequeue();
                 heap.Count.Is(1);
-                x.Is(1);
+                item.Is(1);
             }
 
             // Test to add a value less than min.
@@ -44,9 +42,9 @@ namespace Procon
                 heap.Count.Is(2);
                 heap.Peek().Is(0);
 
-                var x = heap.Dequeue();
+                var item = heap.Dequeue();
                 heap.Count.Is(1);
-                x.Is(0);
+                item.Is(0);
             }
         }
 
@@ -56,17 +54,17 @@ namespace Procon
             var n = 100;
 
             var heap = BinaryHeap.Create<int>();
-            var xs = UnorderedSeq(n).ToArray();
+            var array = UnorderedSeq(n).ToArray();
 
-            foreach (var x in xs)
+            foreach (var item in array)
             {
-                heap.Enqueue(x);
+                heap.Enqueue(item);
             }
 
             var actual = heap.OrderBy(x => x);
 
-            Array.Sort(xs);
-            actual.IsSeq(xs);
+            Array.Sort(array);
+            actual.IsSeq(array);
         }
 
         [Fact]
@@ -74,17 +72,17 @@ namespace Procon
         {
             var n = 10;
 
-            var xs = UnorderedSeq(n).ToArray();
-            var heap = BinaryHeap.FromEnumerable(xs);
+            var array = UnorderedSeq(n).ToArray();
+            var heap = BinaryHeap.FromEnumerable(array);
 
-            var ys = new List<int>();
+            var list = new List<int>();
             while (heap.Count > 0)
             {
-                ys.Add(heap.Dequeue());
+                list.Add(heap.Dequeue());
             }
 
-            Array.Sort(xs);
-            ys.IsSeq(xs);
+            Array.Sort(array);
+            list.IsSeq(array);
         }
     }
 }

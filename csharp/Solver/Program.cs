@@ -1,28 +1,24 @@
+// Framework <https://github.com/vain0x/procon>
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-//------------------------------------------------
-// Framework <https://github.com/vain0x/procon>
-//------------------------------------------------
 
 public static class TemplateExtension
 {
-    public static X[] MakeArray<X>(this int count, Func<int, X> func)
+    public static T[] MakeArray<T>(this int count, Func<int, T> func)
     {
-        var xs = new X[count];
+        var array = new T[count];
         for (var i = 0; i < count; i++)
         {
-            xs[i] = func(i);
+            array[i] = func(i);
         }
-        return xs;
+        return array;
     }
 
     public static int[] Range(this int count, int start = 0)
@@ -30,9 +26,9 @@ public static class TemplateExtension
         return count.MakeArray(i => i + start);
     }
 
-    public static string Intercalate<X>(this IEnumerable<X> @this, string separator)
+    public static string Intercalate<T>(this IEnumerable<T> source, string separator)
     {
-        return string.Join(separator, @this);
+        return string.Join(separator, source);
     }
 
     public sealed class ValueIndexPair<T>
@@ -47,12 +43,12 @@ public static class TemplateExtension
         }
     }
 
-    public static IEnumerable<ValueIndexPair<X>> Indexed<X>(this IEnumerable<X> @this)
+    public static IEnumerable<ValueIndexPair<T>> Indexed<T>(this IEnumerable<T> source)
     {
         var i = 0;
-        foreach (var x in @this)
+        foreach (var item in source)
         {
-            yield return new ValueIndexPair<X>(x, i);
+            yield return new ValueIndexPair<T>(item, i);
             i++;
         }
     }
@@ -126,7 +122,7 @@ public sealed class Scanner
     /// <summary>
     /// Reads next line and splits it by spaces.
     /// </summary>
-    public X[] Words<X>(Func<string, X> func)
+    public T[] Words<T>(Func<string, T> func)
     {
         return _reader.ReadLine().Split(' ').Select(func).ToArray();
     }
@@ -181,9 +177,7 @@ public partial class Program
     }
 }
 
-//------------------------------------------------
-// Solution
-//------------------------------------------------
+// ###############################################
 
 public sealed partial class Program
 {

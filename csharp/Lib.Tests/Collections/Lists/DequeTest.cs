@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Procon
@@ -69,7 +67,7 @@ namespace Procon
         }
 
         [Fact]
-        public void Teset_Item()
+        public void Test_Item()
         {
             var q = Create(0, 1, 2, 3);
             q.PopFront();
@@ -82,7 +80,7 @@ namespace Procon
         }
 
         [Fact]
-        public void Test_large_random()
+        public void Test_Large_Random()
         {
             var random = new Random();
             var q = Create();

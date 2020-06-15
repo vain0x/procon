@@ -1,13 +1,10 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace Procon
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public sealed class Deque<T>
         : IReadOnlyList<T>
     {
@@ -140,6 +137,7 @@ namespace Procon
         }
 
         #region IEnumerable
+
         public IEnumerator<T> GetEnumerator()
         {
             for (var i = 0; i < Count; i++)
@@ -152,22 +150,23 @@ namespace Procon
         {
             return GetEnumerator();
         }
+
         #endregion
     }
 
     public static class Deque
     {
-        public static Deque<X> Create<X>()
+        public static Deque<T> Create<T>()
         {
-            return new Deque<X>();
+            return new Deque<T>();
         }
 
-        public static Deque<X> FromEnumerable<X>(IEnumerable<X> xs)
+        public static Deque<T> FromEnumerable<T>(IEnumerable<T> source)
         {
-            var deque = new Deque<X>();
-            foreach (var x in xs)
+            var deque = new Deque<T>();
+            foreach (var item in source)
             {
-                deque.PushBack(x);
+                deque.PushBack(item);
             }
             return deque;
         }

@@ -1,7 +1,7 @@
+using System;
+
 namespace Procon
 {
-    using System;
-
     public sealed class Edge<V, W>
         : Tuple<W, V, V>
     {

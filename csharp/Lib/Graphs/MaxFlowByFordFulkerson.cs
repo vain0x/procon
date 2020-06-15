@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
     using Flow = System.Int64; // Or System.Double
 
     public sealed class MaxFlowByFordFulkerson

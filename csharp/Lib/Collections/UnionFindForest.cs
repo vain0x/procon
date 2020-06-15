@@ -1,11 +1,5 @@
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public sealed class UnionFindForest
     {
         private readonly int[] _parents;
@@ -49,11 +43,11 @@ namespace Procon
             return Root(u) == Root(v);
         }
 
-        private static void Swap<X>(ref X l, ref X r)
+        private static void Swap<T>(ref T first, ref T second)
         {
-            var t = l;
-            l = r;
-            r = t;
+            var t = first;
+            first = second;
+            second = t;
         }
 
         /// <summary>

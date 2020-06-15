@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Procon
 {
@@ -40,33 +39,33 @@ namespace Procon
             return builder.ToString();
         }
 
-        private static IEnumerable<IReadOnlyList<X>> SplitBy<X>(IEnumerable<X> xs, X delimiter)
+        private static IEnumerable<IReadOnlyList<T>> SplitBy<T>(IEnumerable<T> source, T delimiter)
         {
-            var chunk = new List<X>();
-            foreach (var x in xs)
+            var chunk = new List<T>();
+            foreach (var item in source)
             {
-                if (EqualityComparer<X>.Default.Equals(x, delimiter))
+                if (EqualityComparer<T>.Default.Equals(item, delimiter))
                 {
                     yield return chunk;
-                    chunk = new List<X>();
+                    chunk = new List<T>();
                 }
                 else
                 {
-                    chunk.Add(x);
+                    chunk.Add(item);
                 }
             }
             yield return chunk;
         }
 
-        private static IEnumerable<IReadOnlyList<X>> ChunkBySize<X>(IEnumerable<X> xs, int chunkSize)
+        private static IEnumerable<IReadOnlyList<T>> ChunkBySize<T>(IEnumerable<T> source, int chunkSize)
         {
             if (chunkSize <= 0) throw new ArgumentOutOfRangeException(nameof(chunkSize));
-            var chunkOrNull = default(List<X>);
-            foreach (var x in xs)
+            var chunkOrNull = default(List<T>);
+            foreach (var item in source)
             {
-                if (chunkOrNull == null) chunkOrNull = new List<X>(chunkSize);
+                if (chunkOrNull == null) chunkOrNull = new List<T>(chunkSize);
 
-                chunkOrNull.Add(x);
+                chunkOrNull.Add(item);
                 if (chunkOrNull.Count == chunkSize)
                 {
                     yield return chunkOrNull;

@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Procon
 {
     public sealed class SegmentTreeTest
     {
-        private X Aggregate<X>(X[] array, int index, int count, X empty, Func<X, X, X> append)
+        private T Aggregate<T>(T[] array, int index, int count, T empty, Func<T, T, T> append)
         {
             var j = index + count;
             var s = empty;
@@ -20,7 +17,7 @@ namespace Procon
             return s;
         }
 
-        private void Verify<X>(X[] array, SegmentTree<X> tree)
+        private void Verify<T>(T[] array, SegmentTree<T> tree)
         {
             for (var i = 0; i < array.Length; i++)
             {
@@ -57,9 +54,9 @@ namespace Procon
                 for (var s = 0; s < 20; s++)
                 {
                     var i = random.Next(0, count);
-                    var x = random.Next(Min, Max);
-                    tree[i] = x;
-                    array[i] = x;
+                    var item = random.Next(Min, Max);
+                    tree[i] = item;
+                    array[i] = item;
 
                     Verify(array, tree);
                 }
