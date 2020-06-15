@@ -1,5 +1,7 @@
-module Procon.ImperativeBuilderTests
+module ImperativeBuilderTests
 
+open ImperativeBuilders
+open Procon
 open Xunit
 
 let imperative = ImperativeBuilder.Instance
