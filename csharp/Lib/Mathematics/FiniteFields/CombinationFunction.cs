@@ -6,11 +6,11 @@ public sealed class CombinationFunction
 
     public long Combination(int m, int k)
     {
+        if ((uint)k > (uint)m)
+            return 0;
+
         if (k == 0 || m == k)
             return 1;
-
-        if (k < 0 || k > m)
-            return 0;
 
         var c = _factorial[m];
         c = (c * _factorialInverse[m - k]) % _mod;

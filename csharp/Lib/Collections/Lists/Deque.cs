@@ -25,16 +25,14 @@ public sealed class Deque<T>
 
     public T this[int index]
     {
-        get
-        {
-            if (!(0 <= index && index < _count))
-                throw new ArgumentOutOfRangeException(nameof(index));
-            return _buffer[Shift(index)];
-        }
+        get => (uint)index < (uint)_count
+            ? _buffer[Shift(index)]
+            : throw new ArgumentOutOfRangeException(nameof(index));
         set
         {
-            if (!(0 <= index && index < _count))
+            if ((uint)index >= (uint)_count)
                 throw new ArgumentOutOfRangeException(nameof(index));
+
             _buffer[Shift(index)] = value;
         }
     }

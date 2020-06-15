@@ -52,16 +52,12 @@ public sealed class SegmentTree<T>
 
     public T this[int index]
     {
-        get
-        {
-            if (index < 0 || index >= Count)
-                throw new ArgumentOutOfRangeException(nameof(index));
-
-            return _nodes[_cacheCount + index];
-        }
+        get => (uint)index < (uint)Count
+            ? _nodes[_cacheCount + index]
+            : throw new ArgumentOutOfRangeException(nameof(index));
         set
         {
-            if (index < 0 || index >= Count)
+            if ((uint)index >= (uint)Count)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             SetItem(index, value);
@@ -111,19 +107,14 @@ public sealed class SegmentTree<T>
     /// <summary>
     /// Calculates the sum of items in the specified range.
     /// </summary>
-    public T Query(int index, int count)
-    {
-        if (index < 0 || index > _itemCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
-
-        if (count < 0 || index + count > _itemCount)
-            throw new ArgumentOutOfRangeException(nameof(count));
-
-        if (count == 0)
-            return Empty;
-
-        return QueryCore(0, 0, LeafCount, index, index + count);
-    }
+    public T Query(int index, int count) =>
+        (uint)index > (uint)_itemCount ?
+            throw new ArgumentOutOfRangeException(nameof(index))
+        : count < 0 || index + count > _itemCount ?
+            throw new ArgumentOutOfRangeException(nameof(count))
+        : count == 0 ?
+            Empty
+        : QueryCore(0, 0, LeafCount, index, index + count);
 
     /// <summary>
     /// Gets the sum of items.
