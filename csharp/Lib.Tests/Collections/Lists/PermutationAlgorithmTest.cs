@@ -8,7 +8,7 @@ public sealed class PermutationAlgorithmTest
         Comparer<T>.Create((l, r) => Comparer<T>.Default.Compare(r, l));
 
     [Fact]
-    public void Test_Permutations_odd_length()
+    public void Test_AllPermutations_odd_length()
     {
         var permutations = new int[][]
         {
@@ -20,15 +20,15 @@ public sealed class PermutationAlgorithmTest
             new[] { 2, 1, 0 },
         };
 
-        Enumerable.Range(0, 3).Permutations()
+        Enumerable.Range(0, 3).AllPermutations()
             .IsSeq(permutations);
 
-        Enumerable.Range(0, 3).Permutations(DescComparer<int>())
+        Enumerable.Range(0, 3).AllPermutations(DescComparer<int>())
             .IsSeq(permutations.Reverse());
     }
 
     [Fact]
-    public void Test_Permutations_even_length()
+    public void Test_AllPermutations_even_length()
     {
         var permutations = new int[][]
         {
@@ -58,11 +58,11 @@ public sealed class PermutationAlgorithmTest
             new[] { 3, 2, 1, 0 },
         };
 
-        Enumerable.Range(0, 4).Permutations().IsSeq(permutations);
+        Enumerable.Range(0, 4).AllPermutations().IsSeq(permutations);
     }
 
     [Fact]
-    public void Test_Permutations_no_duplication()
+    public void Test_AllPermutations_no_duplication()
     {
         var permutations = new int[][]
         {
@@ -80,6 +80,6 @@ public sealed class PermutationAlgorithmTest
             new[] { 2, 1, 0, 0 },
         };
 
-        new[] { 0, 0, 1, 2 }.Permutations().IsSeq(permutations);
+        new[] { 0, 0, 1, 2 }.AllPermutations().IsSeq(permutations);
     }
 }

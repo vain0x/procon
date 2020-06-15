@@ -3,9 +3,6 @@ public sealed class UnionFind
     private readonly int[] _parents;
     private readonly int[] _ranks;
 
-    /// <summary>
-    /// Constructs n-vertex UFF.
-    /// </summary>
     public UnionFind(int n)
     {
         _parents = new int[n];
@@ -18,9 +15,6 @@ public sealed class UnionFind
         }
     }
 
-    /// <summary>
-    /// Gets the representative of the specified vertex's group.
-    /// </summary>
     public int Root(int v)
     {
         if (_parents[v] == v)
@@ -31,15 +25,9 @@ public sealed class UnionFind
         return r;
     }
 
-    /// <summary>
-    /// Gets a value indicating whether two vertices belong to the same group.
-    /// </summary>
     public bool Connects(int u, int v) =>
         Root(u) == Root(v);
 
-    /// <summary>
-    /// Merges the specified vertices' group.
-    /// </summary>
     public void Merge(int u, int v)
     {
         u = Root(u);

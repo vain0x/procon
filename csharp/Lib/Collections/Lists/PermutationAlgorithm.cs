@@ -19,10 +19,6 @@ public static class PermutationAlgorithm
         }
     }
 
-    /// <summary>
-    /// Rearranges items into the next lexicographically greater permutation.
-    /// Returns <c>true</c> if rearranged.
-    /// </summary>
     public static bool NextPermutation<T>(this IList<T> list, IComparer<T> comparer)
     {
         var count = list.Count;
@@ -57,20 +53,10 @@ public static class PermutationAlgorithm
         }
     }
 
-    /// <summary>
-    /// Rearranges items into the next lexicographically greater permutation
-    /// in the default order.
-    /// Returns <c>true</c> if rearranged.
-    /// </summary>
-    public static bool NextPermutation<T>(this IList<T> list)
-    {
-        return NextPermutation(list, Comparer<T>.Default);
-    }
+    public static bool NextPermutation<T>(this IList<T> list) =>
+        NextPermutation(list, Comparer<T>.Default);
 
-    /// <summary>
-    /// Generates all permutations.
-    /// </summary>
-    public static IEnumerable<IReadOnlyList<T>> Permutations<T>(this IEnumerable<T> source, IComparer<T> comparer)
+    public static IEnumerable<IReadOnlyList<T>> AllPermutations<T>(this IEnumerable<T> source, IComparer<T> comparer)
     {
         var array = source.ToArray();
         Array.Sort(array, comparer);
@@ -82,9 +68,6 @@ public static class PermutationAlgorithm
         while (NextPermutation(array, comparer));
     }
 
-    /// <summary>
-    /// Generates all permutations.
-    /// </summary>
-    public static IEnumerable<IReadOnlyList<T>> Permutations<T>(this IEnumerable<T> source) =>
-        Permutations(source, Comparer<T>.Default);
+    public static IEnumerable<IReadOnlyList<T>> AllPermutations<T>(this IEnumerable<T> source) =>
+        AllPermutations(source, Comparer<T>.Default);
 }

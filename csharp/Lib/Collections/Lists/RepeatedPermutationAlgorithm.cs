@@ -23,9 +23,6 @@ public static class RepeatedPermutationAlgorithm
         }
     }
 
-    /// <summary>
-    /// Enumerates repeated permutations with the specified length.
-    /// </summary>
-    public static IEnumerable<IReadOnlyList<T>> RepeatedPermutations<T>(this IEnumerable<T> source, int count) =>
+    public static IEnumerable<IReadOnlyList<T>> AllRepeatedPermutations<T>(this IEnumerable<T> source, int count) =>
         RepeatedPermutationsIterator(0, source.ToArray(), new T[count]);
 }

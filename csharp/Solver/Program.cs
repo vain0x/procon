@@ -11,12 +11,12 @@ using System.Text;
 
 public static class TemplateExtension
 {
-    public static T[] MakeArray<T>(this int count, Func<int, T> func)
+    public static T[] MakeArray<T>(this int count, Func<int, T> selector)
     {
         var array = new T[count];
         for (var i = 0; i < count; i++)
         {
-            array[i] = func(i);
+            array[i] = selector(i);
         }
         return array;
     }
@@ -36,9 +36,6 @@ public sealed class Scanner
     private readonly TextReader _reader;
     private readonly StringBuilder _sb = new StringBuilder();
 
-    /// <summary>
-    /// Reads next word separated by spaces.
-    /// </summary>
     public string Word()
     {
         _sb.Clear();
@@ -88,8 +85,8 @@ public sealed class Scanner
     /// <summary>
     /// Reads next line and splits it by spaces.
     /// </summary>
-    public T[] Words<T>(Func<string, T> func) =>
-        _reader.ReadLine().Split(' ').Select(func).ToArray();
+    public T[] Words<T>(Func<string, T> selector) =>
+        _reader.ReadLine().Split(' ').Select(selector).ToArray();
 
     public Scanner(TextReader reader) =>
         _reader = reader;

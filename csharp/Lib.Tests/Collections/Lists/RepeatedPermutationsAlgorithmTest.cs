@@ -2,13 +2,13 @@ using Xunit;
 
 public sealed class RepeatedPermutationsAlgorithmTest
 {
-    public sealed class Test_RepeatedPermutations
+    public sealed class Test_AllRepeatedPermutations
     {
         [Fact]
         public void Test_edge_cases()
         {
-            new[] { 0, 1 }.RepeatedPermutations(0).IsSeq(new[] { new int[0] });
-            new int[0].RepeatedPermutations(1).IsSeq(new int[0][]);
+            new[] { 0, 1 }.AllRepeatedPermutations(0).IsSeq(new[] { new int[0] });
+            new int[0].AllRepeatedPermutations(1).IsSeq(new int[0][]);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ public sealed class RepeatedPermutationsAlgorithmTest
                 new[] { 2, 2 },
             };
 
-            new[] { 0, 1, 2 }.RepeatedPermutations(2).IsSeq(expected);
+            new[] { 0, 1, 2 }.AllRepeatedPermutations(2).IsSeq(expected);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ public sealed class RepeatedPermutationsAlgorithmTest
                 new[] { 1, 1, 1 },
             };
 
-            new[] { 0, 1 }.RepeatedPermutations(3).IsSeq(expected);
+            new[] { 0, 1 }.AllRepeatedPermutations(3).IsSeq(expected);
         }
     }
 }
