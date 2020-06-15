@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Xunit;
 
-namespace Procon
+namespace Xunit
 {
     public static class XunitExtension
     {
