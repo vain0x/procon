@@ -64,16 +64,12 @@ namespace Procon
         }
 
         [Fact]
-        public void Test_minimum_random()
-        {
+        public void Test_minimum_random() =>
             VerifySmall(int.MaxValue, Math.Min);
-        }
 
         [Fact]
-        public void Test_mul_random()
-        {
+        public void Test_mul_random() =>
             VerifySmall(1, (x, y) => x * y);
-        }
 
         [Fact]
         public void Test_large()

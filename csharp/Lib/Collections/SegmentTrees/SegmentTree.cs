@@ -9,8 +9,8 @@ namespace Procon
         : IReadOnlyList<T>
         , IList<T>
     {
-        public readonly T Empty;
-        public readonly Func<T, T, T> Append;
+        public T Empty { get; }
+        public Func<T, T, T> Append { get; }
 
         private readonly int _cacheCount;
         private readonly int _itemCount;
@@ -33,15 +33,9 @@ namespace Procon
             Append = append;
         }
 
-        public int Count
-        {
-            get { return _itemCount; }
-        }
+        public int Count => _itemCount;
 
-        private int LeafCount
-        {
-            get { return _nodes.Length - _cacheCount; }
-        }
+        private int LeafCount => _nodes.Length - _cacheCount;
 
         private void SetItem(int index, T item)
         {
@@ -62,12 +56,16 @@ namespace Procon
         {
             get
             {
-                if (index < 0 || index >= Count) throw new ArgumentOutOfRangeException("index");
+                if (index < 0 || index >= Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+
                 return _nodes[_cacheCount + index];
             }
             set
             {
-                if (index < 0 || index >= Count) throw new ArgumentOutOfRangeException("index");
+                if (index < 0 || index >= Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+
                 SetItem(index, value);
             }
         }
@@ -77,7 +75,8 @@ namespace Procon
         /// </summary>
         public void CopyFrom(IReadOnlyList<T> list)
         {
-            if (list.Count != _itemCount) throw new ArgumentException();
+            if (list.Count != _itemCount)
+                throw new ArgumentException();
 
             for (var k = 0; k < _itemCount; k++)
             {
@@ -100,20 +99,15 @@ namespace Procon
         private T QueryCore(int i, int nl, int nr, int ql, int qr)
         {
             if (qr <= nl || nr <= ql)
-            {
                 return Empty;
-            }
-            else if (ql <= nl && nr <= qr)
-            {
+
+            if (ql <= nl && nr <= qr)
                 return _nodes[i];
-            }
-            else
-            {
-                var m = nl + (nr - nl) / 2;
-                var l = QueryCore(i * 2 + 1, nl, m, ql, qr);
-                var r = QueryCore(i * 2 + 2, m, nr, ql, qr);
-                return Append(l, r);
-            }
+
+            var m = nl + (nr - nl) / 2;
+            var l = QueryCore(i * 2 + 1, nl, m, ql, qr);
+            var r = QueryCore(i * 2 + 2, m, nr, ql, qr);
+            return Append(l, r);
         }
 
         /// <summary>
@@ -121,19 +115,22 @@ namespace Procon
         /// </summary>
         public T Query(int index, int count)
         {
-            if (index < 0 || index > _itemCount) throw new ArgumentOutOfRangeException("index");
-            if (count < 0 || index + count > _itemCount) throw new ArgumentOutOfRangeException("count");
-            if (count == 0) return Empty;
+            if (index < 0 || index > _itemCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            if (count < 0 || index + count > _itemCount)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            if (count == 0)
+                return Empty;
+
             return QueryCore(0, 0, LeafCount, index, index + count);
         }
 
         /// <summary>
         /// Gets the sum of items.
         /// </summary>
-        public T Query()
-        {
-            return _nodes[0];
-        }
+        public T Query() => _nodes[0];
 
         #region IReadOnlyList<_>, IList<_>
 
@@ -158,111 +155,56 @@ namespace Procon
             for (var i = 0; i < Count; i++)
             {
                 if (EqualityComparer<T>.Default.Equals(this[i], item))
-                {
                     return i;
-                }
             }
             return -1;
         }
 
-        private bool Contains(T item)
-        {
-            return IndexOf(item) >= 0;
-        }
+        private bool Contains(T item) =>
+            IndexOf(item) >= 0;
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() =>
+            GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<T>)this).GetEnumerator();
-        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            ((IEnumerable<T>)this).GetEnumerator();
 
-        int IReadOnlyCollection<T>.Count
-        {
-            get
-            {
-                return Count;
-            }
-        }
+        int IReadOnlyCollection<T>.Count => Count;
 
-        T IReadOnlyList<T>.this[int index]
-        {
-            get
-            {
-                return this[index];
-            }
-        }
+        T IReadOnlyList<T>.this[int index] => this[index];
 
-        bool ICollection<T>.IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool ICollection<T>.IsReadOnly => false;
 
-        int ICollection<T>.Count
-        {
-            get
-            {
-                return Count;
-            }
-        }
+        int ICollection<T>.Count => Count;
 
-        bool ICollection<T>.Contains(T item)
-        {
-            return Contains(item);
-        }
+        bool ICollection<T>.Contains(T item) => Contains(item);
 
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-        {
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex) =>
             CopyTo(array, arrayIndex);
-        }
 
-        void ICollection<T>.Add(T item)
-        {
+        void ICollection<T>.Add(T item) =>
             throw new NotSupportedException();
-        }
 
-        bool ICollection<T>.Remove(T item)
-        {
+        bool ICollection<T>.Remove(T item) =>
             throw new NotSupportedException();
-        }
 
-        void ICollection<T>.Clear()
-        {
+        void ICollection<T>.Clear() =>
             throw new NotSupportedException();
-        }
 
         T IList<T>.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                this[index] = value;
-            }
+            get => this[index];
+            set => this[index] = value;
         }
 
-        int IList<T>.IndexOf(T item)
-        {
-            return IndexOf(item);
-        }
+        int IList<T>.IndexOf(T item) =>
+            IndexOf(item);
 
-        void IList<T>.Insert(int index, T item)
-        {
+        void IList<T>.Insert(int index, T item) =>
             throw new NotSupportedException();
-        }
 
-        void IList<T>.RemoveAt(int index)
-        {
+        void IList<T>.RemoveAt(int index) =>
             throw new NotSupportedException();
-        }
 
         #endregion
     }
@@ -272,7 +214,10 @@ namespace Procon
         private static int CalculateHeight(int count)
         {
             var h = 0;
-            while ((1 << h) < count) h++;
+            while ((1 << h) < count)
+            {
+                h++;
+            }
             return h;
         }
 
@@ -282,9 +227,7 @@ namespace Procon
             var count = buffer.Count;
 
             if (count == 0)
-            {
                 throw new NotSupportedException("Empty segment tree is not supported.");
-            }
 
             var height = CalculateHeight(count);
             var nodes = new T[(1 << height) * 2 - 1];
@@ -292,14 +235,13 @@ namespace Procon
 
             var tree = new SegmentTree<T>(nodes, innerNodeCount, count, empty, append);
             tree.CopyFrom(buffer);
-
             return tree;
         }
 
         public struct Option<T>
         {
-            public readonly T Value;
-            public readonly bool HasValue;
+            public T Value { get; }
+            public bool HasValue { get; }
 
             public Option(T value)
             {
@@ -307,28 +249,19 @@ namespace Procon
                 HasValue = true;
             }
 
-            public static Option<T> None
-            {
-                get { return new Option<T>(); }
-            }
-
-            public override string ToString()
-            {
-                return HasValue ? string.Concat(Value) : "None";
-            }
+            public override string ToString() =>
+                HasValue ? string.Concat(Value) : "None";
         }
 
-        public static SegmentTree<Option<T>> FromSemigroup<T>(IEnumerable<T> source, Func<T, T, T> append)
-        {
-            return
-                Create(
-                    source.Select(x => new Option<T>(x)),
-                    Option<T>.None,
-                    (xo, yo) =>
-                        xo.HasValue
-                            ? (yo.HasValue ? new Option<T>(append(xo.Value, yo.Value)) : xo)
-                            : yo
-                );
-        }
+        public static SegmentTree<Option<T>> FromSemigroup<T>(IEnumerable<T> source, Func<T, T, T> append) =>
+            Create(
+                source.Select(item => new Option<T>(item)),
+                default,
+                (xo, yo) => xo.HasValue
+                    ? (yo.HasValue ?
+                        new Option<T>(append(xo.Value, yo.Value))
+                        : xo)
+                    : yo
+            );
     }
 }

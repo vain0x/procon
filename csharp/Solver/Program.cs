@@ -21,21 +21,17 @@ public static class TemplateExtension
         return array;
     }
 
-    public static int[] Range(this int count, int start = 0)
-    {
-        return count.MakeArray(i => i + start);
-    }
+    public static int[] Range(this int count, int start = 0) =>
+        count.MakeArray(i => i + start);
 
-    public static string Intercalate<T>(this IEnumerable<T> source, string separator)
-    {
-        return string.Join(separator, source);
-    }
+    public static string Intercalate<T>(this IEnumerable<T> source, string separator) =>
+        string.Join(separator, source);
 
     public sealed class ValueIndexPair<T>
         : Tuple<T, int>
     {
-        public T Value { get { return Item1; } }
-        public int Index { get { return Item2; } }
+        public T Value => Item1;
+        public int Index => Item2;
 
         public ValueIndexPair(T value, int index)
             : base(value, index)
@@ -78,18 +74,16 @@ public sealed class Scanner
                 }
 
                 // Ignore leading spaces.
-                if (_sb.Length == 0) continue;
+                if (_sb.Length == 0)
+                    continue;
 
                 break;
             }
-            else if (r == -1)
-            {
+
+            if (r == -1)
                 break;
-            }
-            else
-            {
-                _sb.Append((char)r);
-            }
+
+            _sb.Append((char)r);
         }
 
         return _sb.ToString();
@@ -98,39 +92,26 @@ public sealed class Scanner
     /// <summary>
     /// Reads next word as <see cref="int"/>.
     /// </summary>
-    public int N()
-    {
-        return int.Parse(Word().Trim());
-    }
+    public int N() => int.Parse(Word().Trim());
 
     /// <summary>
     /// Reads next word as <see cref="long"/>.
     /// </summary>
-    public long L()
-    {
-        return long.Parse(Word());
-    }
+    public long L() => long.Parse(Word());
 
     /// <summary>
     /// Reads next word as <see cref="double"/>.
     /// </summary>
-    public double F()
-    {
-        return double.Parse(Word());
-    }
+    public double F() => double.Parse(Word());
 
     /// <summary>
     /// Reads next line and splits it by spaces.
     /// </summary>
-    public T[] Words<T>(Func<string, T> func)
-    {
-        return _reader.ReadLine().Split(' ').Select(func).ToArray();
-    }
+    public T[] Words<T>(Func<string, T> func) =>
+        _reader.ReadLine().Split(' ').Select(func).ToArray();
 
-    public Scanner(TextReader reader)
-    {
+    public Scanner(TextReader reader) =>
         _reader = reader;
-    }
 }
 
 public partial class Program
@@ -139,30 +120,20 @@ public partial class Program
     private readonly TextWriter _output;
     private readonly Scanner _scanner;
 
-    private void WriteLine(int value)
-    {
+    private void WriteLine(int value) =>
         _output.WriteLine(value);
-    }
 
-    private void WriteLine(long value)
-    {
+    private void WriteLine(long value) =>
         _output.WriteLine(value);
-    }
 
-    private void WriteLine(double value)
-    {
+    private void WriteLine(double value) =>
         _output.WriteLine(value.ToString(CultureInfo.InvariantCulture));
-    }
 
-    private void WriteLine(char value)
-    {
+    private void WriteLine(char value) =>
         _output.WriteLine(value);
-    }
 
-    private void WriteLine(string value)
-    {
+    private void WriteLine(string value) =>
         _output.WriteLine(value);
-    }
 
     public Program(TextReader input, TextWriter output)
     {
@@ -171,10 +142,8 @@ public partial class Program
         _scanner = new Scanner(input);
     }
 
-    public static void Main(string[] args)
-    {
+    public static void Main(string[] args) =>
         new Program(Console.In, Console.Out).EntryPoint();
-    }
 }
 
 // ###############################################

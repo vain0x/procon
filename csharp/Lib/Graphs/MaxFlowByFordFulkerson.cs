@@ -15,8 +15,8 @@ namespace Procon
             public Edge Dual;
         }
 
-        private readonly int N;
-        private readonly List<Edge>[] G;
+        private int N { get; }
+        private List<Edge>[] G { get; }
 
         public MaxFlowByFordFulkerson(int n)
         {
@@ -45,17 +45,13 @@ namespace Procon
         private bool Dfs(int v, int t, bool[] done, ref Flow flow)
         {
             if (v == t)
-            {
                 return true;
-            }
 
             done[v] = true;
             foreach (var e in G[v])
             {
                 if (done[e.Dest] || e.Capacity <= 0)
-                {
                     continue;
-                }
 
                 var d = Math.Min(flow, e.Capacity);
 
@@ -84,9 +80,7 @@ namespace Procon
                 var flow = INF;
 
                 if (!Dfs(s, t, done, ref flow))
-                {
                     return totalFlow;
-                }
 
                 totalFlow += flow;
             }

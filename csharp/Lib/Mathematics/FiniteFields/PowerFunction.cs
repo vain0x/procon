@@ -4,6 +4,9 @@ namespace Procon
     {
         private readonly int _mod;
 
+        public PowerFunction(int mod) =>
+            _mod = mod;
+
         public long Power(long x, int n)
         {
             var y = 1L;
@@ -23,14 +26,7 @@ namespace Procon
             return y;
         }
 
-        public long Inverse(long x)
-        {
-            return Power(x, _mod - 2);
-        }
-
-        public PowerFunction(int mod)
-        {
-            _mod = mod;
-        }
+        public long Inverse(long x) =>
+            Power(x, _mod - 2);
     }
 }

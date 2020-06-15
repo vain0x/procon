@@ -7,10 +7,8 @@ namespace Procon
 {
     public sealed class DequeTest
     {
-        private Deque<int> Create(params int[] values)
-        {
-            return Deque.FromEnumerable(values);
-        }
+        private Deque<int> Create(params int[] values) =>
+            Deque.FromEnumerable(values);
 
         [Fact]
         public void Test_PushFront_PopFront()

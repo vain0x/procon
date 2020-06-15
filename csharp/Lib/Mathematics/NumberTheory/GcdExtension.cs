@@ -2,10 +2,8 @@ namespace Procon
 {
     public static class GcdExtension
     {
-        public static long Gcd(this long x, long y)
-        {
-            return y == 0 ? x : y.Gcd(x % y);
-        }
+        public static long Gcd(this long x, long y) =>
+            y == 0 ? x : y.Gcd(x % y);
 
         public static long GcdExtended(this long x, long y, out long s, out long t)
         {
@@ -35,11 +33,11 @@ namespace Procon
             }
         }
 
-        public static GcdExtendedResult GcdExtended(this long x, long y)
-        {
-            long s, t;
-            var g = x.GcdExtended(y, out s, out t);
-            return new GcdExtendedResult(g, s, t);
-        }
+        public static GcdExtendedResult GcdExtended(this long x, long y) =>
+            new GcdExtendedResult(
+                x.GcdExtended(y, out var s, out var t),
+                s,
+                t
+            );
     }
 }

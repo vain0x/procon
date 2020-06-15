@@ -1,11 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace Procon
 {
-    using System;
-    using System.Collections.Generic;
-
-    /// <summary>
-    /// Provides binary search implementations.
-    /// </summary>
     public static class BinarySearch
     {
         /// <summary>
@@ -55,7 +52,8 @@ namespace Procon
         /// </summary>
         public static int LowerBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub, IComparer<T> comparer)
         {
-            if (lb > ub) throw new ArgumentOutOfRangeException(nameof(ub));
+            if (lb > ub)
+                throw new ArgumentOutOfRangeException(nameof(ub));
 
             while (lb != ub)
             {
@@ -69,7 +67,6 @@ namespace Procon
                     ub = m;
                 }
             }
-
             return lb;
         }
 
@@ -77,28 +74,22 @@ namespace Procon
         /// Performs binary search
         /// to find the lower bound index of the specified value.
         /// </summary>
-        public static int LowerBound<T>(this IReadOnlyList<T> list, T value, IComparer<T> comparer)
-        {
-            return LowerBound(list, value, 0, list.Count, comparer);
-        }
+        public static int LowerBound<T>(this IReadOnlyList<T> list, T value, IComparer<T> comparer) =>
+            LowerBound(list, value, 0, list.Count, comparer);
 
         /// <summary>
         /// Performs binary search
         /// to find the lower bound index of the specified value in the range.
         /// </summary>
-        public static int LowerBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub)
-        {
-            return LowerBound(list, value, lb, ub, Comparer<T>.Default);
-        }
+        public static int LowerBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub) =>
+            LowerBound(list, value, lb, ub, Comparer<T>.Default);
 
         /// <summary>
         /// Performs binary search
         /// to find the lower bound index of the specified value.
         /// </summary>
-        public static int LowerBound<T>(this IReadOnlyList<T> list, T value)
-        {
-            return LowerBound(list, value, 0, list.Count, Comparer<T>.Default);
-        }
+        public static int LowerBound<T>(this IReadOnlyList<T> list, T value) =>
+            LowerBound(list, value, 0, list.Count, Comparer<T>.Default);
 
         /// <summary>
         /// Performs binary search
@@ -106,7 +97,8 @@ namespace Procon
         /// </summary>
         public static int UpperBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub, IComparer<T> comparer)
         {
-            if (lb > ub) throw new ArgumentOutOfRangeException(nameof(ub));
+            if (lb > ub)
+                throw new ArgumentOutOfRangeException(nameof(ub));
 
             while (lb != ub)
             {
@@ -120,7 +112,6 @@ namespace Procon
                     ub = m;
                 }
             }
-
             return lb;
         }
 
@@ -128,27 +119,21 @@ namespace Procon
         /// Performs binary search
         /// to find the upper bound index of the specified value.
         /// </summary>
-        public static int UpperBound<T>(this IReadOnlyList<T> list, T value, IComparer<T> comparer)
-        {
-            return UpperBound(list, value, 0, list.Count, comparer);
-        }
+        public static int UpperBound<T>(this IReadOnlyList<T> list, T value, IComparer<T> comparer) =>
+            UpperBound(list, value, 0, list.Count, comparer);
 
         /// <summary>
         /// Performs binary search
         /// to find the upper bound index of the specified value in the range.
         /// </summary>
-        public static int UpperBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub)
-        {
-            return UpperBound(list, value, lb, ub, Comparer<T>.Default);
-        }
+        public static int UpperBound<T>(this IReadOnlyList<T> list, T value, int lb, int ub) =>
+            UpperBound(list, value, lb, ub, Comparer<T>.Default);
 
         /// <summary>
         /// Performs binary search
         /// to find the upper bound index of the specified value.
         /// </summary>
-        public static int UpperBound<T>(this IReadOnlyList<T> list, T value)
-        {
-            return UpperBound(list, value, 0, list.Count, Comparer<T>.Default);
-        }
+        public static int UpperBound<T>(this IReadOnlyList<T> list, T value) =>
+            UpperBound(list, value, 0, list.Count, Comparer<T>.Default);
     }
 }

@@ -7,10 +7,8 @@ namespace Procon
 {
     public sealed class BinaryHeapTest
     {
-        private static IEnumerable<int> UnorderedSeq(int n)
-        {
-            return Enumerable.Range(0, n).Select(i => (i * i * i) % 17);
-        }
+        private static IEnumerable<int> UnorderedSeq(int n) =>
+            Enumerable.Range(0, n).Select(i => (i * i * i) % 17);
 
         [Fact]
         public void Test_Enqueue_Dequeue()

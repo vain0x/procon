@@ -15,15 +15,9 @@ namespace Procon
             _compare = compare;
         }
 
-        public int Count
-        {
-            get { return _list.Count; }
-        }
+        public int Count => _list.Count;
 
-        public T Peek()
-        {
-            return _list[0];
-        }
+        public T Peek() => _list[0];
 
         public void Enqueue(T value)
         {
@@ -34,7 +28,9 @@ namespace Procon
                 // Index of the parent.
                 var p = (i - 1) >> 1;
 
-                if (_compare(_list[p], value) <= 0) break;
+                if (_compare(_list[p], value) <= 0)
+                    break;
+
                 _list[i] = _list[p];
                 i = p;
             }
@@ -51,12 +47,15 @@ namespace Procon
                 // Index of children.
                 var l = (i << 1) + 1;
                 var r = (i << 1) + 2;
-                if (l >= _list.Count) break;
+                if (l >= _list.Count)
+                    break;
 
                 // Index of the smaller child.
                 var c = r < _list.Count && _compare(_list[r], _list[l]) < 0 ? r : l;
 
-                if (_compare(_list[c], item) >= 0) break;
+                if (_compare(_list[c], item) >= 0)
+                    break;
+
                 _list[i] = _list[c];
                 i = c;
             }
@@ -65,28 +64,20 @@ namespace Procon
             return min;
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() =>
+            _list.GetEnumerator();
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+            => GetEnumerator();
     }
 
     public static class BinaryHeap
     {
-        public static BinaryHeap<T> Create<T>(Func<T, T, int> compare)
-        {
-            return new BinaryHeap<T>(new List<T>(), compare);
-        }
+        public static BinaryHeap<T> Create<T>(Func<T, T, int> compare) =>
+            new BinaryHeap<T>(new List<T>(), compare);
 
-        public static BinaryHeap<T> Create<T>()
-        {
-            return new BinaryHeap<T>(new List<T>(), Comparer<T>.Default.Compare);
-        }
+        public static BinaryHeap<T> Create<T>() =>
+            new BinaryHeap<T>(new List<T>(), Comparer<T>.Default.Compare);
 
         public static BinaryHeap<T> FromEnumerable<T>(IEnumerable<T> source, Func<T, T, int> compare)
         {
@@ -95,9 +86,7 @@ namespace Procon
             return new BinaryHeap<T>(list, compare);
         }
 
-        public static BinaryHeap<T> FromEnumerable<T>(IEnumerable<T> source)
-        {
-            return FromEnumerable(source, Comparer<T>.Default.Compare);
-        }
+        public static BinaryHeap<T> FromEnumerable<T>(IEnumerable<T> source) =>
+            FromEnumerable(source, Comparer<T>.Default.Compare);
     }
 }

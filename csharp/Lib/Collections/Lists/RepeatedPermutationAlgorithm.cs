@@ -28,9 +28,7 @@ namespace Procon
         /// <summary>
         /// Enumerates repeated permutations with the specified length.
         /// </summary>
-        public static IEnumerable<IReadOnlyList<T>> RepeatedPermutations<T>(this IEnumerable<T> source, int count)
-        {
-            return RepeatedPermutationsIterator(0, source.ToArray(), new T[count]);
-        }
+        public static IEnumerable<IReadOnlyList<T>> RepeatedPermutations<T>(this IEnumerable<T> source, int count) =>
+            RepeatedPermutationsIterator(0, source.ToArray(), new T[count]);
     }
 }

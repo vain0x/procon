@@ -19,15 +19,11 @@ namespace Procon
 
     public sealed class TestScriptParser
     {
-        private static string NormalizeLinebreaks(string str)
-        {
-            return str.Replace("\r\n", "\n").Replace("\r", "\n");
-        }
+        private static string NormalizeLinebreaks(string str) =>
+            str.Replace("\r\n", "\n").Replace("\r", "\n");
 
-        private static string[] SplitByLinebreaks(string str)
-        {
-            return NormalizeLinebreaks(str).Split('\n');
-        }
+        private static string[] SplitByLinebreaks(string str) =>
+            NormalizeLinebreaks(str).Split('\n');
 
         private static string Concat(IEnumerable<string> lines)
         {
@@ -59,11 +55,16 @@ namespace Procon
 
         private static IEnumerable<IReadOnlyList<T>> ChunkBySize<T>(IEnumerable<T> source, int chunkSize)
         {
-            if (chunkSize <= 0) throw new ArgumentOutOfRangeException(nameof(chunkSize));
+            if (chunkSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(chunkSize));
+
             var chunkOrNull = default(List<T>);
             foreach (var item in source)
             {
-                if (chunkOrNull == null) chunkOrNull = new List<T>(chunkSize);
+                if (chunkOrNull == null)
+                {
+                    chunkOrNull = new List<T>(chunkSize);
+                }
 
                 chunkOrNull.Add(item);
                 if (chunkOrNull.Count == chunkSize)
@@ -72,6 +73,7 @@ namespace Procon
                     chunkOrNull = null;
                 }
             }
+
             if (chunkOrNull != null)
             {
                 yield return chunkOrNull;
@@ -81,16 +83,16 @@ namespace Procon
         public IEnumerable<InputOutputPair> Parse(string source)
         {
             var lines =
-                SplitByLinebreaks(source).Select(line => line.Trim());
+                SplitByLinebreaks(source)
+                .Select(line => line.Trim());
             var groupedLines =
-                SplitBy(lines, "").Where(list => list.Count > 0);
+                SplitBy(lines, "")
+                .Where(list => list.Count > 0);
 
             foreach (var chunk in ChunkBySize(groupedLines, 2))
             {
                 if (chunk.Count != 2)
-                {
                     throw new Exception("Missing output for the last input.");
-                }
 
                 yield return new InputOutputPair(Concat(chunk[0]), Concat(chunk[1]));
             }

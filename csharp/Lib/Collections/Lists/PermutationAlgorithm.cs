@@ -28,7 +28,8 @@ namespace Procon
         public static bool NextPermutation<T>(this IList<T> list, IComparer<T> comparer)
         {
             var count = list.Count;
-            if (count <= 1) return false;
+            if (count <= 1)
+                return false;
 
             var i = count - 1;
             while (true)
@@ -86,9 +87,7 @@ namespace Procon
         /// <summary>
         /// Generates all permutations.
         /// </summary>
-        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(this IEnumerable<T> source)
-        {
-            return Permutations(source, Comparer<T>.Default);
-        }
+        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(this IEnumerable<T> source) =>
+            Permutations(source, Comparer<T>.Default);
     }
 }

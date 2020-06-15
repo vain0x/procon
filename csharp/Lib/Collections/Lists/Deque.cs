@@ -8,25 +8,13 @@ namespace Procon
     public sealed class Deque<T>
         : IReadOnlyList<T>
     {
-        private T[] _buffer = new T[0];
+        private T[] _buffer = Array.Empty<T>();
         private int _offset = 0;
         private int _count = 0;
 
-        public int Count
-        {
-            get
-            {
-                return _count;
-            }
-        }
+        public int Count => _count;
 
-        public int Capacity
-        {
-            get
-            {
-                return _buffer.Length;
-            }
-        }
+        public int Capacity => _buffer.Length;
 
         /// <summary>
         /// Converts an index to the deque into one to the underlying buffer.
@@ -42,13 +30,13 @@ namespace Procon
             get
             {
                 if (!(0 <= index && index < _count))
-                    throw new ArgumentOutOfRangeException("index");
+                    throw new ArgumentOutOfRangeException(nameof(index));
                 return _buffer[Shift(index)];
             }
             set
             {
                 if (!(0 <= index && index < _count))
-                    throw new ArgumentOutOfRangeException("index");
+                    throw new ArgumentOutOfRangeException(nameof(index));
                 _buffer[Shift(index)] = value;
             }
         }
@@ -77,7 +65,8 @@ namespace Procon
 
         public void EnsureCapacity(int capacity)
         {
-            if (capacity <= Capacity) return;
+            if (capacity <= Capacity)
+                return;
 
             var grown = Capacity + Capacity / 2;
             Rebuild(Math.Max(16, Math.Max(grown, capacity)));
@@ -132,7 +121,9 @@ namespace Procon
 
         public void Shrink()
         {
-            if (Capacity == _count) return;
+            if (Capacity == _count)
+                return;
+
             Rebuild(_count);
         }
 
@@ -146,20 +137,14 @@ namespace Procon
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }
 
     public static class Deque
     {
-        public static Deque<T> Create<T>()
-        {
-            return new Deque<T>();
-        }
+        public static Deque<T> Create<T>() => new Deque<T>();
 
         public static Deque<T> FromEnumerable<T>(IEnumerable<T> source)
         {

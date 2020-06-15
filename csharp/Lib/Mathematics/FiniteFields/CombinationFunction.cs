@@ -8,8 +8,11 @@ namespace Procon
 
         public long Combination(int n, int k)
         {
-            if (k == 0 || n == k) return 1;
-            if (k < 0 || k > n) return 0;
+            if (k == 0 || n == k)
+                return 1;
+
+            if (k < 0 || k > n)
+                return 0;
 
             var c = _factorial[n];
             c = (c * _factorialInverse[n - k]) % _mod;

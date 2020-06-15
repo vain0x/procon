@@ -7,15 +7,14 @@ namespace Procon
         [Fact]
         public void Test_Gcd()
         {
-            var rows =
-                new[]
-                {
-                    new { x = 1L, y = 1L, g = 1L },
-                    new { x = 3L, y = 5L, g = 1L },
-                    new { x = 2L, y = 2L, g = 2L },
-                    new { x = 4L, y = 6L, g = 2L },
-                    new { x = 18L, y = 24L, g = 6L },
-                };
+            var rows = new[]
+            {
+                new { x = 1L, y = 1L, g = 1L },
+                new { x = 3L, y = 5L, g = 1L },
+                new { x = 2L, y = 2L, g = 2L },
+                new { x = 4L, y = 6L, g = 2L },
+                new { x = 18L, y = 24L, g = 6L },
+            };
 
             foreach (var a in rows)
             {
@@ -26,8 +25,7 @@ namespace Procon
 
         private static void TestGcdExtended(long x, long y, long g, long s, long t)
         {
-            long actualS, actualT;
-            var actualG = x.GcdExtended(y, out actualS, out actualT);
+            var actualG = x.GcdExtended(y, out long actualS, out long actualT);
             new { g = actualG, s = actualS, t = actualT }.Is(
                 new { g = g, s = s, t = t }
             );

@@ -27,10 +27,9 @@ namespace Procon
         {
             var array = new[] { 1, 2, 2, 4 };
 
-            var equalRange =
-                new Func<int, Tuple<int, int>>(value =>
-                    Tuple.Create(array.LowerBound(value), array.UpperBound(value))
-                );
+            var equalRange = new Func<int, Tuple<int, int>>(value =>
+                Tuple.Create(array.LowerBound(value), array.UpperBound(value))
+            );
 
             equalRange(0).Is(Tuple.Create(0, 0));
             equalRange(1).Is(Tuple.Create(0, 1));
@@ -50,12 +49,11 @@ namespace Procon
             var ub = 6;
             var comparer = Comparer<int>.Create((l, r) => r - l);
 
-            var equalRange =
-                new Func<int, Tuple<int, int>>(value =>
-                    Tuple.Create(
-                        array.LowerBound(value, lb, ub, comparer),
-                        array.UpperBound(value, lb, ub, comparer)
-                    ));
+            var equalRange = new Func<int, Tuple<int, int>>(value =>
+                Tuple.Create(
+                    array.LowerBound(value, lb, ub, comparer),
+                    array.UpperBound(value, lb, ub, comparer)
+                ));
 
             equalRange(6).Is(Tuple.Create(2, 2));
             equalRange(5).Is(Tuple.Create(2, 3));

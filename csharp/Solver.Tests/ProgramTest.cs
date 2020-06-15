@@ -1,24 +1,23 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Procon
 {
     public class ProgramTest
     {
-        public static IEnumerable<object[]> TestCases()
-        {
-            var script = @"
+        // Write test cases here:
+        private static string Script { get; } = @"
+
+
 
 ";
 
-            var parser = new TestScriptParser();
-            return parser.Parse(script).Select(pair => new object[] { pair });
-        }
+        public static IEnumerable<object[]> TestCases() =>
+            new TestScriptParser()
+            .Parse(Script)
+            .Select(pair => new object[] { pair });
 
         [Theory]
         [MemberData(nameof(TestCases))]

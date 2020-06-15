@@ -26,9 +26,7 @@ namespace Procon
         public int Root(int v)
         {
             if (_parents[v] == v)
-            {
                 return v;
-            }
 
             var r = Root(_parents[v]);
             _parents[v] = r;
@@ -38,10 +36,8 @@ namespace Procon
         /// <summary>
         /// Gets a value indicating whether two vertices belong to the same group.
         /// </summary>
-        public bool Connects(int u, int v)
-        {
-            return Root(u) == Root(v);
-        }
+        public bool Connects(int u, int v) =>
+            Root(u) == Root(v);
 
         private static void Swap<T>(ref T first, ref T second)
         {
@@ -57,7 +53,8 @@ namespace Procon
         {
             u = Root(u);
             v = Root(v);
-            if (u == v) return;
+            if (u == v)
+                return;
 
             if (_ranks[u] > _ranks[v])
             {

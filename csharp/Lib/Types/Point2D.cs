@@ -5,8 +5,8 @@ namespace Procon
     public sealed class Point2D<T>
         : Tuple<T, T>
     {
-        public T X { get { return Item1; } }
-        public T Y { get { return Item2; } }
+        public T X => Item1;
+        public T Y => Item2;
 
         public Point2D(T x, T y)
             : base(x, y)
