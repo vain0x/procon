@@ -1,5 +1,3 @@
-use std;
-
 /// Wraps a partial-ord value to impl Ord.
 #[derive(PartialEq, PartialOrd, Clone, Copy, Debug)]
 pub struct OrdAdapter<T>(pub T);

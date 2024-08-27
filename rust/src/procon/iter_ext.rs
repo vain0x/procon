@@ -1,5 +1,3 @@
-use std;
-
 pub struct Pairwise<I, T> {
     iter: I,
     prev: Option<T>,

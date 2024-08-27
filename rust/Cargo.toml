@@ -1,6 +1,12 @@
 [package]
 name = "rust-procon"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["vain0x <vainzerox@gmail.com>"]
+edition = "2018"
 
 [dependencies]
+# See the following page for the list of crates available on AtCoder.
+# <https://github.com/rust-lang-ja/atcoder-rust-resources/wiki/2020-Update>
+
+# docs: <https://rust-random.github.io/book/guide-start.html>
+rand = { version = "0.7.3", features = ["small_rng"] }

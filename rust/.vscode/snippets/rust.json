@@ -4,5 +4,32 @@
         "body": [
             "collect::<Vec<_>>()"
         ]
+    },
+    "Debug print": {
+        "prefix": "debug",
+        "body": [
+            "#[cfg(debug_assertions)]",
+            "eprintln!(\"\\x1B[33m{}\\x1B[0m = {:?}\", \"$1\", $1);"
+        ]
+    },
+    "Scan a word": {
+        "prefix": "scanw",
+        "body": [
+            "scan.word::<${1:usize}>()"
+        ]
+    },
+    "Scan a list of words": {
+        "prefix": "scanl",
+        "body": [
+            "scan.list::<${1:i64}>(${2:N})"
+        ]
+    },
+    "Scan a table of words": {
+        "prefix": "scant",
+        "body": [
+            "(0..${1:N})",
+            ".map(|_| {$0})",
+            ".collect::<Vec<_>>()"
+        ]
     }
 }

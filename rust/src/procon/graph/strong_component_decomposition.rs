@@ -1,7 +1,5 @@
 // Verified: http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3429517#1
 
-use std;
-
 pub struct StrongComponentDecomposition<'a> {
     /// Number of vertices.
     n: usize,
@@ -33,9 +31,9 @@ impl<'a> StrongComponentDecomposition<'a> {
         }
 
         let it = StrongComponentDecomposition {
-            n: n,
-            g: g,
-            h: h,
+            n,
+            g,
+            h,
             gray: vec![],
             top_ord: vec![n; n],
             top_seq: vec![],

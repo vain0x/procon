@@ -1,5 +1,3 @@
-use std;
-
 /// Evaluates minimal path cost for each vertex u from `start`.
 /// g[u][_] = (u, v, w): an edge from u to v with cost w.
 /// dist[v] = cost of minimal-cost path from `start` to `v`.

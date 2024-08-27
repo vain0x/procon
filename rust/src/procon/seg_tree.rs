@@ -6,7 +6,7 @@ struct Interval<T> {
 
 impl<T: Ord> Interval<T> {
     fn new(l: T, r: T) -> Interval<T> {
-        Interval { l: l, r: r }
+        Interval { l, r }
     }
 
     fn disjoint(&self, other: &Self) -> bool {
@@ -107,12 +107,10 @@ where
 #[cfg(test)]
 mod tests {
     use super::SegTree;
-    use std;
-    use std::cmp::min;
 
     #[test]
     fn test_segtree_min() {
-        let mut tree = SegTree::new(vec![10; 10], std::i64::MAX, min);
+        let mut tree = SegTree::new(vec![10; 10], std::i64::MAX, std::cmp::min);
 
         assert_eq!(tree.sum(0, 10), 10);
         assert_eq!(tree.sum(10, 10), std::i64::MAX);
