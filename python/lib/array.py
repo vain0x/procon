@@ -28,7 +28,30 @@ def lowerbound(src, value) -> int:
                 ng = mid
         index = ok
 
-        assert(0 <= index and index < src_len)
-        assert(value <= src[index])
-        assert(index == 0 or value > src[index - 1])
+        assert 0 <= index and index < src_len
+        assert value <= src[index]
+        assert index == 0 or value > src[index - 1]
+
+    return index
+
+def upperbound(src, value) -> int:
+    src_len = len(src)
+
+    if src_len == 0 or value >= src[src_len - 1]:
+        index = src_len
+    else:
+        ok = src_len - 1
+        ng = -1
+        while abs(ok - ng) > 1:
+            mid = (ok + ng) // 2
+            if src[mid] > value:
+                ok = mid
+            else:
+                ng = mid
+        index = ok
+
+        assert 0 <= index and index < src_len
+        assert value < src[index]
+        assert index == 0 or value >= src[index - 1]
+
     return index
