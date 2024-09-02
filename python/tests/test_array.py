@@ -1,6 +1,6 @@
-from lib.array import lowerbound, upperbound
+from lib.array import lower_bound, upper_bound
 
-def test_lowerbound():
+def test_lower_bound():
     a = [1, 1, 2, 3, 5]
 
     table = [
@@ -13,10 +13,10 @@ def test_lowerbound():
         (6, 5),
     ]
     for (value, expected) in table:
-        actual = lowerbound(a, value)
+        actual = lower_bound(a, value)
         assert actual == expected
 
-def test_upperbound():
+def test_upper_bound():
     a = [1, 1, 2, 3, 5]
 
     table = [
@@ -29,5 +29,5 @@ def test_upperbound():
         (6, 5),
     ]
     for (value, expected) in table:
-        actual = upperbound(a, value)
+        actual = upper_bound(a, value)
         assert actual == expected

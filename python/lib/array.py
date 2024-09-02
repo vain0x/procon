@@ -12,7 +12,7 @@ def prefix_sum(src, key = None) -> list[int]:
 
     return sum
 
-def lowerbound(src, value) -> int:
+def lower_bound(src, value) -> int:
     src_len = len(src)
 
     if src_len == 0 or value > src[src_len - 1]:
@@ -34,7 +34,7 @@ def lowerbound(src, value) -> int:
 
     return index
 
-def upperbound(src, value) -> int:
+def upper_bound(src, value) -> int:
     src_len = len(src)
 
     if src_len == 0 or value >= src[src_len - 1]:
