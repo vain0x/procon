@@ -3,7 +3,7 @@ from lib.seg_tree import SegTree
 def test_seg_tree():
     INF = 1e9 + 7
     src = [2, 2, 3, 6, 0, 6, 7, 9]
-    st = SegTree(src, empty = INF, append = min)
+    st = SegTree(empty = INF, append = min, src = src)
 
     assert st.size == len(src)
 
