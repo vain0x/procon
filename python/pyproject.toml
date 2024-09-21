@@ -1,0 +1,13 @@
+# [build-system]
+# requires = ["hatchling"]
+# build-backend = "hatchling.build"
+
+[project]
+name = "lib"
+version = "0.0.0"
+authors = [{ name = "vain0x" }]
+description = "procon library"
+license = { text = "CC0-1.0" }
+requires-python = ">=3.11.4"
+# classifiers = []
+# dependencies = []
