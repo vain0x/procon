@@ -1,3 +1,4 @@
+# use atcoder.segtree.SegTree
 class SegTree:
     # src: array of initial values
     def __init__(self, append, empty, src):

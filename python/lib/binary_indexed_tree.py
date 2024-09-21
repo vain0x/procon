@@ -1,3 +1,4 @@
+# use atcoder.fenwicktree.FenwickTree
 class BinaryIndexedTree:
     # size: number of elements
     def __init__(self, size):

@@ -12,6 +12,7 @@ def prefix_sum(src, key = None) -> list[int]:
 
     return sum
 
+# note: use bisect.bisect_left
 def lower_bound(src, value) -> int:
     src_len = len(src)
 
@@ -34,6 +35,7 @@ def lower_bound(src, value) -> int:
 
     return index
 
+# note: use bisect.bisect_right
 def upper_bound(src, value) -> int:
     src_len = len(src)
 
