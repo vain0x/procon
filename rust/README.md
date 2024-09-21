@@ -9,8 +9,8 @@ Follow the instruction written in the official page <https://rust-lang.org/>.
 For AtCoder, set the default toolchain to the supported version:
 
 ```sh
-rustup install 1.42.0
-rustup override set 1.42.0
+rustup install 1.70.0
+rustup override set 1.70.0
 ```
 
 ## Usage
