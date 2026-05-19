@@ -31,7 +31,7 @@ where
     }
 }
 
-trait IteratorExt2: Iterator + Sized {
+pub trait IteratorExt2: Iterator + Sized {
     fn pairwise(self) -> Pairwise<Self, Self::Item>
     where
         Self::Item: Clone,

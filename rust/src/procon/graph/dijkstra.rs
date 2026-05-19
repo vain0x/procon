@@ -9,7 +9,7 @@ pub fn dijkstra(g: &Vec<Vec<(usize, usize, i64)>>, start: usize) -> Vec<i64> {
     struct Route {
         cost: i64,
         vertex: usize,
-    };
+    }
 
     impl PartialOrd for Route {
         fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
