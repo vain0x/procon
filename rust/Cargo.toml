@@ -9,6 +9,6 @@ edition = "2018"
 # <https://github.com/rust-lang-ja/atcoder-rust-resources/wiki/2020-Update>
 
 # docs: <https://rust-random.github.io/book/guide-start.html>
-rand = { version = "0.7.3", features = ["small_rng"] }
+rand = { version = "0.8.6", features = ["small_rng"] }
 
 ac-library-rs = "0.1.1"
