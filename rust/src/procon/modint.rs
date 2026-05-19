@@ -5,7 +5,7 @@ use std::ops::*;
 
 /// Represents an element of finite field.
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
-struct ModInt(i64);
+pub struct ModInt(i64);
 
 impl ModInt {
     fn pow(self, e: i64) -> Self {
